@@ -404,6 +404,11 @@ export function buildGraphFromData(
   validUnions.forEach(u => {
     if (!unionPositions.has(u.id)) return;
 
+    const p1 = u.partner1Id ? personMap.get(u.partner1Id) : null;
+    const p2 = u.partner2Id ? personMap.get(u.partner2Id) : null;
+    const p1BranchColor = p1?.branch ? BRANCH_COLORS[p1.branch] || DEFAULT_BRANCH_COLOR : DEFAULT_BRANCH_COLOR;
+    const p2BranchColor = p2?.branch ? BRANCH_COLORS[p2.branch] || DEFAULT_BRANCH_COLOR : DEFAULT_BRANCH_COLOR;
+
     // Partner 1 → Union (horizontal, straight)
     if (u.partner1Id && positions.has(u.partner1Id)) {
       edges.push({
@@ -413,7 +418,8 @@ export function buildGraphFromData(
         target: u.id,
         targetHandle: 'left',
         type: 'straight',
-        style: { stroke: '#94a3b8', strokeWidth: 2 },
+        data: { branch: p1?.branch || 'Otros', stroke: p1BranchColor.stroke },
+        style: { stroke: p1BranchColor.stroke, strokeWidth: 2.5 },
       });
     }
 
@@ -426,21 +432,26 @@ export function buildGraphFromData(
         target: u.partner2Id,
         targetHandle: 'left',
         type: 'straight',
-        style: { stroke: '#94a3b8', strokeWidth: 2 },
+        data: { branch: p2?.branch || 'Otros', stroke: p2BranchColor.stroke },
+        style: { stroke: p2BranchColor.stroke, strokeWidth: 2.5 },
       });
     }
 
-    // Union → Children (vertical, step for "Bus Bar" look)
+    // Union → Children (vertical, smoothstep with rounded corners)
     u.childrenIds.forEach(cid => {
       if (positions.has(cid)) {
+        const child = personMap.get(cid);
+        const childBranchColor = child?.branch ? BRANCH_COLORS[child.branch] || DEFAULT_BRANCH_COLOR : DEFAULT_BRANCH_COLOR;
         edges.push({
           id: `e-${u.id}-${cid}`,
           source: u.id,
           sourceHandle: 'bottom',
           target: cid,
           targetHandle: 'top',
-          type: 'step',
-          style: { stroke: '#94a3b8', strokeWidth: 2 },
+          type: 'smoothstep',
+          pathOptions: { borderRadius: 16 },
+          data: { branch: child?.branch || 'Otros', stroke: childBranchColor.stroke },
+          style: { stroke: childBranchColor.stroke, strokeWidth: 2.5 },
         });
       }
     });
