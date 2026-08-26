@@ -449,8 +449,7 @@ export function buildGraphFromData(
           target: cid,
           targetHandle: 'top',
           type: 'smoothstep',
-          pathOptions: { borderRadius: 16 },
-          data: { branch: child?.branch || 'Otros', stroke: childBranchColor.stroke },
+          data: { branch: child?.branch || 'Otros', stroke: childBranchColor.stroke, borderRadius: 16 },
           style: { stroke: childBranchColor.stroke, strokeWidth: 2.5 },
         });
       }

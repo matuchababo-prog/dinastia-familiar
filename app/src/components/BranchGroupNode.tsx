@@ -6,37 +6,53 @@ export const BranchGroupNode: React.FC<{ data: { label: string; count: number; b
       style={{
         width: '100%',
         height: '100%',
-        borderRadius: '24px',
-        backgroundColor: data.bg || 'rgba(255, 255, 255, 0.03)',
-        border: `2px dashed ${data.border || 'rgba(255, 255, 255, 0.2)'}`,
+        borderRadius: '32px',
+        backgroundColor: data.bg || 'rgba(255, 255, 255, 0.02)',
+        border: `1.5px solid ${data.border || 'rgba(226, 232, 240, 0.6)'}`,
+        boxShadow: 'inset 0 0 60px rgba(0, 0, 0, 0.015), 0 10px 30px -10px rgba(0, 0, 0, 0.03)',
         pointerEvents: 'none',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        transition: 'all 0.3s ease',
       }}
     >
       <div
         style={{
           position: 'absolute',
-          top: '-16px',
-          left: '24px',
-          backgroundColor: data.tagBg || '#2563eb',
-          color: 'white',
-          padding: '4px 16px',
-          borderRadius: '12px',
-          fontSize: '12px',
-          fontWeight: 800,
-          letterSpacing: '0.5px',
-          textTransform: 'uppercase',
-          boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+          top: '-14px',
+          left: '28px',
+          backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          border: '1px solid rgba(226, 232, 240, 0.9)',
+          color: '#1e293b',
+          padding: '4px 14px 4px 10px',
+          borderRadius: '9999px',
+          fontSize: '11px',
+          fontWeight: 700,
+          letterSpacing: '0.01em',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          pointerEvents: 'auto'
+          pointerEvents: 'auto',
         }}
       >
-        <span>📂 RAMA {data.label}</span>
-        <span style={{ opacity: 0.85, fontSize: '11px', fontWeight: 600 }}>({data.count} {data.count === 1 ? 'integrante' : 'integrantes'})</span>
+        <span
+          style={{
+            width: '8px',
+            height: '8px',
+            borderRadius: '50%',
+            backgroundColor: data.tagBg || '#f59e0b',
+            boxShadow: `0 0 8px ${data.tagBg || '#f59e0b'}`,
+          }}
+        />
+        <span>Familia {data.label}</span>
+        <span style={{ color: '#64748b', fontSize: '10px', fontWeight: 500 }}>
+          ({data.count} {data.count === 1 ? 'persona' : 'personas'})
+        </span>
       </div>
     </div>
   );
 };
+

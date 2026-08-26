@@ -21,7 +21,7 @@ import { ProfileSheet } from './ProfileSheet';
 import { MemoryFeed } from './MemoryFeed';
 import { AppLayout } from './AppLayout';
 import type { Person, FamilyUnion, MemoryPost } from '../types/family';
-import { buildGraphFromData } from '../utils/layout';
+import { buildGraphFromData, BRANCH_COLORS } from '../utils/layout';
 import { getFocalPersonSubgraph, getBranchSubgraph } from '../utils/focalGraph';
 import { subscribeToPersons, subscribeToUnions, subscribeToMemories, saveMemoryToCloud } from '../services/familyService';
 
@@ -66,6 +66,7 @@ const FamilyGraphContent: React.FC = () => {
   const [selectedGeneration, setSelectedGeneration] = useState<string>('all');
   const [focalPersonId, setFocalPersonId] = useState<string | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [viewDensity, setViewDensity] = useState<'compact' | 'detailed'>('detailed');
 
   // Realtime Cloud Persistence Subscriptions
   useEffect(() => {
@@ -153,7 +154,7 @@ const FamilyGraphContent: React.FC = () => {
     return { matchedPersonIds: matchedIds, matchedUnionIds: mUnions };
   }, [persons, unions, searchQuery, selectedBranch, selectedGeneration, focalPersonId]);
 
-  // Compute Layout for the FULL tree, but apply isDimmed to nodes
+  // Compute Layout for the FULL tree, but apply isDimmed and viewDensity to nodes
   useEffect(() => {
     if (persons.length === 0) {
       setNodes([]);
@@ -164,14 +165,13 @@ const FamilyGraphContent: React.FC = () => {
     
     const hasActiveFilter = selectedBranch !== 'all' || selectedGeneration !== 'all' || searchQuery.trim() !== '' || focalPersonId !== null;
 
-    // Apply ghosting (dimming)
+    // Apply ghosting (dimming) & viewDensity
     const processedNodes = layoutedNodes.map(node => {
       let isDimmed = false;
       if (hasActiveFilter) {
         if (node.type === 'person') {
           isDimmed = !matchedPersonIds.has(node.id);
         } else if (node.type === 'union') {
-          // Union node ID format is union.id
           isDimmed = !matchedUnionIds.has(node.id);
         }
       }
@@ -179,12 +179,13 @@ const FamilyGraphContent: React.FC = () => {
         ...node,
         data: {
           ...node.data,
-          isDimmed
+          isDimmed,
+          viewDensity,
         }
       };
     });
 
-    // Apply ghosting to edges
+    // Apply ghosting & branch colors to edges
     const processedEdges = layoutedEdges.map(edge => {
       let isDimmed = false;
       if (hasActiveFilter) {
@@ -195,18 +196,24 @@ const FamilyGraphContent: React.FC = () => {
           isDimmed = true;
         }
       }
+      
+      const originalStroke = (edge.data as any)?.stroke || '#94a3b8';
+
       return {
         ...edge,
         style: {
           ...edge.style,
-          opacity: isDimmed ? 0.15 : 1,
+          stroke: isDimmed ? '#e2e8f0' : originalStroke,
+          strokeWidth: isDimmed ? 1.5 : 2.5,
+          opacity: isDimmed ? 0.12 : 1,
+          transition: 'stroke 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease',
         }
       };
     });
 
     setNodes(processedNodes);
     setEdges(processedEdges);
-  }, [persons, unions, matchedPersonIds, matchedUnionIds, setNodes, setEdges, selectedBranch, selectedGeneration, searchQuery, focalPersonId]);
+  }, [persons, unions, matchedPersonIds, matchedUnionIds, setNodes, setEdges, selectedBranch, selectedGeneration, searchQuery, focalPersonId, viewDensity]);
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
@@ -300,6 +307,8 @@ const FamilyGraphContent: React.FC = () => {
       focalPersonName={persons.find(p => p.id === focalPersonId)?.name}
       hasActiveFilter={hasActiveFilter}
       onResetFilters={handleResetFilters}
+      viewDensity={viewDensity}
+      setViewDensity={setViewDensity}
     >
       <div className="w-full h-full relative">
         {activeView === 'canvas' ? (
@@ -313,7 +322,7 @@ const FamilyGraphContent: React.FC = () => {
               nodeTypes={nodeTypes}
               defaultEdgeOptions={{ 
                 type: 'smoothstep', 
-                style: { stroke: 'var(--color-border)', strokeWidth: 2 } 
+                style: { stroke: 'var(--color-border)', strokeWidth: 2.5 } 
               }}
               fitView
               minZoom={0.1}
@@ -323,23 +332,28 @@ const FamilyGraphContent: React.FC = () => {
               selectionOnDrag={isSelectionMode}
               selectionMode={SelectionMode.Partial}
             >
-              <Background color="var(--color-border)" gap={24} size={2} />
+              <Background color="rgba(203, 213, 225, 0.4)" gap={28} size={1.5} />
               <MiniMap 
-                nodeStrokeWidth={3} 
+                nodeStrokeWidth={2} 
                 zoomable 
                 pannable 
                 nodeColor={(n) => {
-                  if (n.data.isDimmed) return '#f1f5f9'; // Very light for dimmed
+                  if (n.data.isDimmed) return '#f1f5f9';
                   if (n.type === 'person') {
                     const data = n.data as any;
-                    return data.isFocal ? '#fb923c' : '#cbd5e1'; // orange for focal, slate for rest
+                    if (data.isFocal) return '#ea580c';
+                    if (data.branch && BRANCH_COLORS[data.branch]) {
+                      return BRANCH_COLORS[data.branch].stroke;
+                    }
+                    return '#94a3b8';
                   }
+                  if (n.type === 'union') return '#f43f5e';
                   return '#e2e8f0';
                 }}
-                maskColor="rgba(248, 250, 252, 0.7)"
-                className="rounded-xl overflow-hidden shadow-lg border border-slate-200"
+                maskColor="rgba(248, 250, 252, 0.75)"
+                className="rounded-2xl overflow-hidden shadow-xl border border-slate-200/90 backdrop-blur-md"
               />
-              <Controls className="bg-white shadow-md border-slate-200 rounded-lg" />
+              <Controls className="bg-white/95 backdrop-blur-md shadow-lg border-slate-200/90 rounded-xl" />
               <Panel position="top-right" className="bg-white p-1 rounded-lg shadow-lg border border-slate-200 flex flex-col gap-1 mt-2 mr-2">
                 <button
                   onClick={() => setIsSelectionMode(false)}
