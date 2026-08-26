@@ -63,15 +63,15 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6">
+    <div className="max-w-3xl mx-auto px-3.5 sm:px-6 py-5 sm:py-8 flex flex-col gap-6">
       {/* Create Memory Form */}
-      <div ref={formRef} className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 shadow-sm flex flex-col gap-4">
+      <div ref={formRef} className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700/80 p-4 sm:p-6 shadow-sm flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h3 className="m-0 text-base font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
-            <Sparkles size={18} className="text-orange-600" />
-            <span>Compartir un Recuerdo o Anécdota Familiar</span>
+          <h3 className="m-0 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
+            <Sparkles size={18} className="text-orange-600 shrink-0" />
+            <span>Compartir un Recuerdo de Familia</span>
           </h3>
-          <span className="text-[11px] text-slate-500 font-medium">Preserva la memoria</span>
+          <span className="hidden sm:inline text-[11px] text-slate-500 font-medium">Preserva la memoria</span>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
@@ -81,7 +81,7 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({
               placeholder="Tu nombre (Ej. Tía Elena)"
               value={authorName}
               onChange={(e) => setAuthorName(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-base sm:text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
               required
             />
             <input
@@ -89,7 +89,7 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({
               placeholder="¿Sobre quién es el recuerdo? (Ej. Abuelo Moisés)"
               value={personName}
               onChange={(e) => setPersonName(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-base sm:text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
             />
           </div>
 
@@ -98,7 +98,7 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={3}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all resize-y min-h-[80px]"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-base sm:text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all resize-y min-h-[80px]"
             required
           />
 

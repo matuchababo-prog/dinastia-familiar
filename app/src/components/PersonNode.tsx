@@ -20,9 +20,9 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
 
   return (
     <div 
-      className={`group relative bg-white/95 backdrop-blur-md rounded-2xl border transition-all duration-300 cursor-pointer select-none
+      className={`group relative bg-white/95 backdrop-blur-md rounded-2xl border transition-all duration-200 cursor-pointer select-none
         ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'} 
-        ${(data as any).isFocal ? 'ring-4 ring-orange-400 ring-offset-2 shadow-2xl scale-105' : 'hover:shadow-xl hover:-translate-y-1'}
+        ${(data as any).isFocal ? 'ring-4 ring-orange-400 ring-offset-2 shadow-2xl scale-105' : 'hover:shadow-xl hover:-translate-y-1 active:scale-98'}
         ${isCompact ? 'min-w-[210px] max-w-[230px] p-3' : 'min-w-[245px] max-w-[260px] p-4'}
       `}
       style={{

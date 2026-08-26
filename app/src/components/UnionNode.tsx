@@ -10,7 +10,7 @@ export const UnionNode: React.FC<NodeProps<UnionNodeType>> = ({ data, isConnecta
   const isDimmed = (data as any).isDimmed;
   return (
     <div
-      className={`w-7 h-7 rounded-full flex items-center justify-center bg-white/95 backdrop-blur-md border border-rose-200/90 shadow-md text-rose-500 hover:scale-110 hover:border-rose-400 hover:shadow-rose-200/40 transition-all duration-200 relative group cursor-pointer ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'}`}
+      className={`w-7 h-7 rounded-full flex items-center justify-center bg-white/95 backdrop-blur-md border border-rose-200/90 shadow-md text-rose-500 hover:scale-110 active:scale-95 hover:border-rose-400 hover:shadow-rose-200/40 transition-all duration-200 relative group cursor-pointer ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'}`}
       title={`Unión familiar (${data.marriageYear || 'Unión matrimonial'})`}
     >
       {/* Left: receives edge from Partner1 */}

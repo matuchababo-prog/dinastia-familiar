@@ -5,7 +5,6 @@ import {
   MessageSquareText, 
   Search, 
   Settings, 
-  Users, 
   Bell, 
   X, 
   Target, 
@@ -386,6 +385,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
               {focalPersonId && (
                 <span className="hidden sm:inline-flex items-center gap-1 text-[11px] bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full font-bold">
                   <Target size={11} /> {focalPersonName}
+                  <button 
+                    onClick={() => setFocalPersonId(null)}
+                    title="Quitar enfoque de persona"
+                    className="hover:text-orange-950 ml-0.5 cursor-pointer"
+                  >
+                    <X size={10} />
+                  </button>
                 </span>
               )}
             </div>

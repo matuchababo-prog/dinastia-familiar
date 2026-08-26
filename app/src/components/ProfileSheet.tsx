@@ -102,6 +102,8 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
 
   if (!person) return null;
 
+  const branchTheme = person.branch ? (BRANCH_COLORS[person.branch] || DEFAULT_BRANCH_COLOR) : DEFAULT_BRANCH_COLOR;
+
   return (
     <>
       {/* Mobile Backdrop */}
@@ -438,6 +440,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         </div>
       )}
     </div>
+    </>
   );
 };
 

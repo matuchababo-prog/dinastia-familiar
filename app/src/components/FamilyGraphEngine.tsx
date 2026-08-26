@@ -327,36 +327,41 @@ const FamilyGraphContent: React.FC = () => {
                 style: { stroke: 'var(--color-border)', strokeWidth: 2.5 } 
               }}
               fitView
-              minZoom={0.1}
-              maxZoom={2}
+              minZoom={0.08}
+              maxZoom={2.5}
               panOnDrag={!isSelectionMode}
               panOnScroll={true}
+              zoomOnPinch={true}
+              zoomOnDoubleClick={true}
+              preventScrolling={false}
               selectionOnDrag={isSelectionMode}
               selectionMode={SelectionMode.Partial}
             >
               <Background color="rgba(203, 213, 225, 0.4)" gap={28} size={1.5} />
-              <MiniMap 
-                nodeStrokeWidth={2} 
-                zoomable 
-                pannable 
-                nodeColor={(n) => {
-                  if (n.data.isDimmed) return '#f1f5f9';
-                  if (n.type === 'person') {
-                    const data = n.data as any;
-                    if (data.isFocal) return '#ea580c';
-                    if (data.branch && BRANCH_COLORS[data.branch]) {
-                      return BRANCH_COLORS[data.branch].stroke;
+              <div className="hidden sm:block">
+                <MiniMap 
+                  nodeStrokeWidth={2} 
+                  zoomable 
+                  pannable 
+                  nodeColor={(n) => {
+                    if (n.data.isDimmed) return '#f1f5f9';
+                    if (n.type === 'person') {
+                      const data = n.data as any;
+                      if (data.isFocal) return '#ea580c';
+                      if (data.branch && BRANCH_COLORS[data.branch]) {
+                        return BRANCH_COLORS[data.branch].stroke;
+                      }
+                      return '#94a3b8';
                     }
-                    return '#94a3b8';
-                  }
-                  if (n.type === 'union') return '#f43f5e';
-                  return '#e2e8f0';
-                }}
-                maskColor="rgba(248, 250, 252, 0.75)"
-                className="rounded-2xl overflow-hidden shadow-xl border border-slate-200/90 backdrop-blur-md"
-              />
+                    if (n.type === 'union') return '#f43f5e';
+                    return '#e2e8f0';
+                  }}
+                  maskColor="rgba(248, 250, 252, 0.75)"
+                  className="rounded-2xl overflow-hidden shadow-xl border border-slate-200/90 backdrop-blur-md"
+                />
+              </div>
               <Controls className="bg-white/95 backdrop-blur-md shadow-lg border-slate-200/90 rounded-xl" />
-              <Panel position="top-right" className="bg-white p-1 rounded-lg shadow-lg border border-slate-200 flex flex-col gap-1 mt-2 mr-2">
+              <Panel position="top-right" className="bg-white/95 backdrop-blur-md p-1 rounded-xl shadow-lg border border-slate-200/90 flex flex-col gap-1 mt-2 mr-2">
                 <button
                   onClick={() => setIsSelectionMode(false)}
                   className={`p-2 rounded-md transition-colors ${!isSelectionMode ? 'bg-orange-100 text-orange-700 font-bold' : 'text-slate-500 hover:bg-slate-100'}`}
