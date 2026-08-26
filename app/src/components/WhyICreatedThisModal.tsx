@@ -10,7 +10,7 @@ export const WhyICreatedThisModal: React.FC<WhyICreatedThisModalProps> = ({ isOp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:pl-64">
       {/* Backdrop */}
       <div 
         onClick={onClose} 

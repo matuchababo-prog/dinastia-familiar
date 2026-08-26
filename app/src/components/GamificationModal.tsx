@@ -105,7 +105,7 @@ export const GamificationModal: React.FC<GamificationModalProps> = ({
   const currentQ = triviaQuestions[currentQuestionIdx];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 lg:pl-64 animate-fade-in">
       <div className="fixed inset-0 bg-black/60 backdrop-blur-xs" onClick={onClose} />
       
       <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl z-10 overflow-hidden">

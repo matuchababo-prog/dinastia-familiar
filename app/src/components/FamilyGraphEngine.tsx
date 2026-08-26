@@ -473,10 +473,12 @@ const FamilyGraphContent: React.FC = () => {
             </ReactFlow>
 
             {/* Interactive Memory Mission Floating Widget */}
-            <MemoryMissionBanner 
-              persons={persons} 
-              onSelectPerson={(person: Person) => setSelectedPerson(person)} 
-            />
+            {!isMatiasGuideOpen && (
+              <MemoryMissionBanner 
+                persons={persons} 
+                onSelectPerson={(person: Person) => setSelectedPerson(person)} 
+              />
+            )}
 
             {/* Empty State Overlay */}
             {hasActiveFilter && matchedPersonIds.size === 0 && (

@@ -110,7 +110,7 @@ export const InteractiveTourModal: React.FC<InteractiveTourModalProps> = ({ isOp
   const StepIcon = step.icon;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 lg:pl-64">
       {/* Backdrop */}
       <div 
         onClick={onClose} 
