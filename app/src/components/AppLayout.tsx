@@ -403,61 +403,77 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             {/* Desktop Density & Filter Controls (>= lg) */}
             {activeView === 'canvas' && (
               <div className="hidden lg:flex items-center gap-2">
-                {/* Density Switcher */}
-                {setViewDensity && (
-                  <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200/80 shadow-2xs">
-                    <button
-                      onClick={() => setViewDensity('compact')}
-                      className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                        viewDensity === 'compact'
-                          ? 'bg-white text-slate-900 shadow-xs'
-                          : 'text-slate-500 hover:text-slate-700'
-                      }`}
-                      title="Vista Esencia (Tarjetas compactas, limpias y livianas)"
+                {focalPersonId ? (
+                  <div className="flex items-center gap-2 bg-orange-50 text-orange-700 border border-orange-200 px-3 py-1.5 rounded-md text-xs font-semibold shadow-2xs">
+                    <Target size={14} />
+                    <span>Foco en: {focalPersonName || 'Persona'}</span>
+                    <button 
+                      onClick={() => setFocalPersonId(null)}
+                      className="ml-2 hover:bg-orange-100 p-0.5 rounded-full transition-colors cursor-pointer"
+                      title="Quitar foco"
                     >
-                      <Sparkles size={12} className={viewDensity === 'compact' ? 'text-amber-500' : ''} />
-                      <span>Esencia</span>
-                    </button>
-                    <button
-                      onClick={() => setViewDensity('detailed')}
-                      className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
-                        viewDensity === 'detailed'
-                          ? 'bg-white text-slate-900 shadow-xs'
-                          : 'text-slate-500 hover:text-slate-700'
-                      }`}
-                      title="Vista Detallada (Tarjetas completas con tags y recuerdos)"
-                    >
-                      <LayoutGrid size={12} className={viewDensity === 'detailed' ? 'text-orange-500' : ''} />
-                      <span>Detallado</span>
+                      <X size={13} />
                     </button>
                   </div>
+                ) : (
+                  <>
+                    {/* Density Switcher */}
+                    {setViewDensity && (
+                      <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200/80 shadow-2xs">
+                        <button
+                          onClick={() => setViewDensity('compact')}
+                          className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                            viewDensity === 'compact'
+                              ? 'bg-white text-slate-900 shadow-xs'
+                              : 'text-slate-500 hover:text-slate-700'
+                          }`}
+                          title="Vista Esencia (Tarjetas compactas, limpias y livianas)"
+                        >
+                          <Sparkles size={12} className={viewDensity === 'compact' ? 'text-amber-500' : ''} />
+                          <span>Esencia</span>
+                        </button>
+                        <button
+                          onClick={() => setViewDensity('detailed')}
+                          className={`px-2.5 py-1 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+                            viewDensity === 'detailed'
+                              ? 'bg-white text-slate-900 shadow-xs'
+                              : 'text-slate-500 hover:text-slate-700'
+                          }`}
+                          title="Vista Detallada (Tarjetas completas con tags y recuerdos)"
+                        >
+                          <LayoutGrid size={12} className={viewDensity === 'detailed' ? 'text-orange-500' : ''} />
+                          <span>Detallado</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Generation Select */}
+                    <select
+                      value={selectedGeneration}
+                      onChange={(e) => setSelectedGeneration(e.target.value)}
+                      className="pl-3 pr-8 py-1.5 bg-slate-100 border-transparent rounded-md text-xs text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all outline-none cursor-pointer"
+                    >
+                      <option value="all">Todas las generaciones</option>
+                      {availableGenerations.map(gen => (
+                        <option key={gen} value={gen}>Generación {gen}</option>
+                      ))}
+                    </select>
+
+                    {/* Branch Select */}
+                    <select
+                      value={selectedBranch}
+                      onChange={(e) => setSelectedBranch(e.target.value)}
+                      className="pl-3 pr-8 py-1.5 bg-slate-100 border-transparent rounded-md text-xs text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all outline-none cursor-pointer max-w-[140px] truncate"
+                    >
+                      <option value="all">Todas las familias</option>
+                      {availableBranches.map(branch => (
+                        <option key={branch} value={branch}>
+                          {branch.toLowerCase().startsWith('familia') ? branch : `Familia ${branch}`}
+                        </option>
+                      ))}
+                    </select>
+                  </>
                 )}
-
-                {/* Generation Select */}
-                <select
-                  value={selectedGeneration}
-                  onChange={(e) => setSelectedGeneration(e.target.value)}
-                  className="pl-3 pr-8 py-1.5 bg-slate-100 border-transparent rounded-md text-xs text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all outline-none cursor-pointer"
-                >
-                  <option value="all">Todas las generaciones</option>
-                  {availableGenerations.map(gen => (
-                    <option key={gen} value={gen}>Generación {gen}</option>
-                  ))}
-                </select>
-
-                {/* Branch Select */}
-                <select
-                  value={selectedBranch}
-                  onChange={(e) => setSelectedBranch(e.target.value)}
-                  className="pl-3 pr-8 py-1.5 bg-slate-100 border-transparent rounded-md text-xs text-slate-700 focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all outline-none cursor-pointer max-w-[140px] truncate"
-                >
-                  <option value="all">Todas las familias</option>
-                  {availableBranches.map(branch => (
-                    <option key={branch} value={branch}>
-                      {branch.toLowerCase().startsWith('familia') ? branch : `Familia ${branch}`}
-                    </option>
-                  ))}
-                </select>
 
                 {/* Search Input */}
                 <div className="relative w-48 xl:w-56">
