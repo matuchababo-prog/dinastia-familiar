@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Colors - Modern, Clean UI */
+  --color-primary: #ea580c; /* Orange-600 */
+  --color-on-primary: #ffffff;
+  --color-secondary: #0f172a; /* Slate-900 */
+  --color-background: #f8fafc; /* Slate-50 */
+  --color-foreground: #0f172a; /* Slate-900 */
+  --color-muted: #f1f5f9; /* Slate-100 */
+  --color-border: #e2e8f0; /* Slate-200 */
+  --color-destructive: #ef4444; /* Red-500 */
+  --color-ring: #ea580c;
+  
+  --panel-bg: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-primary: #ea580c;
+    --color-background: #0f172a; /* Slate-900 */
+    --color-foreground: #f8fafc; /* Slate-50 */
+    --color-muted: #1e293b; /* Slate-800 */
+    --color-border: #334155; /* Slate-700 */
+    --panel-bg: #1e293b;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* Prevent body scrolling, use panel scrolling */
+}
+
+/* Custom xyflow styles overrides */
+.react-flow__pane {
+  background-color: transparent !important;
+}
+
+/* Base Node Card Style */
+.task-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border-color: var(--color-primary);
+}
+
+.task-card.selected {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.2);
+}
