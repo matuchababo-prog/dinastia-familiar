@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import type { MemoryPost, FactType } from '../types/family';
-import { MessageSquare, Heart, Send, Sparkles, Lock, Globe } from 'lucide-react';
+import { Heart, Send, Sparkles, Lock, Globe, CheckCircle2, CornerDownRight } from 'lucide-react';
 
 interface MemoryFeedProps {
   memories: MemoryPost[];
   onAddMemory: (post: MemoryPost) => void;
+  initialPrompt?: string;
+  initialPersonName?: string;
 }
 
-export const MemoryFeed: React.FC<MemoryFeedProps> = ({ memories, onAddMemory }) => {
-  const [content, setContent] = useState('');
+export const MemoryFeed: React.FC<MemoryFeedProps> = ({ 
+  memories, 
+  onAddMemory,
+  initialPrompt = '',
+  initialPersonName = ''
+}) => {
+  const [content, setContent] = useState(initialPrompt);
   const [authorName, setAuthorName] = useState('');
-  const [personName, setPersonName] = useState('');
+  const [personName, setPersonName] = useState(initialPersonName);
   const [type, setType] = useState<FactType>('FACT');
   const [privacy, setPrivacy] = useState<'PUBLIC' | 'BRANCH' | 'DIRECT'>('PUBLIC');
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
+  
+  const formRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,24 +43,45 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({ memories, onAddMemory })
 
     onAddMemory(newPost);
     setContent('');
+    setShowSuccessToast(true);
+    setTimeout(() => {
+      setShowSuccessToast(false);
+    }, 4000);
+  };
+
+  const toggleLike = (postId: string) => {
+    setLikedPosts(prev => ({
+      ...prev,
+      [postId]: !prev[postId]
+    }));
+  };
+
+  const handleReplyToPost = (post: MemoryPost) => {
+    setPersonName(post.personName);
+    setContent(`En respuesta al recuerdo de ${post.authorName}: `);
+    formRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div style={{ maxWidth: '680px', margin: '0 auto', padding: '32px 16px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+    <div className="max-w-3xl mx-auto px-4 py-8 flex flex-col gap-6">
       {/* Create Memory Form */}
-      <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Sparkles size={20} /> Compartir un Recuerdo de Familia
-        </h3>
+      <div ref={formRef} className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 shadow-sm flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h3 className="m-0 text-base font-bold text-slate-900 dark:text-slate-50 flex items-center gap-2">
+            <Sparkles size={18} className="text-orange-600" />
+            <span>Compartir un Recuerdo o Anécdota Familiar</span>
+          </h3>
+          <span className="text-[11px] text-slate-500 font-medium">Preserva la memoria</span>
+        </div>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <input
               type="text"
               placeholder="Tu nombre (Ej. Tía Elena)"
               value={authorName}
               onChange={(e) => setAuthorName(e.target.value)}
-              style={{ padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--color-border)', background: 'var(--glass-bg)', fontSize: '13px', outline: 'none' }}
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
               required
             />
             <input
@@ -57,35 +89,35 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({ memories, onAddMemory })
               placeholder="¿Sobre quién es el recuerdo? (Ej. Abuelo Moisés)"
               value={personName}
               onChange={(e) => setPersonName(e.target.value)}
-              style={{ padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--color-border)', background: 'var(--glass-bg)', fontSize: '13px', outline: 'none' }}
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
             />
           </div>
 
           <textarea
-            placeholder="Escribe la anécdota, lección o recuerdo..."
+            placeholder="Escribe la anécdota, lección, detalle o memoria inolvidable..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={3}
-            style={{ padding: '12px 14px', borderRadius: '10px', border: '1px solid var(--color-border)', background: 'var(--glass-bg)', fontSize: '13px', outline: 'none', resize: 'vertical' }}
+            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-slate-900 dark:text-slate-100 text-xs focus:bg-white dark:focus:bg-slate-900 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all resize-y min-h-[80px]"
             required
           />
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-            <div style={{ display: 'flex', gap: '8px' }}>
+          <div className="flex items-center justify-between flex-wrap gap-3 pt-1">
+            <div className="flex gap-2 flex-wrap">
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value as FactType)}
-                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', background: 'var(--glass-bg)' }}
+                className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-xs text-slate-700 dark:text-slate-200 font-medium outline-none focus:border-orange-500 cursor-pointer"
               >
                 <option value="FACT">✔ Hecho Comprobable</option>
                 <option value="OPINION">💬 Opinión / Percepción</option>
-                <option value="ANECDOTA">📜 Anécdota de Época</option>
+                <option value="CONTEXT">📜 Anécdota de Época</option>
               </select>
 
               <select
                 value={privacy}
                 onChange={(e) => setPrivacy(e.target.value as any)}
-                style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid var(--color-border)', fontSize: '12px', background: 'var(--glass-bg)' }}
+                className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-900/70 text-xs text-slate-700 dark:text-slate-200 font-medium outline-none focus:border-orange-500 cursor-pointer"
               >
                 <option value="PUBLIC">🌍 Toda la familia</option>
                 <option value="BRANCH">🔒 Solo mi rama</option>
@@ -95,83 +127,104 @@ export const MemoryFeed: React.FC<MemoryFeedProps> = ({ memories, onAddMemory })
 
             <button
               type="submit"
-              style={{
-                padding: '10px 20px',
-                borderRadius: '10px',
-                backgroundColor: 'var(--color-primary)',
-                color: 'white',
-                border: 'none',
-                fontWeight: 700,
-                fontSize: '13px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}
+              className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs shadow-xs hover:shadow-md transition-all flex items-center gap-1.5 cursor-pointer ml-auto"
             >
-              <Send size={14} /> Publicar Recuerdo
+              <Send size={13} />
+              <span>Publicar Recuerdo</span>
             </button>
           </div>
         </form>
+
+        {/* Success Confirmation Toast */}
+        {showSuccessToast && (
+          <div className="bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-3 rounded-xl flex items-center gap-2 text-xs text-emerald-800 dark:text-emerald-200 animate-fade-in">
+            <CheckCircle2 size={16} className="text-emerald-600" />
+            <span>¡Tu recuerdo ha sido publicado exitosamente y guardado en el cofre familiar!</span>
+          </div>
+        )}
       </div>
 
       {/* Memory Stream Cards */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <h4 style={{ margin: 0, fontSize: '15px', fontWeight: 700, opacity: 0.8 }}>Feed Reciente de Memorias Vivas</h4>
-        {memories.map((mem) => (
-          <div key={mem.id} className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--color-muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-primary)', fontWeight: 'bold' }}>
-                  {mem.authorName.charAt(0)}
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center justify-between">
+          <h4 className="m-0 text-sm font-bold text-slate-700 dark:text-slate-200">Feed Reciente de Memorias Vivas</h4>
+          <span className="text-xs text-slate-500 font-medium">{memories.length} historias registradas</span>
+        </div>
+
+        {memories.map((mem) => {
+          const isLiked = !!likedPosts[mem.id];
+          const totalLikes = (mem.likes || 0) + (isLiked ? 1 : 0);
+
+          return (
+            <div 
+              key={mem.id} 
+              className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border border-slate-200 dark:border-slate-700/80 rounded-2xl p-5 shadow-sm flex flex-col gap-3 transition-all hover:border-slate-300 dark:hover:border-slate-600 hover:shadow-md"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-400 flex items-center justify-center font-bold text-sm border border-orange-200 dark:border-orange-800/60 shadow-2xs">
+                    {mem.authorName.charAt(0).toUpperCase()}
+                  </div>
+
+                  <div>
+                    <h4 className="m-0 text-sm font-bold text-slate-900 dark:text-slate-100">
+                      {mem.authorName} <span className="text-slate-500 font-normal text-xs">compartió sobre</span> {mem.personName}
+                    </h4>
+                    <span className="text-[11px] text-slate-400 flex items-center gap-1.5 mt-0.5">
+                      {mem.createdAt} · {mem.privacy === 'PUBLIC' ? <span className="flex items-center gap-0.5"><Globe size={11} /> Toda la familia</span> : <span className="flex items-center gap-0.5"><Lock size={11} /> Rama</span>}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h4 style={{ margin: '0 0 2px 0', fontSize: '14px', fontWeight: 700 }}>
-                    {mem.authorName} <span style={{ opacity: 0.7, fontWeight: 400 }}>compartió un recuerdo de</span> {mem.personName}
-                  </h4>
-                  <span style={{ fontSize: '11px', opacity: 0.6, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    {mem.createdAt} · {mem.privacy === 'PUBLIC' ? <Globe size={11} /> : <Lock size={11} />}
-                  </span>
-                </div>
+
+                <span
+                  className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                    mem.type === 'FACT' 
+                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800' 
+                      : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800'
+                  }`}
+                >
+                  {mem.type === 'FACT' ? '✔ Hecho Comprobable' : '💬 Percepción'}
+                </span>
               </div>
 
-              <span
-                style={{
-                  fontSize: '10px',
-                  padding: '2px 8px',
-                  borderRadius: '10px',
-                  fontWeight: 600,
-                  backgroundColor: mem.type === 'FACT' ? 'rgba(5, 150, 105, 0.15)' : 'rgba(37, 99, 235, 0.15)',
-                  color: mem.type === 'FACT' ? '#059669' : '#2563eb'
-                }}
-              >
-                {mem.type === 'FACT' ? '✔ Hecho' : '💬 Opinión'}
-              </span>
-            </div>
+              <p className="m-0 text-xs sm:text-sm leading-relaxed text-slate-700 dark:text-slate-200 pl-1 border-l-2 border-orange-500/30">
+                "{mem.content}"
+              </p>
 
-            <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.6 }}>"{mem.content}"</p>
+              {mem.tags && mem.tags.length > 0 && (
+                <div className="flex gap-1.5 flex-wrap">
+                  {mem.tags.map((t, idx) => (
+                    <span key={idx} className="text-[10px] text-orange-700 dark:text-orange-400 font-semibold bg-orange-50 dark:bg-orange-950/30 px-2 py-0.5 rounded-md border border-orange-200/50 dark:border-orange-800/40">
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+              )}
 
-            {mem.tags && mem.tags.length > 0 && (
-              <div style={{ display: 'flex', gap: '6px' }}>
-                {mem.tags.map((t, idx) => (
-                  <span key={idx} style={{ fontSize: '10px', color: 'var(--color-primary)', opacity: 0.8, fontWeight: 600 }}>
-                    #{t}
-                  </span>
-                ))}
+              <div className="border-t border-slate-100 dark:border-slate-700/60 pt-3 flex items-center gap-5 text-xs text-slate-500">
+                <button 
+                  onClick={() => toggleLike(mem.id)}
+                  className={`bg-transparent border-none p-0 cursor-pointer flex items-center gap-1.5 font-semibold transition-colors ${
+                    isLiked ? 'text-rose-600' : 'text-slate-500 hover:text-rose-600'
+                  }`}
+                >
+                  <Heart size={14} fill={isLiked ? 'currentColor' : 'none'} className={isLiked ? 'scale-110 transition-transform' : ''} />
+                  <span>Me conmovió ({totalLikes})</span>
+                </button>
+
+                <button 
+                  onClick={() => handleReplyToPost(mem)}
+                  className="bg-transparent border-none p-0 cursor-pointer flex items-center gap-1.5 text-slate-500 hover:text-orange-600 font-semibold transition-colors"
+                >
+                  <CornerDownRight size={14} />
+                  <span>Aportar mi versión</span>
+                </button>
               </div>
-            )}
-
-            <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: '10px', display: 'flex', gap: '16px', fontSize: '12px', opacity: 0.8 }}>
-              <button style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: 'inherit' }}>
-                <Heart size={14} color="#e11d48" /> Me conmovió ({mem.likes})
-              </button>
-              <button style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: 'inherit' }}>
-                <MessageSquare size={14} /> Responder con mi versión
-              </button>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
 };
+

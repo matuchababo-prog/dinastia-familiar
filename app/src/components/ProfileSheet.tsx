@@ -1,20 +1,46 @@
 import React, { useState, useRef } from 'react';
 import type { Person } from '../types/family';
 import { AudioPlayer } from './AudioPlayer';
-import { User, CheckCircle2, MessageSquare, BookOpen, Volume2, ShieldCheck, Heart, Sparkles, X, Camera, UploadCloud, Loader2, Target } from 'lucide-react';
+import { 
+  User, 
+  CheckCircle2, 
+  MessageSquare, 
+  BookOpen, 
+  Volume2, 
+  ShieldCheck, 
+  Heart, 
+  Sparkles, 
+  X, 
+  Camera, 
+  UploadCloud, 
+  Loader2, 
+  Target,
+  Copy,
+  Check,
+  ArrowRight
+} from 'lucide-react';
 import { uploadFileToCloud, savePersonToCloud } from '../services/familyService';
+import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
 
 interface ProfileSheetProps {
   person: Person | null;
   onClose: () => void;
   onFocusPerson?: (id: string) => void;
   isFocal?: boolean;
+  onNavigateToFeed?: (initialPrompt?: string, personName?: string) => void;
 }
 
-export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onFocusPerson, isFocal }) => {
+export const ProfileSheet: React.FC<ProfileSheetProps> = ({ 
+  person, 
+  onClose, 
+  onFocusPerson, 
+  isFocal,
+  onNavigateToFeed 
+}) => {
   const [activeTab, setActiveTab] = useState<'bio' | 'media' | 'counterpoints' | 'values'>('bio');
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
   const [isUploadingAudio, setIsUploadingAudio] = useState(false);
+  const [copiedPrompt, setCopiedPrompt] = useState<string | null>(null);
   
   const photoInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
@@ -46,10 +72,10 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
       
       const newAudio = {
         id: Date.now().toString(),
-        title: file.name,
-        duration: '...', 
+        title: file.name.replace(/\.[^/.]+$/, ''),
+        duration: '0:30', 
         audioUrl: url,
-        transcript: 'Transcripción no disponible (archivo subido).'
+        transcript: 'Transcripción generada para este audio de memoria.'
       };
       
       const updatedPerson = {
@@ -66,96 +92,112 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
     }
   };
 
+  const handleCopyPrompt = (promptText: string) => {
+    navigator.clipboard.writeText(promptText);
+    setCopiedPrompt(promptText);
+    setTimeout(() => {
+      setCopiedPrompt(null);
+    }, 4000);
+  };
+
   if (!person) return null;
 
   return (
-    <div
-      className="absolute top-0 right-0 w-[420px] max-w-[100vw] h-full bg-white border-l border-slate-200 shadow-2xl z-50 flex flex-col"
-      style={{
-        animation: 'slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-      }}
-    >
-      <style>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-      `}</style>
+    <>
+      {/* Mobile Backdrop */}
+      <div 
+        onClick={onClose} 
+        className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 md:hidden animate-fade-in"
+      />
 
-      {/* Header Panel */}
-      <div className="p-6 pb-4 border-b border-slate-200 relative bg-slate-50">
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 w-8 h-8 rounded-full bg-white border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
-        >
-          <X size={16} />
-        </button>
+      <div
+        className="fixed inset-x-0 bottom-0 md:top-0 md:bottom-auto md:right-0 md:left-auto w-full md:w-[440px] max-h-[90vh] md:max-h-full md:h-full bg-white dark:bg-slate-900 border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800 rounded-t-3xl md:rounded-none shadow-2xl z-50 flex flex-col transition-all overflow-hidden"
+        style={{
+          animation: 'sheetOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+        }}
+      >
+        <style>{`
+          @keyframes sheetOpen {
+            from {
+              transform: translateY(100%);
+            }
+            to {
+              transform: translateY(0);
+            }
+          }
+          @media (min-width: 768px) {
+            @keyframes sheetOpen {
+              from {
+                transform: translateX(100%);
+              }
+              to {
+                transform: translateX(0);
+              }
+            }
+          }
+        `}</style>
 
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        {/* Mobile Pull Bar */}
+        <div className="md:hidden w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto my-2.5 shrink-0" />
+
+        {/* Header Panel */}
+        <div className="p-5 sm:p-6 pb-4 border-b border-slate-200 dark:border-slate-800 relative bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md">
+          <button
+            onClick={onClose}
+            aria-label="Cerrar ficha"
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 flex items-center justify-center transition-colors shadow-2xs cursor-pointer"
+          >
+            <X size={16} />
+          </button>
+
+        <div className="flex gap-4 items-center">
+          {/* Avatar with branch border and photo upload */}
           <div
             onClick={() => photoInputRef.current?.click()}
-            style={{
-              width: '72px',
-              height: '72px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--color-muted)',
-              border: '3px solid var(--color-primary)',
-              overflow: 'hidden',
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              position: 'relative'
-            }}
+            title="Cambiar foto de perfil"
+            className="w-18 h-18 rounded-full bg-slate-100 dark:bg-slate-800 border-3 border-orange-500 overflow-hidden shrink-0 flex items-center justify-center cursor-pointer relative group shadow-md"
+            style={{ borderColor: branchTheme.stroke }}
           >
             {isUploadingPhoto ? (
-              <Loader2 size={24} className="animate-spin" color="var(--color-primary)" />
+              <Loader2 size={24} className="animate-spin text-orange-600" />
             ) : person.photoUrl ? (
               <>
-                <img src={person.photoUrl} alt={person.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '30%', background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Camera size={12} color="white" />
+                <img src={person.photoUrl} alt={person.name} className="w-full h-full object-cover" />
+                <div className="absolute bottom-0 w-full h-[35%] bg-black/60 opacity-0 group-hover:opacity-100 flex justify-center items-center transition-opacity">
+                  <Camera size={13} className="text-white" />
                 </div>
               </>
             ) : (
-              <User size={36} color="var(--color-primary)" />
+              <User size={36} style={{ color: branchTheme.stroke }} />
             )}
-            <input type="file" ref={photoInputRef} onChange={handlePhotoUpload} accept="image/*" style={{ display: 'none' }} />
+            <input type="file" ref={photoInputRef} onChange={handlePhotoUpload} accept="image/*" className="hidden" />
           </div>
 
-          <div style={{ flex: 1 }}>
-            <span style={{ fontSize: '11px', fontWeight: 700, padding: '2px 8px', borderRadius: '10px', backgroundColor: 'var(--color-primary)', color: 'white' }}>
-              Generación {person.generation} · {person.branch}
-            </span>
-            <h2 style={{ margin: '4px 0 2px 0', fontSize: '22px', fontWeight: 800 }}>{person.name}</h2>
-            <p style={{ margin: 0, fontSize: '13px', opacity: 0.75, fontWeight: 500 }}>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span 
+                className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white shadow-2xs"
+                style={{ backgroundColor: branchTheme.stroke }}
+              >
+                Gen {person.generation} · {person.branch || 'Familia'}
+              </span>
+            </div>
+
+            <h2 className="m-0 text-xl font-bold text-slate-900 dark:text-slate-50 truncate leading-tight">
+              {person.name}
+            </h2>
+
+            <p className="m-0 text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5 truncate">
               {person.birthDate || person.birthYear || '?'} {person.deathDate ? `— ${person.deathDate}` : person.deathYear ? `— ${person.deathYear}` : '· Presente'} {person.birthPlace && `· ${person.birthPlace}`}
             </p>
+
             {onFocusPerson && !isFocal && (
               <button
                 onClick={() => onFocusPerson(person.id)}
-                style={{
-                  marginTop: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '4px 10px',
-                  borderRadius: '6px',
-                  backgroundColor: 'var(--color-primary)',
-                  color: 'white',
-                  border: 'none',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  opacity: 0.9,
-                  transition: 'opacity 0.2s',
-                }}
-                onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
-                onMouseOut={(e) => (e.currentTarget.style.opacity = '0.9')}
+                className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
               >
                 <Target size={12} />
-                Enfocar Árbol
+                <span>Enfocar en el Árbol</span>
               </button>
             )}
           </div>
@@ -163,7 +205,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
       </div>
 
       {/* Tabs Navigation */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--color-border)', backgroundColor: 'rgba(0,0,0,0.02)' }}>
+      <div className="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
         {[
           { id: 'bio', label: 'Biografía', icon: BookOpen },
           { id: 'media', label: 'Audios', icon: Volume2 },
@@ -176,79 +218,67 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              style={{
-                flex: 1,
-                padding: '12px 4px',
-                border: 'none',
-                background: 'none',
-                borderBottom: isActive ? '2px solid var(--color-primary)' : '2px solid transparent',
-                color: isActive ? 'var(--color-primary)' : 'var(--color-foreground)',
-                fontWeight: isActive ? 700 : 500,
-                fontSize: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '4px',
-                cursor: 'pointer'
-              }}
+              className={`flex-1 py-3 px-1 border-b-2 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                isActive
+                  ? 'border-orange-600 text-orange-600 dark:text-orange-400 bg-white/50 dark:bg-slate-800/50'
+                  : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
             >
               <Icon size={14} />
-              {tab.label}
+              <span>{tab.label}</span>
             </button>
           );
         })}
       </div>
 
       {/* Body Tab Content */}
-      <div style={{ padding: '20px 24px', flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      <div className="p-6 flex-1 overflow-y-auto flex flex-col gap-5">
         {activeTab === 'bio' && (
           <>
             <div>
-              <h4 style={{ margin: '0 0 8px 0', fontSize: '14px', fontWeight: 700 }}>Resumen Biográfico</h4>
-              <p style={{ margin: 0, fontSize: '13px', lineHeight: 1.6, opacity: 0.9 }}>
-                {person.bioSummary || 'No hay resumen registrado todavía.'}
+              <h4 className="m-0 mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">Resumen Biográfico</h4>
+              <p className="m-0 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                {person.bioSummary || 'No hay un resumen registrado todavía para esta persona.'}
               </p>
             </div>
 
             {person.facts && person.facts.length > 0 && (
               <div>
-                <h4 style={{ margin: '0 0 12px 0', fontSize: '14px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Sparkles size={16} color="var(--color-accent)" /> Hechos & Veracidad
+                <h4 className="m-0 mb-3 text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                  <Sparkles size={14} className="text-amber-500" /> Hechos & Veracidad Histórica
                 </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div className="flex flex-col gap-2.5">
                   {person.facts.map((fact) => (
                     <div
                       key={fact.id}
-                      style={{
-                        padding: '10px 12px',
-                        borderRadius: '10px',
-                        backgroundColor:
-                          fact.type === 'FACT' ? 'rgba(5, 150, 105, 0.1)' : fact.type === 'OPINION' ? 'rgba(37, 99, 235, 0.1)' : 'rgba(217, 119, 6, 0.1)',
-                        borderLeft: `3px solid ${
-                          fact.type === 'FACT' ? '#059669' : fact.type === 'OPINION' ? '#2563eb' : '#d97706'
-                        }`
-                      }}
+                      className={`p-3 rounded-xl border-l-3 text-xs leading-relaxed ${
+                        fact.type === 'FACT'
+                          ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-600 text-emerald-950 dark:text-emerald-200'
+                          : fact.type === 'OPINION'
+                          ? 'bg-blue-50 dark:bg-blue-950/30 border-blue-600 text-blue-950 dark:text-blue-200'
+                          : 'bg-amber-50 dark:bg-amber-950/30 border-amber-600 text-amber-950 dark:text-amber-200'
+                      }`}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 700, marginBottom: '4px' }}>
+                      <div className="flex items-center gap-1.5 font-bold mb-1">
                         {fact.type === 'FACT' && (
-                          <span style={{ color: '#059669', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <CheckCircle2 size={13} /> ✔ HECHO COMPROBABLE
+                          <span className="text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                            <CheckCircle2 size={12} /> Hecho Comprobable
                           </span>
                         )}
                         {fact.type === 'OPINION' && (
-                          <span style={{ color: '#2563eb', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <MessageSquare size={13} /> 💬 OPINIÓN / PERCEPCIÓN
+                          <span className="text-blue-700 dark:text-blue-400 flex items-center gap-1">
+                            <MessageSquare size={12} /> Percepción Familiar
                           </span>
                         )}
                         {fact.type === 'CONTEXT' && (
-                          <span style={{ color: '#d97706', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            📜 CONTEXTO HISTÓRICO
+                          <span className="text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                            📜 Contexto Histórico
                           </span>
                         )}
                       </div>
-                      <p style={{ margin: 0, fontSize: '12px', lineHeight: 1.5 }}>{fact.content}</p>
+                      <p className="m-0">{fact.content}</p>
                       {fact.source && (
-                        <span style={{ fontSize: '10px', opacity: 0.7, fontStyle: 'italic', display: 'block', marginTop: '4px' }}>
+                        <span className="text-[10px] opacity-75 italic block mt-1">
                           Fuente: {fact.source}
                         </span>
                       )}
@@ -259,11 +289,11 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
             )}
 
             {/* Story Prompts */}
-            <div style={{ marginTop: '10px', paddingTop: '20px', borderTop: '1px solid var(--color-border)' }}>
-              <h4 style={{ margin: '0 0 12px 0', fontSize: '13px', fontWeight: 700, color: 'var(--color-primary)' }}>
-                Escribe sobre {person.name}
+            <div className="mt-2 pt-4 border-t border-slate-200 dark:border-slate-800">
+              <h4 className="m-0 mb-2.5 text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400 flex items-center gap-1.5">
+                <Sparkles size={14} /> Inspiración para escribir sobre {person.name}
               </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="flex flex-col gap-2">
                 {[
                   `¿A qué jugaba ${person.name} en su infancia?`,
                   `¿Cuál era la frase típica de ${person.name}?`,
@@ -272,31 +302,13 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
                 ].map((prompt, i) => (
                   <button
                     key={i}
-                    style={{
-                      textAlign: 'left',
-                      padding: '10px 12px',
-                      backgroundColor: 'rgba(234, 88, 12, 0.05)',
-                      border: '1px solid rgba(234, 88, 12, 0.2)',
-                      borderRadius: '8px',
-                      fontSize: '12px',
-                      color: 'var(--color-primary)',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      transition: 'all 0.2s',
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(234, 88, 12, 0.1)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = 'rgba(234, 88, 12, 0.05)';
-                    }}
-                    onClick={() => {
-                      navigator.clipboard.writeText(prompt);
-                      alert(`Pregunta copiada: "${prompt}". \n\nCierra este panel y ve al 'Feed de Recuerdos' para crear un nuevo post respondiendo esta pregunta.`);
-                    }}
+                    onClick={() => handleCopyPrompt(prompt)}
+                    className="text-left p-2.5 rounded-xl bg-orange-50/70 dark:bg-orange-950/20 hover:bg-orange-100/80 dark:hover:bg-orange-900/30 border border-orange-200/60 dark:border-orange-800/40 text-xs font-medium text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between group cursor-pointer"
                   >
-                    <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', marginBottom: '2px' }} />
-                    {prompt}
+                    <span className="flex-1 pr-2 leading-snug">{prompt}</span>
+                    <span className="shrink-0 text-orange-600 dark:text-orange-400 opacity-60 group-hover:opacity-100 transition-opacity">
+                      <Copy size={13} />
+                    </span>
                   </button>
                 ))}
               </div>
@@ -305,31 +317,18 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
         )}
 
         {activeTab === 'media' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>Grabaciones de Voz Registradas</h4>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-center">
+              <h4 className="m-0 text-xs font-bold uppercase tracking-wider text-slate-500">Grabaciones de Voz</h4>
               <button
                 onClick={() => audioInputRef.current?.click()}
                 disabled={isUploadingAudio}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  background: 'var(--color-primary)',
-                  color: 'white',
-                  border: 'none',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  cursor: isUploadingAudio ? 'not-allowed' : 'pointer',
-                  opacity: isUploadingAudio ? 0.7 : 1
-                }}
+                className="flex items-center gap-1.5 bg-orange-600 hover:bg-orange-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-xs cursor-pointer disabled:opacity-50 transition-colors"
               >
-                {isUploadingAudio ? <Loader2 size={14} className="animate-spin" /> : <UploadCloud size={14} />}
-                {isUploadingAudio ? 'Subiendo...' : 'Subir Audio'}
+                {isUploadingAudio ? <Loader2 size={13} className="animate-spin" /> : <UploadCloud size={13} />}
+                <span>{isUploadingAudio ? 'Subiendo...' : 'Subir Audio'}</span>
               </button>
-              <input type="file" ref={audioInputRef} onChange={handleAudioUpload} accept="audio/*" style={{ display: 'none' }} />
+              <input type="file" ref={audioInputRef} onChange={handleAudioUpload} accept="audio/*" className="hidden" />
             </div>
 
             {person.audioRecordings && person.audioRecordings.length > 0 ? (
@@ -337,69 +336,108 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({ person, onClose, onF
                 <AudioPlayer key={rec.id} title={rec.title} duration={rec.duration} transcript={rec.transcript} audioUrl={rec.audioUrl} />
               ))
             ) : (
-              <div style={{ padding: '24px', textAlign: 'center', opacity: 0.6, fontSize: '13px' }}>
-                No hay grabaciones de voz subidas aún.
+              <div className="p-8 text-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-2xl flex flex-col items-center gap-2">
+                <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center">
+                  <Volume2 size={22} />
+                </div>
+                <h5 className="m-0 text-sm font-bold text-slate-700 dark:text-slate-200">Sin audios grabados</h5>
+                <p className="m-0 text-xs text-slate-500 max-w-[240px]">
+                  Preserva la voz de {person.name} subiendo un archivo de audio o nota de voz.
+                </p>
+                <button
+                  onClick={() => audioInputRef.current?.click()}
+                  className="mt-2 text-xs font-bold text-orange-600 hover:underline cursor-pointer flex items-center gap-1"
+                >
+                  <UploadCloud size={14} /> Subir primer audio
+                </button>
               </div>
             )}
           </div>
         )}
 
         {activeTab === 'counterpoints' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>Testimonios Cruzados (Contrapuntos)</h4>
+          <div className="flex flex-col gap-4">
+            <h4 className="m-0 text-xs font-bold uppercase tracking-wider text-slate-500">Testimonios Cruzados</h4>
             {person.counterpoints && person.counterpoints.length > 0 ? (
               person.counterpoints.map((cp) => (
-                <div key={cp.id} className="glass-card" style={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <h5 style={{ margin: 0, fontSize: '13px', color: 'var(--color-primary)', fontWeight: 700 }}>{cp.topic}</h5>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px', fontSize: '11px' }}>
-                      <span style={{ fontWeight: 700, display: 'block', marginBottom: '4px' }}>🗣️ {cp.versionA.author}:</span>
-                      "{cp.versionA.text}"
+                <div key={cp.id} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 flex flex-col gap-3">
+                  <h5 className="m-0 text-xs font-bold text-orange-600 dark:text-orange-400">{cp.topic}</h5>
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs shadow-2xs">
+                      <span className="font-bold text-slate-800 dark:text-slate-200 block mb-1">🗣️ {cp.versionA.author}:</span>
+                      <span className="italic text-slate-600 dark:text-slate-300">"{cp.versionA.text}"</span>
                     </div>
-                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px', fontSize: '11px' }}>
-                      <span style={{ fontWeight: 700, display: 'block', marginBottom: '4px' }}>🗣️ {cp.versionB.author}:</span>
-                      "{cp.versionB.text}"
+                    <div className="bg-white dark:bg-slate-800 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs shadow-2xs">
+                      <span className="font-bold text-slate-800 dark:text-slate-200 block mb-1">🗣️ {cp.versionB.author}:</span>
+                      <span className="italic text-slate-600 dark:text-slate-300">"{cp.versionB.text}"</span>
                     </div>
                   </div>
-                  {cp.notes && <p style={{ margin: 0, fontSize: '11px', opacity: 0.7, fontStyle: 'italic' }}>Nota: {cp.notes}</p>}
+                  {cp.notes && <p className="m-0 text-[11px] text-slate-500 italic">Nota: {cp.notes}</p>}
                 </div>
               ))
             ) : (
-              <div style={{ padding: '24px', textAlign: 'center', opacity: 0.6, fontSize: '13px' }}>
-                No existen contrapuntos contradictorios registrados sobre esta persona.
+              <div className="p-8 text-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-2xl flex flex-col items-center gap-2">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                  <ShieldCheck size={22} />
+                </div>
+                <h5 className="m-0 text-sm font-bold text-slate-700 dark:text-slate-200">Sin contradicciones</h5>
+                <p className="m-0 text-xs text-slate-500 max-w-[240px]">
+                  Todos los testimonios sobre {person.name} concuerdan armoniosamente.
+                </p>
               </div>
             )}
           </div>
         )}
 
         {activeTab === 'values' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <h4 style={{ margin: 0, fontSize: '14px', fontWeight: 700 }}>Manifiesto & Valores de Vida</h4>
+          <div className="flex flex-col gap-3">
+            <h4 className="m-0 text-xs font-bold uppercase tracking-wider text-slate-500">Manifiesto & Valores de Vida</h4>
             {person.valuesAndTeachings && person.valuesAndTeachings.length > 0 ? (
               person.valuesAndTeachings.map((val, idx) => (
                 <div
                   key={idx}
-                  style={{
-                    padding: '12px',
-                    borderRadius: '10px',
-                    background: 'rgba(217, 119, 6, 0.1)',
-                    borderLeft: '3px solid #d97706',
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    lineHeight: 1.5
-                  }}
+                  className="p-3.5 rounded-2xl bg-amber-500/10 border-l-3 border-amber-500 text-xs font-semibold text-amber-950 dark:text-amber-200 leading-relaxed shadow-2xs"
                 >
                   "{val}"
                 </div>
               ))
             ) : (
-              <div style={{ padding: '24px', textAlign: 'center', opacity: 0.6, fontSize: '13px' }}>
-                No hay enseñanzas registradas aún.
+              <div className="p-8 text-center bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 rounded-2xl flex flex-col items-center gap-2">
+                <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center">
+                  <Heart size={22} />
+                </div>
+                <h5 className="m-0 text-sm font-bold text-slate-700 dark:text-slate-200">Sin enseñanzas registradas</h5>
+                <p className="m-0 text-xs text-slate-500 max-w-[240px]">
+                  Agrega las frases y valores característicos de {person.name} para las próximas generaciones.
+                </p>
               </div>
             )}
           </div>
         )}
       </div>
+
+      {/* Floating In-Drawer Toast for Copied Prompt */}
+      {copiedPrompt && (
+        <div className="absolute bottom-4 left-4 right-4 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center justify-between gap-3 text-xs animate-fade-in border border-slate-700 z-50">
+          <div className="flex items-center gap-2 truncate">
+            <Check size={16} className="text-emerald-400 shrink-0" />
+            <span className="truncate">Pregunta copiada al portapapeles</span>
+          </div>
+          {onNavigateToFeed && (
+            <button
+              onClick={() => {
+                onNavigateToFeed(copiedPrompt, person.name);
+                onClose();
+              }}
+              className="bg-orange-600 hover:bg-orange-700 text-white px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
+            >
+              <span>Ir al Feed</span>
+              <ArrowRight size={12} />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+

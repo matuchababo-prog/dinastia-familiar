@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Volume2, Mic } from 'lucide-react';
+import { Play, Pause, Volume2, Mic, Clock } from 'lucide-react';
 
 interface AudioPlayerProps {
   title: string;
@@ -11,6 +11,7 @@ interface AudioPlayerProps {
 export const AudioPlayer: React.FC<AudioPlayerProps> = ({ title, duration, transcript, audioUrl }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [currentTimeFormatted, setCurrentTimeFormatted] = useState('0:00');
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -20,12 +21,16 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ title, duration, trans
     const handleTimeUpdate = () => {
       if (audio.duration) {
         setProgress((audio.currentTime / audio.duration) * 100);
+        const mins = Math.floor(audio.currentTime / 60);
+        const secs = Math.floor(audio.currentTime % 60);
+        setCurrentTimeFormatted(`${mins}:${secs < 10 ? '0' : ''}${secs}`);
       }
     };
 
     const handleEnded = () => {
       setIsPlaying(false);
       setProgress(0);
+      setCurrentTimeFormatted('0:00');
     };
 
     audio.addEventListener('timeupdate', handleTimeUpdate);
@@ -38,85 +43,93 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ title, duration, trans
   }, []);
 
   const togglePlay = () => {
-    if (!audioRef.current) return;
+    if (!audioRef.current || !audioUrl) return;
     
     if (isPlaying) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch(err => console.error('Audio playback error:', err));
     }
     setIsPlaying(!isPlaying);
   };
 
+  const handleSeek = (percentage: number) => {
+    if (!audioRef.current || !audioRef.current.duration) return;
+    const targetTime = (percentage / 100) * audioRef.current.duration;
+    audioRef.current.currentTime = targetTime;
+    setProgress(percentage);
+  };
+
+  const waveformHeights = [35, 65, 30, 85, 55, 80, 45, 95, 70, 50, 85, 60, 40, 90, 65, 35, 75, 45];
+
   return (
-    <div
-      style={{
-        background: 'rgba(37, 99, 235, 0.08)',
-        border: '1px solid rgba(37, 99, 235, 0.2)',
-        borderRadius: '14px',
-        padding: '16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px'
-      }}
-    >
+    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex flex-col gap-3.5 transition-all hover:border-amber-500/35 hover:shadow-md">
       {audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
       
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
           <button
             onClick={togglePlay}
             disabled={!audioUrl}
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              backgroundColor: audioUrl ? 'var(--color-primary)' : 'var(--color-muted)',
-              color: audioUrl ? 'white' : 'var(--color-foreground)',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: audioUrl ? 'pointer' : 'not-allowed',
-              boxShadow: audioUrl ? '0 4px 12px rgba(37, 99, 235, 0.3)' : 'none'
-            }}
+            aria-label={isPlaying ? `Pausar grabación ${title}` : `Reproducir grabación ${title}`}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+              audioUrl 
+                ? 'bg-orange-600 hover:bg-orange-700 text-white shadow-md hover:scale-105 active:scale-95 cursor-pointer' 
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+            }`}
           >
-            {isPlaying ? <Pause size={18} /> : <Play size={18} style={{ marginLeft: '2px' }} />}
+            {isPlaying ? <Pause size={18} /> : <Play size={18} className="ml-0.5" />}
           </button>
+
           <div>
-            <h4 style={{ margin: '0 0 2px 0', fontSize: '14px', fontWeight: 700 }}>{title}</h4>
-            <span style={{ fontSize: '11px', opacity: 0.75, display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Mic size={10} /> Grabación de voz · {duration}
-            </span>
+            <h4 className="m-0 text-sm font-bold text-slate-800 leading-tight">{title}</h4>
+            <div className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
+              <span className="flex items-center gap-1 font-semibold text-amber-700">
+                <Mic size={11} /> Grabación de voz
+              </span>
+              <span>·</span>
+              <span className="flex items-center gap-1">
+                <Clock size={10} /> {isPlaying ? `${currentTimeFormatted} / ${duration}` : duration}
+              </span>
+            </div>
           </div>
         </div>
-        <Volume2 size={18} style={{ opacity: 0.6 }} />
+
+        <Volume2 size={18} className="text-amber-600/70" />
       </div>
 
-      {/* Simulated Waveform Bar sync'd with progress */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '3px', height: '24px' }}>
-        {[40, 70, 30, 90, 60, 80, 45, 100, 75, 50, 85, 60, 40, 95, 70, 30, 80, 50].map((h, idx) => {
-          const barProgress = (idx / 18) * 100;
+      {/* Interactive Waveform Bar with Seek */}
+      <div 
+        className="flex items-center gap-1 h-7 cursor-pointer group px-1 py-0.5 rounded-lg hover:bg-amber-500/5 transition-colors"
+        title="Haz clic para adelantar o retroceder"
+      >
+        {waveformHeights.map((h, idx) => {
+          const barProgress = (idx / waveformHeights.length) * 100;
           const isActive = barProgress <= progress;
           return (
-            <div
+            <button
               key={idx}
-              style={{
-                flex: 1,
-                height: `${h}%`,
-                backgroundColor: isActive ? 'var(--color-primary)' : 'rgba(37, 99, 235, 0.25)',
-                borderRadius: '4px',
-                transition: 'all 0.2s ease'
-              }}
-            />
+              type="button"
+              onClick={() => handleSeek(barProgress)}
+              className="flex-1 h-full flex items-center bg-transparent border-none p-0 cursor-pointer focus:outline-none"
+              aria-label={`Saltar a ${(idx / waveformHeights.length * 100).toFixed(0)}% del audio`}
+            >
+              <span
+                style={{ height: `${h}%` }}
+                className={`w-full rounded-full transition-all duration-150 group-hover:opacity-90 ${
+                  isActive ? 'bg-orange-600 shadow-2xs' : 'bg-amber-500/30'
+                }`}
+              />
+            </button>
           );
         })}
       </div>
 
-      {/* Transcription Preview */}
-      <div style={{ background: 'var(--glass-bg)', padding: '10px 12px', borderRadius: '8px', fontSize: '12px', fontStyle: 'italic', opacity: 0.9 }}>
+      {/* Transcription Quote */}
+      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xs border border-amber-500/15 p-2.5 rounded-xl text-xs italic text-slate-700 dark:text-slate-200 leading-relaxed shadow-2xs">
         "{transcript}"
       </div>
     </div>
   );
 };
+

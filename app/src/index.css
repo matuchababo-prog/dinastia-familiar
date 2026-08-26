@@ -14,6 +14,8 @@
   --color-ring: #ea580c;
   
   --panel-bg: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(226, 232, 240, 0.8);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,17 +26,48 @@
     --color-muted: #1e293b; /* Slate-800 */
     --color-border: #334155; /* Slate-700 */
     --panel-bg: #1e293b;
+    --glass-bg: rgba(30, 41, 59, 0.85);
+    --glass-border: rgba(51, 65, 85, 0.8);
   }
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--color-background);
   color: var(--color-foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden; /* Prevent body scrolling, use panel scrolling */
+}
+
+/* Custom Sleek Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.6);
+}
+
+/* Glass Card Utility */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
 }
 
 /* Custom xyflow styles overrides */
@@ -47,12 +80,12 @@ body {
   background: var(--panel-bg);
   border: 1px solid var(--color-border);
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   transition: all 0.2s ease-in-out;
 }
 
 .task-card:hover {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.08);
   border-color: var(--color-primary);
 }
 

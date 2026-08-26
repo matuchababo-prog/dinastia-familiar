@@ -418,7 +418,7 @@ export function buildGraphFromData(
         target: u.id,
         targetHandle: 'left',
         type: 'straight',
-        data: { branch: p1?.branch || 'Otros', stroke: p1BranchColor.stroke },
+        data: { relationship: 'Pareja', branch: p1?.branch || 'Otros', stroke: p1BranchColor.stroke },
         style: { stroke: p1BranchColor.stroke, strokeWidth: 2.5 },
       });
     }
@@ -432,7 +432,7 @@ export function buildGraphFromData(
         target: u.partner2Id,
         targetHandle: 'left',
         type: 'straight',
-        data: { branch: p2?.branch || 'Otros', stroke: p2BranchColor.stroke },
+        data: { relationship: 'Pareja', branch: p2?.branch || 'Otros', stroke: p2BranchColor.stroke },
         style: { stroke: p2BranchColor.stroke, strokeWidth: 2.5 },
       });
     }
@@ -449,7 +449,7 @@ export function buildGraphFromData(
           target: cid,
           targetHandle: 'top',
           type: 'smoothstep',
-          data: { branch: child?.branch || 'Otros', stroke: childBranchColor.stroke, borderRadius: 16 },
+          data: { relationship: 'Hijo/a', branch: child?.branch || 'Otros', stroke: childBranchColor.stroke, borderRadius: 16 },
           style: { stroke: childBranchColor.stroke, strokeWidth: 2.5 },
         });
       }

@@ -67,6 +67,8 @@ const FamilyGraphContent: React.FC = () => {
   const [focalPersonId, setFocalPersonId] = useState<string | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [viewDensity, setViewDensity] = useState<'compact' | 'detailed'>('detailed');
+  const [feedInitialPrompt, setFeedInitialPrompt] = useState<string>('');
+  const [feedInitialPersonName, setFeedInitialPersonName] = useState<string>('');
 
   // Realtime Cloud Persistence Subscriptions
   useEffect(() => {
@@ -419,7 +421,12 @@ const FamilyGraphContent: React.FC = () => {
           </>
         ) : (
           <div className="h-full overflow-y-auto bg-slate-50">
-            <MemoryFeed memories={memories} onAddMemory={handleAddMemory} />
+            <MemoryFeed 
+              memories={memories} 
+              onAddMemory={handleAddMemory}
+              initialPrompt={feedInitialPrompt}
+              initialPersonName={feedInitialPersonName}
+            />
           </div>
         )}
 
@@ -432,6 +439,12 @@ const FamilyGraphContent: React.FC = () => {
             setSelectedPerson(null);
           }}
           isFocal={selectedPerson?.id === focalPersonId}
+          onNavigateToFeed={(prompt, personName) => {
+            if (prompt) setFeedInitialPrompt(prompt);
+            if (personName) setFeedInitialPersonName(personName);
+            setActiveView('feed');
+            setSelectedPerson(null);
+          }}
         />
       </div>
     </AppLayout>
