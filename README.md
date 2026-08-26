@@ -1,4 +1,4 @@
-# 🌳 Proyecto: Raíces y Rumbos (Árbol Genealógico Interactivo & Preservación de Legado)
+# 🌳 Proyecto: Dinastía Familiar (Árbol Genealógico Interactivo & Preservación de Legado)
 
 > **Misión**: Preservar y transmitir la historia, valores y aprendizajes familiares para que los descendientes tengan raíces claras y dirección de futuro.
 
@@ -10,7 +10,7 @@ Toda la investigación, estrategia de negocio, especificaciones de producto y ar
 
 1. 📄 [**Plan Maestro de Implementación**](file:///Users/matiaschababo/.gemini/antigravity/brain/695d30cf-c67a-40d1-b1b2-868fe87b1c9c/implementation_plan.md): Hoja de ruta ejecutiva aprobada.
 2. 📊 [**Investigación de Mercado, Competencia y Monetización**](file:///Users/matiaschababo/Desktop/Antigravity%20projects/Arbol%20Familiar/docs/INVESTIGACION_NEGOCIO_Y_MERCADO.md): Análisis de Ancestry, MyHeritage, Remento, Océano Azul, modelos SaaS Freemium, Impresión POD de libros con QR y Concierge.
-3. 📖 [**Investigación Narrativa, Literaria y Metodología**](file:///Users/matiaschababo/Desktop/Antigravity%20projects/Arbol%20Familiar/docs/INVESTIGACION_NARRATIVA_Y_METODOLOGIA.md): Concepto *"Raíces y Rumbos"*, cuestionario de entrevistas en 5 bloques, marcas de veracidad (✔ Hecho, 💬 Opinión, 📜 Contexto), contrapuntos y cartas al futuro.
+3. 📖 [**Investigación Narrativa, Literaria y Metodología**](file:///Users/matiaschababo/Desktop/Antigravity%20projects/Arbol%20Familiar/docs/INVESTIGACION_NARRATIVA_Y_METODOLOGIA.md): Concepto *"Dinastía Familiar"*, cuestionario de entrevistas en 5 bloques, marcas de veracidad (✔ Hecho, 💬 Opinión, 📜 Contexto), contrapuntos y cartas al futuro.
 4. 🎨 [**Especificación de Producto y Experiencia UX/UI**](file:///Users/matiaschababo/Desktop/Antigravity%20projects/Arbol%20Familiar/docs/ESPECIFICACION_PRODUCTO_UX_UI.md): Specs del Infinite Canvas, nodos de persona/unión, feed social de recuerdos, timeline síncrona y mapa migratorio.
 5. 🛠️ [**Auditoría Técnica y Arquitectura de Software**](file:///Users/matiaschababo/Desktop/Antigravity%20projects/Arbol%20Familiar/docs/AUDITORIA_TECNICA_Y_ARQUITECTURA.md): Estado del prototipo en `/app`, modelo de entidades en TypeScript, Auto-Layout con `@dagrejs/dagre`, y sincronización con Firebase Cloud Firestore.
 6. 📝 [**Especificación Original del Proyecto (`Arbol familiar, proyecto.md`)**](file:///Users/matiaschababo/Desktop/Antigravity%20projects/Arbol%20Familiar/Arbol%20familiar,%20proyecto.md): Ideas del fundador y visión del legado.

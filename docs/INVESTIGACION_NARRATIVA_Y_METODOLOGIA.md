@@ -1,18 +1,18 @@
 # 📖 Informe Metodológico: Dimensión Narrativa, Literaria y Sistema de Veracidad
 
-> **Proyecto**: Raíces y Rumbos  
+> **Proyecto**: Dinastía Familiar  
 > **Fecha**: Agosto 2026  
 > **Autor**: Agente de Investigación de Narrativa & Metodología  
 
 ---
 
-## 1. Concepto Narrativo "Raíces y Rumbos"
+## 1. Concepto Narrativo "Dinastía Familiar"
 
 ### Premisa Filosófica
 > *"Quien no conoce su historia está condenado a repetirla"*  
 > *"Alguien muere cuando se le olvida"*
 
-**Raíces y Rumbos** se estructura como un **manual de identidad y crónica viva familiar**. Su propósito es rescatar no solo fechas, sino voces, actitudes ante las crisis, costumbres y principios éticos.
+**Dinastía Familiar** se estructura como un **manual de identidad y crónica viva familiar**. Su propósito es rescatar no solo fechas, sino voces, actitudes ante las crisis, costumbres y principios éticos.
 
 ### Estructura en 4 Bloques Literarios
 

@@ -125,7 +125,7 @@ Perfecto, lo voy a desarrollar como si estuviera esbozando **la primera página 
 
 ## **Título tentativo**
 
-* **"Raíces y Rumbos"**  
+* **"Dinastía Familiar"**  
    (Porque no se trata solo de dónde venimos, sino de hacia dónde podemos ir)
 
 Alternativas más íntimas:
@@ -203,7 +203,7 @@ Perfecto, vamos a bajarlo a un **plan operativo en fases** para que en 1 año te
 
 ---
 
-## **Plan Operativo – “Raíces y Rumbos”**
+## **Plan Operativo – “Dinastía Familiar”**
 
 ### **FASE 1 – Fundamento y Alcance *(Semana 1 a 2\)***
 
@@ -519,7 +519,7 @@ Perfecto, te voy a dejar la plantilla lista para que puedas usarla tanto en pape
 
 ---
 
-# **📄 Plantilla de Entrevista – Proyecto “Raíces y Rumbos”**
+# **📄 Plantilla de Entrevista – Proyecto “Dinastía Familiar”**
 
 **Entrevistado/a:** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_  
  **Fecha de entrevista:** **/**/\_\_\_\_  
@@ -678,7 +678,7 @@ Yo no puedo crearte el archivo directamente en tu Google Drive, pero sí puedo p
 
 ---
 
-# **Documento: Plantilla de Entrevista – Proyecto “Raíces y Rumbos”**
+# **Documento: Plantilla de Entrevista – Proyecto “Dinastía Familiar”**
 
 ---
 

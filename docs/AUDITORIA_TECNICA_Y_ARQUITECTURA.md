@@ -1,6 +1,6 @@
 # 🛠️ Auditoría Técnica y Arquitectura de Software
 
-> **Proyecto**: Raíces y Rumbos  
+> **Proyecto**: Dinastía Familiar  
 > **Fecha**: Agosto 2026  
 > **Autor**: Agente Auditor & Arquitecto de Software  
 

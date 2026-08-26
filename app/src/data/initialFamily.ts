@@ -1302,7 +1302,7 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 3,
     branch: 'Chababo',
     tags: ['Gen 3', 'Rama Chababo', 'Creador'],
-    bioSummary: 'Creador de la plataforma "Raíces y Rumbos".',
+    bioSummary: 'Creador de la plataforma "Dinastía Familiar".',
     valuesAndTeachings: [
       'Alguien muere cuando se le olvida. La historia es el mapa de nuestro futuro.'
     ]
@@ -2183,29 +2183,4 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   }
 ];
 
-export const INITIAL_MEMORIES: MemoryPost[] = [
-  {
-    id: 'mem-1',
-    personId: 'moises',
-    personName: 'Moisés Chababo',
-    authorName: 'Jorge Chababo',
-    content: 'Me acuerdo de cuando el abuelo Moisés nos llevaba a la plaza los domingos a la tarde. Siempre decía que el trabajo honrado era la única forma de caminar con la frente en alto.',
-    type: 'FACT',
-    privacy: 'PUBLIC',
-    createdAt: 'Hace 2 horas',
-    likes: 5,
-    tags: ['TrabajoDuro', 'RecuerdosDeInfancia']
-  },
-  {
-    id: 'mem-2',
-    personId: 'zoraida',
-    personName: 'Zoraida Bolbol',
-    authorName: 'Matías Chababo',
-    content: 'Encontré la receta original escrita a mano del kibbeh y los niños envueltos de la abuela Zoraida. Cada hoja huele a historia y domingos en familia.',
-    type: 'ANECDOTA',
-    privacy: 'PUBLIC',
-    createdAt: 'Ayer',
-    likes: 8,
-    tags: ['RecetasTradicionales', 'LegadoCulinario']
-  }
-];
+export const INITIAL_MEMORIES: MemoryPost[] = [];

@@ -4,17 +4,21 @@ import {
   LayoutGrid, 
   MessageSquareText, 
   Search, 
-  Settings, 
   Bell, 
   X, 
   Target, 
   Menu, 
   History, 
   Check, 
-  SlidersHorizontal,
-  RotateCcw
+  SlidersHorizontal, 
+  RotateCcw, 
+  User, 
+  Edit3,
+  HelpCircle
 } from 'lucide-react';
 import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
+import { useFamilyUser } from '../context/FamilyUserContext';
+import { InteractiveTourModal } from './InteractiveTourModal';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -36,6 +40,8 @@ interface AppLayoutProps {
   onResetFilters?: () => void;
   viewDensity?: 'compact' | 'detailed';
   setViewDensity?: (density: 'compact' | 'detailed') => void;
+  onOpenGuide?: () => void;
+  onOpenWhyModal?: () => void;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
@@ -58,11 +64,17 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   onResetFilters,
   viewDensity = 'detailed',
   setViewDensity,
+  onOpenGuide,
+  onOpenWhyModal,
 }) => {
+  const { authorName, authorRole, isAuthorSet, isAdmin, openNameModal } = useFamilyUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [isTourOpen, setIsTourOpen] = useState(() => {
+    return !localStorage.getItem('dinastia_tour_seen');
+  });
   const searchInputRef = useRef<HTMLInputElement>(null);
   const mobileSearchInputRef = useRef<HTMLInputElement>(null);
 
@@ -218,7 +230,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
               <Sparkles size={18} />
             </div>
             <div>
-              <h1 className="m-0 text-sm font-bold text-white tracking-tight">Raíces y Rumbos</h1>
+              <h1 className="m-0 text-sm font-bold text-white tracking-tight">DINASTÍA FAMILIAR</h1>
               <p className="m-0 text-[10px] text-slate-400 font-medium">Legado Familiar</p>
             </div>
           </div>
@@ -326,10 +338,62 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           </div>
         </nav>
 
-        <div className="p-3 border-t border-slate-800 flex flex-col gap-1">
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-medium text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-colors">
-            <Settings size={16} />
-            <span>Configuración</span>
+        <div className="p-3 border-t border-slate-800 flex flex-col gap-2">
+          {/* Recorrido con Matías Guide Button */}
+          <button
+            onClick={() => {
+              if (onOpenGuide) onOpenGuide();
+              else setIsTourOpen(true);
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-orange-400 bg-orange-950/40 hover:bg-orange-900/50 border border-orange-800/40 transition-colors cursor-pointer"
+          >
+            <Sparkles size={15} className="text-orange-400 animate-pulse" />
+            <span>Recorrido con Matías</span>
+          </button>
+
+          {/* Why I Created This App Carta de Matías */}
+          {onOpenWhyModal && (
+            <button
+              onClick={() => {
+                onOpenWhyModal();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 transition-colors cursor-pointer"
+            >
+              <HelpCircle size={15} className="text-amber-400" />
+              <span>¿Por qué creé esta app?</span>
+            </button>
+          )}
+
+          <button
+            onClick={() => {
+              openNameModal();
+              setIsMobileMenuOpen(false);
+            }}
+            className={`w-full flex items-center justify-between p-2 rounded-xl text-slate-200 transition-all border cursor-pointer group text-left ${
+              isAdmin 
+                ? 'bg-gradient-to-r from-amber-950/40 via-slate-800 to-amber-950/30 border-amber-500/40 hover:border-amber-400/70 shadow-sm' 
+                : 'bg-slate-800/80 hover:bg-slate-800 border-slate-700/60'
+            }`}
+            title="Toca para definir o cambiar tu nombre y rol"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className={`w-7 h-7 rounded-lg text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-xs ${
+                isAdmin ? 'bg-gradient-to-tr from-amber-600 to-orange-500 ring-1 ring-amber-400/60' : 'bg-orange-600'
+              }`}>
+                {isAdmin ? '👑' : authorName ? authorName.charAt(0).toUpperCase() : <User size={14} />}
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-bold text-white truncate flex items-center gap-1">
+                  {authorName || 'Identifícate'}
+                </span>
+                <span className={`text-[10px] truncate ${isAdmin ? 'text-amber-400 font-semibold' : 'text-slate-400'}`}>
+                  {isAdmin ? '👑 Administrador Principal' : authorRole || (authorName ? 'Aportando recuerdos' : 'Toca para poner tu nombre')}
+                </span>
+              </div>
+            </div>
+            <Edit3 size={13} className="text-slate-400 group-hover:text-orange-400 shrink-0 ml-1 transition-colors" />
           </button>
         </div>
       </aside>
@@ -610,10 +674,35 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
               )}
             </div>
 
-            {/* Avatar */}
-            <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center text-xs font-bold border border-orange-200 shadow-2xs">
-              MC
-            </div>
+            {/* Contributor Identity Chip */}
+            <button
+              onClick={() => openNameModal()}
+              className={`flex items-center gap-2 pl-1.5 pr-2.5 sm:pr-3 py-1 rounded-full transition-all cursor-pointer group shadow-2xs border ${
+                isAdmin
+                  ? 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/40 border-amber-300 hover:border-amber-400 dark:border-amber-700'
+                  : 'bg-slate-100 hover:bg-orange-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-200 hover:border-orange-200 dark:border-slate-700'
+              }`}
+              title={isAdmin ? '👑 Matías Chababo (Administrador Principal)' : 'Toca para definir o cambiar tu nombre de autor'}
+            >
+              <div className={`w-7 h-7 rounded-full text-white flex items-center justify-center text-xs font-bold shrink-0 shadow-2xs ${
+                isAdmin ? 'bg-gradient-to-tr from-amber-600 to-orange-500 ring-1 ring-amber-400' : 'bg-orange-600'
+              }`}>
+                {isAdmin ? '👑' : authorName ? authorName.charAt(0).toUpperCase() : <User size={13} />}
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-100 group-hover:text-orange-700 max-w-[90px] sm:max-w-[150px] truncate leading-tight flex items-center gap-1">
+                  {authorName || 'Tu Nombre'}
+                </span>
+                <span className={`text-[10px] max-w-[90px] sm:max-w-[150px] truncate leading-none ${
+                  isAdmin ? 'text-amber-700 dark:text-amber-400 font-bold' : 'text-slate-400 group-hover:text-slate-500'
+                }`}>
+                  {isAdmin ? '👑 Admin Principal' : authorRole || (isAuthorSet ? 'Familiar' : 'Identifícate')}
+                </span>
+              </div>
+              <Edit3 size={11} className={`shrink-0 opacity-60 group-hover:opacity-100 transition-opacity hidden sm:inline-block ${
+                isAdmin ? 'text-amber-600' : 'text-slate-400 group-hover:text-orange-600'
+              }`} />
+            </button>
           </div>
         </header>
 
@@ -622,6 +711,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           {children}
         </div>
       </main>
+
+      {/* Interactive Onboarding Tour Modal */}
+      <InteractiveTourModal isOpen={isTourOpen} onClose={() => setIsTourOpen(false)} />
     </div>
   );
 };

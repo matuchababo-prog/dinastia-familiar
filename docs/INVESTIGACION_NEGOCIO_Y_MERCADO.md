@@ -1,6 +1,6 @@
 # 📊 Informe Estratégico: Mercado, Competencia y Monetización
 
-> **Proyecto**: Raíces y Rumbos / Árbol Genealógico Interactivo  
+> **Proyecto**: Dinastía Familiar / Árbol Genealógico Interactivo  
 > **Fecha**: Agosto 2026  
 > **Autor**: Agente de Investigación de Mercado & Negocio  
 
@@ -61,7 +61,7 @@ Mientras la competencia vende *archivos documentales fríos* (Ancestry) o *libro
 
 ### B. Impresión bajo Demanda (POD - Print on Demand)
 *(Margen bruto objetivo: 55% – 65%)*
-1. **Libro Hardcover de Memorias "Raíces y Rumbos":** Tapa dura con **códigos QR impresos** para escuchar los audios reales de las voces familiares. **PVP: $89 – $149 USD** (Costo POD: ~$25–$35 USD).
+1. **Libro Hardcover de Memorias "Dinastía Familiar":** Tapa dura con **códigos QR impresos** para escuchar los audios reales de las voces familiares. **PVP: $89 – $149 USD** (Costo POD: ~$25–$35 USD).
 2. **Póster Mural de Árbol Genealógico Artístico:** Impresión de alta definición. **PVP: $39 – $79 USD**.
 3. **Kits Físicos de Entrevista / Cartas de Preguntas:** **PVP: $29 – $49 USD**.
 

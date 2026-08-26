@@ -1,6 +1,6 @@
 # 🎨 Especificación de Producto y Experiencia UX/UI
 
-> **Proyecto**: Raíces y Rumbos  
+> **Proyecto**: Dinastía Familiar  
 > **Fecha**: Agosto 2026  
 > **Autor**: Agente Diseñador de Producto & UX/UI  
 

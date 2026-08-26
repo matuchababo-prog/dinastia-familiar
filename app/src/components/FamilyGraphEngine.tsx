@@ -19,6 +19,9 @@ import { UnionNode } from './UnionNode';
 import { BranchGroupNode } from './BranchGroupNode';
 import { ProfileSheet } from './ProfileSheet';
 import { MemoryFeed } from './MemoryFeed';
+import { MemoryMissionBanner } from './MemoryMissionBanner';
+import { MatiasInteractiveGuide } from './MatiasInteractiveGuide';
+import { WhyICreatedThisModal } from './WhyICreatedThisModal';
 import { AppLayout } from './AppLayout';
 import type { Person, FamilyUnion, MemoryPost } from '../types/family';
 import { buildGraphFromData, BRANCH_COLORS } from '../utils/layout';
@@ -50,7 +53,7 @@ const AutoFitView: React.FC<{ filterKey: string; nodeCount: number }> = ({ filte
 };
 
 const FamilyGraphContent: React.FC = () => {
-  const { getViewport, setViewport, fitView } = useReactFlow();
+  const { getViewport, setViewport, fitView, setCenter } = useReactFlow();
 
   const [persons, setPersons] = useState<Person[]>(INITIAL_PERSONS);
   const [unions, setUnions] = useState<FamilyUnion[]>(INITIAL_UNIONS);
@@ -67,8 +70,35 @@ const FamilyGraphContent: React.FC = () => {
   const [focalPersonId, setFocalPersonId] = useState<string | null>(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [viewDensity, setViewDensity] = useState<'compact' | 'detailed'>('detailed');
-  const [feedInitialPrompt, setFeedInitialPrompt] = useState<string>('');
-  const [feedInitialPersonName, setFeedInitialPersonName] = useState<string>('');
+
+  const [isMatiasGuideOpen, setIsMatiasGuideOpen] = useState(() => {
+    return !localStorage.getItem('dinastia_matias_tour_completed');
+  });
+  const [isWhyModalOpen, setIsWhyModalOpen] = useState(false);
+
+  const handleFocusFromGuide = (personId: string) => {
+    const targetNode = nodes.find(n => n.id === personId);
+    if (targetNode) {
+      setCenter(targetNode.position.x + 120, targetNode.position.y + 60, { zoom: 1.05, duration: 600 });
+    }
+  };
+
+  const handleFocusBranch = (branch: string) => {
+    setSelectedBranch(branch);
+    const branchNodes = nodes.filter(n => n.type === 'person' && (n.data as any).branch === branch);
+    if (branchNodes.length > 0) {
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      branchNodes.forEach(n => {
+        minX = Math.min(minX, n.position.x);
+        maxX = Math.max(maxX, n.position.x + 250);
+        minY = Math.min(minY, n.position.y);
+        maxY = Math.max(maxY, n.position.y + 120);
+      });
+      const centerX = (minX + maxX) / 2;
+      const centerY = (minY + maxY) / 2;
+      setCenter(centerX, centerY, { zoom: 0.7, duration: 600 });
+    }
+  };
 
   // Realtime Cloud Persistence Subscriptions
   useEffect(() => {
@@ -231,6 +261,10 @@ const FamilyGraphContent: React.FC = () => {
     await saveMemoryToCloud(newPost);
   };
 
+  const handleDeleteMemory = (memoryId: string) => {
+    setMemories((prev) => prev.filter((m) => m.id !== memoryId));
+  };
+
   const handleResetFilters = useCallback(() => {
     setSelectedBranch('all');
     setSelectedGeneration('all');
@@ -311,6 +345,8 @@ const FamilyGraphContent: React.FC = () => {
       onResetFilters={handleResetFilters}
       viewDensity={viewDensity}
       setViewDensity={setViewDensity}
+      onOpenGuide={() => setIsMatiasGuideOpen(true)}
+      onOpenWhyModal={() => setIsWhyModalOpen(true)}
     >
       <div className="w-full h-full relative">
         {activeView === 'canvas' ? (
@@ -404,6 +440,12 @@ const FamilyGraphContent: React.FC = () => {
               <AutoFitView filterKey={filterKey} nodeCount={nodes.length} />
             </ReactFlow>
 
+            {/* Interactive Memory Mission Floating Widget */}
+            <MemoryMissionBanner 
+              persons={persons} 
+              onSelectPerson={(person: Person) => setSelectedPerson(person)} 
+            />
+
             {/* Empty State Overlay */}
             {hasActiveFilter && matchedPersonIds.size === 0 && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50/90 backdrop-blur-sm z-30 p-6 text-center pointer-events-none">
@@ -429,8 +471,7 @@ const FamilyGraphContent: React.FC = () => {
             <MemoryFeed 
               memories={memories} 
               onAddMemory={handleAddMemory}
-              initialPrompt={feedInitialPrompt}
-              initialPersonName={feedInitialPersonName}
+              onDeleteMemory={handleDeleteMemory}
             />
           </div>
         )}
@@ -444,12 +485,25 @@ const FamilyGraphContent: React.FC = () => {
             setSelectedPerson(null);
           }}
           isFocal={selectedPerson?.id === focalPersonId}
-          onNavigateToFeed={(prompt, personName) => {
-            if (prompt) setFeedInitialPrompt(prompt);
-            if (personName) setFeedInitialPersonName(personName);
-            setActiveView('feed');
-            setSelectedPerson(null);
-          }}
+          persons={persons}
+          unions={unions}
+        />
+
+        {/* Game-style Guided Tour with Matías Cibernético */}
+        <MatiasInteractiveGuide
+          isOpen={isMatiasGuideOpen}
+          onClose={() => setIsMatiasGuideOpen(false)}
+          persons={persons}
+          unions={unions}
+          onFocusPerson={handleFocusFromGuide}
+          onFocusBranch={handleFocusBranch}
+          onOpenWhyModal={() => setIsWhyModalOpen(true)}
+        />
+
+        {/* Why I Created This App - Carta de Matías Chababo */}
+        <WhyICreatedThisModal
+          isOpen={isWhyModalOpen}
+          onClose={() => setIsWhyModalOpen(false)}
         />
       </div>
     </AppLayout>

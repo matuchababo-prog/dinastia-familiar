@@ -63,45 +63,55 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ title, duration, trans
   const waveformHeights = [35, 65, 30, 85, 55, 80, 45, 95, 70, 50, 85, 60, 40, 90, 65, 35, 75, 45];
 
   return (
-    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 flex flex-col gap-3.5 transition-all hover:border-amber-500/35 hover:shadow-md">
+    <div className="bg-amber-500/10 border-2 border-amber-500/30 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 transition-all hover:border-amber-500/50 hover:shadow-md">
       {audioUrl && <audio ref={audioRef} src={audioUrl} preload="metadata" />}
       
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3.5 flex-1 min-w-0">
           <button
             onClick={togglePlay}
             disabled={!audioUrl}
             aria-label={isPlaying ? `Pausar grabación ${title}` : `Reproducir grabación ${title}`}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+            className={`px-4 py-2.5 rounded-2xl flex items-center gap-2 font-bold text-xs sm:text-sm transition-all shrink-0 ${
               audioUrl 
-                ? 'bg-orange-600 hover:bg-orange-700 text-white shadow-md hover:scale-105 active:scale-95 cursor-pointer' 
+                ? 'bg-orange-600 hover:bg-orange-700 text-white shadow-md hover:scale-102 active:scale-98 cursor-pointer' 
                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
             }`}
           >
-            {isPlaying ? <Pause size={18} /> : <Play size={18} className="ml-0.5" />}
+            {isPlaying ? (
+              <>
+                <Pause size={18} />
+                <span>Pausar Voz</span>
+              </>
+            ) : (
+              <>
+                <Play size={18} />
+                <span>Escuchar Voz</span>
+              </>
+            )}
           </button>
 
-          <div>
-            <h4 className="m-0 text-sm font-bold text-slate-800 leading-tight">{title}</h4>
-            <div className="text-[11px] text-slate-500 flex items-center gap-2 mt-0.5">
-              <span className="flex items-center gap-1 font-semibold text-amber-700">
-                <Mic size={11} /> Grabación de voz
+          <div className="truncate">
+            <h4 className="m-0 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 truncate">{title}</h4>
+            <div className="text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+              <span className="flex items-center gap-1 font-bold text-amber-700 dark:text-amber-400">
+                <Mic size={12} /> Grabación de voz
               </span>
               <span>·</span>
-              <span className="flex items-center gap-1">
-                <Clock size={10} /> {isPlaying ? `${currentTimeFormatted} / ${duration}` : duration}
+              <span className="flex items-center gap-1 font-semibold">
+                <Clock size={11} /> {isPlaying ? `${currentTimeFormatted} / ${duration}` : duration}
               </span>
             </div>
           </div>
         </div>
 
-        <Volume2 size={18} className="text-amber-600/70" />
+        <Volume2 size={22} className="text-amber-600/80 shrink-0" />
       </div>
 
       {/* Interactive Waveform Bar with Seek */}
       <div 
-        className="flex items-center gap-1 h-7 cursor-pointer group px-1 py-0.5 rounded-lg hover:bg-amber-500/5 transition-colors"
-        title="Haz clic para adelantar o retroceder"
+        className="flex items-center gap-1.5 h-8 cursor-pointer group px-1 py-1 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition-colors"
+        title="Toca para adelantar o retroceder"
       >
         {waveformHeights.map((h, idx) => {
           const barProgress = (idx / waveformHeights.length) * 100;
@@ -115,9 +125,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ title, duration, trans
               aria-label={`Saltar a ${(idx / waveformHeights.length * 100).toFixed(0)}% del audio`}
             >
               <span
-                style={{ height: `${h}%` }}
-                className={`w-full rounded-full transition-all duration-150 group-hover:opacity-90 ${
-                  isActive ? 'bg-orange-600 shadow-2xs' : 'bg-amber-500/30'
+                style={{ height: `${Math.max(h, 20)}%` }}
+                className={`w-full rounded-full transition-all duration-150 ${
+                  isActive ? 'bg-orange-600 shadow-xs' : 'bg-amber-500/35'
                 }`}
               />
             </button>
@@ -126,7 +136,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ title, duration, trans
       </div>
 
       {/* Transcription Quote */}
-      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xs border border-amber-500/15 p-2.5 rounded-xl text-xs italic text-slate-700 dark:text-slate-200 leading-relaxed shadow-2xs">
+      <div className="bg-white dark:bg-slate-800 border-2 border-amber-500/20 p-3.5 rounded-2xl text-xs sm:text-sm italic text-slate-800 dark:text-slate-200 leading-relaxed shadow-2xs">
         "{transcript}"
       </div>
     </div>

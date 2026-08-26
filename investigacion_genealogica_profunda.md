@@ -1,4 +1,4 @@
-# 🔬 Deep Research: "Raíces y Rumbos"
+# 🔬 Deep Research: "Dinastía Familiar"
 
 Este documento compila la investigación ultra profunda realizada por 4 agentes autónomos enfocados en genealogía y contexto histórico. Aborda los orígenes etimológicos, datos históricos, movimientos migratorios y el contexto sociocultural de tu historia familiar.
 

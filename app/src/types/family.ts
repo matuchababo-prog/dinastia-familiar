@@ -5,6 +5,8 @@ export interface FactItem {
   type: FactType;
   content: string;
   source?: string;
+  authorName?: string;
+  createdAt?: string;
 }
 
 export interface CounterpointItem {
@@ -32,7 +34,12 @@ export interface Person extends Record<string, unknown> {
   facts?: FactItem[];
   counterpoints?: CounterpointItem[];
   valuesAndTeachings?: string[];
-  audioRecordings?: { id: string; title: string; duration: string; audioUrl: string; transcript: string }[];
+  audioRecordings?: { id: string; title: string; duration: string; audioUrl: string; transcript: string; authorName?: string }[];
+  lastEditedBy?: string;
+  lastEditedAt?: string;
+  hasVisited?: boolean;
+  lastVisitedAt?: string;
+  visitCount?: number;
 }
 
 export interface FamilyUnion extends Record<string, unknown> {
