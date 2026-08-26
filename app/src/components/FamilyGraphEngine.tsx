@@ -22,11 +22,22 @@ import { MemoryFeed } from './MemoryFeed';
 import { MemoryMissionBanner } from './MemoryMissionBanner';
 import { MatiasInteractiveGuide } from './MatiasInteractiveGuide';
 import { WhyICreatedThisModal } from './WhyICreatedThisModal';
+import { FamilyMetricsView } from './FamilyMetricsView';
+import { GamificationModal } from './GamificationModal';
+import { FamilyVisitorsModal } from './FamilyVisitorsModal';
 import { AppLayout } from './AppLayout';
 import type { Person, FamilyUnion, MemoryPost } from '../types/family';
+import type { VisitorRecord, UserGamificationState } from '../types/gamification';
 import { buildGraphFromData, BRANCH_COLORS } from '../utils/layout';
 import { getFocalPersonSubgraph, getBranchSubgraph } from '../utils/focalGraph';
-import { subscribeToPersons, subscribeToUnions, subscribeToMemories, saveMemoryToCloud } from '../services/familyService';
+import { 
+  subscribeToPersons, 
+  subscribeToUnions, 
+  subscribeToMemories, 
+  subscribeToVisitors,
+  saveMemoryToCloud 
+} from '../services/familyService';
+import { getUserGamificationState } from '../services/gamificationService';
 
 import { INITIAL_PERSONS, INITIAL_UNIONS, INITIAL_MEMORIES } from '../data/initialFamily';
 
@@ -58,13 +69,14 @@ const FamilyGraphContent: React.FC = () => {
   const [persons, setPersons] = useState<Person[]>(INITIAL_PERSONS);
   const [unions, setUnions] = useState<FamilyUnion[]>(INITIAL_UNIONS);
   const [memories, setMemories] = useState<MemoryPost[]>(INITIAL_MEMORIES);
+  const [visitors, setVisitors] = useState<VisitorRecord[]>([]);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeView, setActiveView] = useState<'canvas' | 'feed'>('canvas');
+  const [activeView, setActiveView] = useState<'canvas' | 'feed' | 'metrics'>('canvas');
   const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [selectedGeneration, setSelectedGeneration] = useState<string>('all');
   const [focalPersonId, setFocalPersonId] = useState<string | null>(null);
@@ -75,6 +87,9 @@ const FamilyGraphContent: React.FC = () => {
     return !localStorage.getItem('dinastia_matias_tour_completed');
   });
   const [isWhyModalOpen, setIsWhyModalOpen] = useState(false);
+  const [isGamificationOpen, setIsGamificationOpen] = useState(false);
+  const [isVisitorsModalOpen, setIsVisitorsModalOpen] = useState(false);
+  const [gamificationState, setGamificationState] = useState<UserGamificationState>(getUserGamificationState);
 
   const handleFocusFromGuide = (personId: string) => {
     const targetNode = nodes.find(n => n.id === personId);
@@ -105,13 +120,20 @@ const FamilyGraphContent: React.FC = () => {
     const unsubPersons = subscribeToPersons(setPersons);
     const unsubUnions = subscribeToUnions(setUnions);
     const unsubMemories = subscribeToMemories(setMemories);
+    const unsubVisitors = subscribeToVisitors(setVisitors);
 
     return () => {
       unsubPersons();
       unsubUnions();
       unsubMemories();
+      unsubVisitors();
     };
   }, []);
+
+  // Update gamification state on focus / interactions
+  useEffect(() => {
+    setGamificationState(getUserGamificationState());
+  }, [isGamificationOpen, selectedPerson, activeView]);
 
   const availableBranches = useMemo(() => {
     const branches = new Set<string>();
@@ -186,7 +208,7 @@ const FamilyGraphContent: React.FC = () => {
     return { matchedPersonIds: matchedIds, matchedUnionIds: mUnions };
   }, [persons, unions, searchQuery, selectedBranch, selectedGeneration, focalPersonId]);
 
-  // Compute Layout for the FULL tree, but apply isDimmed and viewDensity to nodes
+  // Compute Layout for the FULL tree, but apply isDimmed, viewDensity and visitorInfo to nodes
   useEffect(() => {
     if (persons.length === 0) {
       setNodes([]);
@@ -197,7 +219,7 @@ const FamilyGraphContent: React.FC = () => {
     
     const hasActiveFilter = selectedBranch !== 'all' || selectedGeneration !== 'all' || searchQuery.trim() !== '' || focalPersonId !== null;
 
-    // Apply ghosting (dimming) & viewDensity
+    // Apply ghosting (dimming), viewDensity & visitorInfo
     const processedNodes = layoutedNodes.map(node => {
       let isDimmed = false;
       if (hasActiveFilter) {
@@ -207,12 +229,21 @@ const FamilyGraphContent: React.FC = () => {
           isDimmed = !matchedUnionIds.has(node.id);
         }
       }
+
+      let visitorInfo: VisitorRecord | undefined;
+      if (node.type === 'person') {
+        const nodePersonName = (node.data as any)?.name?.toLowerCase();
+        visitorInfo = visitors.find(v => v.personId === node.id || (nodePersonName && v.name.toLowerCase() === nodePersonName));
+      }
+
       return {
         ...node,
         data: {
           ...node.data,
           isDimmed,
           viewDensity,
+          visitorInfo,
+          hasVisited: !!visitorInfo,
         }
       };
     });
@@ -221,7 +252,6 @@ const FamilyGraphContent: React.FC = () => {
     const processedEdges = layoutedEdges.map(edge => {
       let isDimmed = false;
       if (hasActiveFilter) {
-        // Find if source or target is dimmed
         const sourceNode = processedNodes.find(n => n.id === edge.source);
         const targetNode = processedNodes.find(n => n.id === edge.target);
         if (sourceNode?.data.isDimmed || targetNode?.data.isDimmed) {
@@ -245,7 +275,7 @@ const FamilyGraphContent: React.FC = () => {
 
     setNodes(processedNodes);
     setEdges(processedEdges);
-  }, [persons, unions, matchedPersonIds, matchedUnionIds, setNodes, setEdges, selectedBranch, selectedGeneration, searchQuery, focalPersonId, viewDensity]);
+  }, [persons, unions, matchedPersonIds, matchedUnionIds, visitors, setNodes, setEdges, selectedBranch, selectedGeneration, searchQuery, focalPersonId, viewDensity]);
 
   const onNodeClick = useCallback(
     (_: React.MouseEvent, node: Node) => {
@@ -294,16 +324,12 @@ const FamilyGraphContent: React.FC = () => {
     const viewportWidth = container ? container.clientWidth : window.innerWidth - 256;
 
     const treeHeight = Math.max(100, maxY - minY);
-    const paddingY = 110; // 55px top, 55px bottom for comfortable breathing room
+    const paddingY = 110;
     const availableHeight = Math.max(100, viewportHeight - paddingY);
 
-    // Zoom that fits all generations vertically
     const targetZoom = Math.min(1.0, Math.max(0.15, availableHeight / treeHeight));
-
-    // Vertical position to center tree vertically
     const targetY = (viewportHeight - treeHeight * targetZoom) / 2 - minY * targetZoom;
 
-    // Horizontal position: preserve user's horizontal focus
     const currentViewport = getViewport();
     let targetX: number;
 
@@ -347,6 +373,11 @@ const FamilyGraphContent: React.FC = () => {
       setViewDensity={setViewDensity}
       onOpenGuide={() => setIsMatiasGuideOpen(true)}
       onOpenWhyModal={() => setIsWhyModalOpen(true)}
+      visitorsCount={visitors.length}
+      onOpenVisitors={() => setIsVisitorsModalOpen(true)}
+      onOpenGamification={() => setIsGamificationOpen(true)}
+      userLevel={gamificationState.level}
+      userXp={gamificationState.xp}
     >
       <div className="w-full h-full relative">
         {activeView === 'canvas' ? (
@@ -384,6 +415,7 @@ const FamilyGraphContent: React.FC = () => {
                     if (n.type === 'person') {
                       const data = n.data as any;
                       if (data.isFocal) return '#ea580c';
+                      if (data.hasVisited) return '#10b981';
                       if (data.branch && BRANCH_COLORS[data.branch]) {
                         return BRANCH_COLORS[data.branch].stroke;
                       }
@@ -466,7 +498,7 @@ const FamilyGraphContent: React.FC = () => {
               </div>
             )}
           </>
-        ) : (
+        ) : activeView === 'feed' ? (
           <div className="h-full overflow-y-auto bg-slate-50">
             <MemoryFeed 
               memories={memories} 
@@ -474,6 +506,24 @@ const FamilyGraphContent: React.FC = () => {
               onDeleteMemory={handleDeleteMemory}
             />
           </div>
+        ) : (
+          <FamilyMetricsView
+            persons={persons}
+            unions={unions}
+            memories={memories}
+            visitors={visitors}
+            onSelectPerson={(person: Person) => setSelectedPerson(person)}
+            onFilterBranch={(branch: string) => {
+              setSelectedBranch(branch);
+              setActiveView('canvas');
+            }}
+            onFilterGeneration={(gen: number) => {
+              setSelectedGeneration(String(gen));
+              setActiveView('canvas');
+            }}
+            onOpenGamification={() => setIsGamificationOpen(true)}
+            onOpenVisitors={() => setIsVisitorsModalOpen(true)}
+          />
         )}
 
         {/* Profile Drawer */}
@@ -487,6 +537,32 @@ const FamilyGraphContent: React.FC = () => {
           isFocal={selectedPerson?.id === focalPersonId}
           persons={persons}
           unions={unions}
+          visitors={visitors}
+        />
+
+        {/* Gamification, Badges & Trivia Modal */}
+        <GamificationModal
+          isOpen={isGamificationOpen}
+          onClose={() => setIsGamificationOpen(false)}
+          persons={persons}
+          unions={unions}
+          onSelectPerson={(person: Person) => setSelectedPerson(person)}
+        />
+
+        {/* Visitors "Quiénes ya lo vieron" Modal */}
+        <FamilyVisitorsModal
+          isOpen={isVisitorsModalOpen}
+          onClose={() => setIsVisitorsModalOpen(false)}
+          visitors={visitors}
+          persons={persons}
+          onFocusPerson={(id) => {
+            setFocalPersonId(id);
+            setActiveView('canvas');
+            const targetNode = nodes.find(n => n.id === id);
+            if (targetNode) {
+              setCenter(targetNode.position.x + 120, targetNode.position.y + 60, { zoom: 1.1, duration: 600 });
+            }
+          }}
         />
 
         {/* Game-style Guided Tour with Matías Cibernético */}
@@ -517,4 +593,3 @@ export const FamilyGraphEngine: React.FC = () => {
     </ReactFlowProvider>
   );
 };
-

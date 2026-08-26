@@ -3,11 +3,44 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { signInAnonymously } from 'firebase/auth';
 import { db, storage, auth } from '../firebase';
 import type { Person, FamilyUnion, MemoryPost, FactItem } from '../types/family';
+import type { VisitorRecord } from '../types/gamification';
 import { INITIAL_PERSONS, INITIAL_UNIONS } from '../data/initialFamily';
 
 const PERSONS_COLLECTION = 'persons';
 const UNIONS_COLLECTION = 'unions';
 const MEMORIES_COLLECTION = 'memories';
+const VISITORS_COLLECTION = 'visitors';
+
+const INITIAL_VISITORS: VisitorRecord[] = [
+  {
+    id: 'matias-chababo',
+    personId: 'matias-chababo',
+    name: 'Matías Chababo',
+    role: 'Administrador Principal & Creador',
+    branch: 'Chababo',
+    firstSeen: '2025-01-10',
+    lastSeen: 'Ahora mismo',
+    lastSeenTimestamp: Date.now(),
+    visitCount: 18,
+    level: 5,
+    xp: 650,
+    contributionsCount: 12,
+  },
+  {
+    id: 'elena-chababo',
+    personId: 'elena-chababo',
+    name: 'Elena Chababo',
+    role: 'Hija de León · Rama Chababo',
+    branch: 'Chababo',
+    firstSeen: '2025-02-01',
+    lastSeen: 'Ayer',
+    lastSeenTimestamp: Date.now() - 86400000,
+    visitCount: 7,
+    level: 3,
+    xp: 220,
+    contributionsCount: 4,
+  }
+];
 
 // Transparent background authentication so Firestore permissions succeed seamlessly
 export async function initAnonymousAuth(): Promise<void> {

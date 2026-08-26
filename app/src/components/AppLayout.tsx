@@ -14,7 +14,11 @@ import {
   RotateCcw, 
   User, 
   Edit3,
-  HelpCircle
+  HelpCircle,
+  TrendingUp,
+  Award,
+  UserCheck,
+  Eye
 } from 'lucide-react';
 import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
 import { useFamilyUser } from '../context/FamilyUserContext';
@@ -22,8 +26,8 @@ import { InteractiveTourModal } from './InteractiveTourModal';
 
 interface AppLayoutProps {
   children: React.ReactNode;
-  activeView: 'canvas' | 'feed';
-  setActiveView: (view: 'canvas' | 'feed') => void;
+  activeView: 'canvas' | 'feed' | 'metrics';
+  setActiveView: (view: 'canvas' | 'feed' | 'metrics') => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   memoriesCount: number;
@@ -42,6 +46,11 @@ interface AppLayoutProps {
   setViewDensity?: (density: 'compact' | 'detailed') => void;
   onOpenGuide?: () => void;
   onOpenWhyModal?: () => void;
+  visitorsCount?: number;
+  onOpenVisitors?: () => void;
+  onOpenGamification?: () => void;
+  userLevel?: number;
+  userXp?: number;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
@@ -66,6 +75,11 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   setViewDensity,
   onOpenGuide,
   onOpenWhyModal,
+  visitorsCount = 0,
+  onOpenVisitors,
+  onOpenGamification,
+  userLevel = 1,
+  userXp = 0,
 }) => {
   const { authorName, authorRole, isAuthorSet, isAdmin, openNameModal } = useFamilyUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -231,7 +245,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             </div>
             <div>
               <h1 className="m-0 text-sm font-bold text-white tracking-tight">DINASTÍA FAMILIAR</h1>
-              <p className="m-0 text-[10px] text-slate-400 font-medium">Legado Familiar</p>
+              <p className="m-0 text-[10px] text-slate-400 font-medium">Legado & Genealogía</p>
             </div>
           </div>
 
@@ -254,7 +268,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             }}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
               activeView === 'canvas'
-                ? 'bg-orange-600 text-white'
+                ? 'bg-orange-600 text-white shadow-sm'
                 : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
             }`}
           >
@@ -269,7 +283,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             }}
             className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
               activeView === 'feed'
-                ? 'bg-orange-600 text-white'
+                ? 'bg-orange-600 text-white shadow-sm'
                 : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
             }`}
           >
@@ -286,8 +300,65 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             )}
           </button>
 
+          {/* New Metrics View Tab */}
+          <button
+            onClick={() => {
+              setActiveView('metrics');
+              setIsMobileMenuOpen(false);
+            }}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors cursor-pointer ${
+              activeView === 'metrics'
+                ? 'bg-orange-600 text-white shadow-sm'
+                : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+            }`}
+          >
+            <TrendingUp size={18} />
+            <span>Métricas & Dinastía</span>
+          </button>
+
+          {/* Gamification & Visitors Quick Triggers in Sidebar */}
+          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-5 mb-2 px-3">
+            Comunidad & Juegos
+          </div>
+
+          {onOpenGamification && (
+            <button
+              onClick={() => {
+                onOpenGamification();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-amber-400 bg-amber-950/30 hover:bg-amber-900/40 border border-amber-800/40 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                <Award size={16} className="text-amber-400" />
+                <span>Logros & Trivia</span>
+              </div>
+              <span className="text-[10px] bg-amber-500/20 px-2 py-0.5 rounded-full font-black text-amber-300">
+                Nivel {userLevel}
+              </span>
+            </button>
+          )}
+
+          {onOpenVisitors && (
+            <button
+              onClick={() => {
+                onOpenVisitors();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-emerald-400 bg-emerald-950/30 hover:bg-emerald-900/40 border border-emerald-800/40 transition-colors cursor-pointer mt-1"
+            >
+              <div className="flex items-center gap-2">
+                <Eye size={16} className="text-emerald-400" />
+                <span>¿Quién ya lo vio?</span>
+              </div>
+              <span className="text-[10px] bg-emerald-500/20 px-2 py-0.5 rounded-full font-black text-emerald-300">
+                {visitorsCount}
+              </span>
+            </button>
+          )}
+
           {/* Ramas Familiares con sus colores distintivos */}
-          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-6 mb-2 px-3">
+          <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-5 mb-2 px-3">
             Ramas Familiares
           </div>
 
@@ -444,9 +515,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 
             <div className="flex items-center gap-1.5 truncate">
               <span className="text-slate-900 font-bold text-sm sm:text-base truncate">
-                {activeView === 'canvas' ? 'Árbol Familiar' : 'Recuerdos'}
+                {activeView === 'canvas' ? 'Árbol Familiar' : activeView === 'feed' ? 'Recuerdos' : 'Métricas'}
               </span>
-              {focalPersonId && (
+              {focalPersonId && activeView === 'canvas' && (
                 <span className="hidden sm:inline-flex items-center gap-1 text-[11px] bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full font-bold">
                   <Target size={11} /> {focalPersonName}
                   <button 
@@ -464,6 +535,31 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           {/* Right Header Actions */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             
+            {/* Visitors Pill Trigger */}
+            {onOpenVisitors && (
+              <button
+                onClick={onOpenVisitors}
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                title="Ver quiénes de la familia ya vieron el árbol"
+              >
+                <UserCheck size={13} className="text-emerald-600" />
+                <span>{visitorsCount} ya lo vieron</span>
+              </button>
+            )}
+
+            {/* Gamification Level Pill Trigger */}
+            {onOpenGamification && (
+              <button
+                onClick={onOpenGamification}
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/40 hover:from-amber-100 hover:to-orange-100 text-amber-900 dark:text-amber-300 border border-amber-200 dark:border-amber-800 text-xs font-bold transition-all cursor-pointer shadow-2xs"
+                title="Ver logros, misiones y jugar trivia"
+              >
+                <Award size={13} className="text-amber-600" />
+                <span className="hidden sm:inline">Nivel {userLevel}</span>
+                <span className="text-[10px] text-orange-700 dark:text-orange-400 font-extrabold">({userXp} XP)</span>
+              </button>
+            )}
+
             {/* Desktop Density & Filter Controls (>= lg) */}
             {activeView === 'canvas' && (
               <div className="hidden lg:flex items-center gap-2">
@@ -643,22 +739,22 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 
                     <div className="flex flex-col gap-2.5 text-xs">
                       <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/50 flex gap-2.5 items-start">
-                        <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center shrink-0 mt-0.5">
-                          <Sparkles size={12} />
-                        </div>
-                        <div className="flex-1">
-                          <p className="m-0 font-semibold text-slate-800 dark:text-slate-200">Árbol Optimizado para Móvil</p>
-                          <p className="m-0 text-[11px] text-slate-500 mt-0.5">Navegación táctil fluida, filtros móviles y diseño adaptable.</p>
-                        </div>
-                      </div>
-
-                      <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/50 flex gap-2.5 items-start">
                         <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
                           <Check size={12} />
                         </div>
                         <div className="flex-1">
-                          <p className="m-0 font-semibold text-slate-800 dark:text-slate-200">Sincronización en la Nube</p>
-                          <p className="m-0 text-[11px] text-slate-500 mt-0.5">Todos los datos respaldados en tiempo real.</p>
+                          <p className="m-0 font-semibold text-slate-800 dark:text-slate-200">Presencia Familiar en Vivo</p>
+                          <p className="m-0 text-[11px] text-slate-500 mt-0.5">{visitorsCount} familiares han visitado el árbol recientemente.</p>
+                        </div>
+                      </div>
+
+                      <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/50 flex gap-2.5 items-start">
+                        <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center shrink-0 mt-0.5">
+                          <Sparkles size={12} />
+                        </div>
+                        <div className="flex-1">
+                          <p className="m-0 font-semibold text-slate-800 dark:text-slate-200">Métricas & Gamificación</p>
+                          <p className="m-0 text-[11px] text-slate-500 mt-0.5">Explora el atlas de orígenes, responde trivias y gana medallas.</p>
                         </div>
                       </div>
                     </div>

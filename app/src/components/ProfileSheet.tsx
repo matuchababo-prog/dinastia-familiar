@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import type { Person, FactType, FamilyUnion } from '../types/family';
+import type { VisitorRecord } from '../types/gamification';
 import { AudioPlayer } from './AudioPlayer';
 import { 
   User, 
@@ -21,6 +22,7 @@ import {
   Trash2 
 } from 'lucide-react';
 import { uploadFileToCloud, savePersonToCloud, addFactToPerson, addValueToPerson, deleteFactFromPerson, deleteValueFromPerson } from '../services/familyService';
+import { recordExploredPerson, awardXp } from '../services/gamificationService';
 import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
 import { useFamilyUser } from '../context/FamilyUserContext';
 import { calculateKinshipBetween, getPersonalizedQuestionsForUser } from '../utils/kinship';
@@ -32,6 +34,7 @@ interface ProfileSheetProps {
   isFocal?: boolean;
   persons?: Person[];
   unions?: FamilyUnion[];
+  visitors?: VisitorRecord[];
 }
 
 export const ProfileSheet: React.FC<ProfileSheetProps> = ({ 
@@ -40,9 +43,10 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
   onFocusPerson, 
   isFocal,
   persons = [],
-  unions = []
+  unions = [],
+  visitors = []
 }) => {
-  const { authorName, isAdmin, ensureAuthorName } = useFamilyUser();
+  const { authorName, isAdmin, ensureAuthorName, linkPersonToUser, linkedPersonId } = useFamilyUser();
 
   const [activeTab, setActiveTab] = useState<'bio' | 'media' | 'counterpoints' | 'values'>('bio');
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
@@ -86,6 +90,9 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
       setIsAddingValue(false);
       setAnsweringQuestion(null);
       setAnswerText('');
+
+      // Award XP for exploring this family member
+      recordExploredPerson(person);
     }
   }, [person]);
 
@@ -105,6 +112,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         };
         await savePersonToCloud(updatedPerson);
         person.photoUrl = url;
+        awardXp(40, 'photo_keeper');
       } catch (err) {
         console.error('Photo upload failed:', err);
       } finally {
@@ -136,6 +144,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         };
         await savePersonToCloud(updatedPerson);
         person.audioRecordings = updatedPerson.audioRecordings;
+        awardXp(45, 'audio_listener');
       } catch (err) {
         console.error('Audio upload failed:', err);
       } finally {
@@ -163,6 +172,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         await savePersonToCloud(updatedPerson);
         Object.assign(person, updatedPerson);
         setIsEditingBio(false);
+        awardXp(30, 'wisdom_sharer');
       } catch (err) {
         console.error('Save bio failed:', err);
       } finally {
@@ -189,6 +199,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         setNewFactContent('');
         setNewFactSource('');
         setIsAddingFact(false);
+        awardXp(35, 'family_chronicler');
       } catch (err) {
         console.error('Add fact failed:', err);
       } finally {
@@ -208,6 +219,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
         Object.assign(person, updated);
         setNewValueDraft('');
         setIsAddingValue(false);
+        awardXp(25, 'wisdom_sharer');
       } catch (err) {
         console.error('Add value failed:', err);
       } finally {
@@ -390,6 +402,42 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
               <span>{isEditingBio ? 'Cancelar' : 'Editar Datos'}</span>
             </button>
           </div>
+
+          {/* Visitor Presence Status Card */}
+          {(() => {
+            const visitorData = visitors.find(v => v.personId === person.id || v.name.toLowerCase() === person.name.toLowerCase());
+            const hasVisited = !!visitorData || person.hasVisited;
+
+            if (hasVisited) {
+              return (
+                <div className="mt-3 p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200 font-bold flex items-center justify-between shadow-2xs">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>¡{person.name} ya exploró el árbol!</span>
+                  </div>
+                  <span className="text-[10px] bg-emerald-200/80 dark:bg-emerald-900/80 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-extrabold">
+                    👁️ {visitorData?.lastSeen || 'Visto'}
+                  </span>
+                </div>
+              );
+            }
+
+            if (!person.deathDate && !person.deathYear && linkedPersonId !== person.id && authorName.toLowerCase() !== person.name.toLowerCase()) {
+              return (
+                <div className="mt-3 p-2 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 flex items-center justify-between text-xs">
+                  <span className="text-slate-600 dark:text-slate-400 font-medium">¿Eres tú {person.name}?</span>
+                  <button
+                    onClick={() => linkPersonToUser(person.id, person.name, person.branch)}
+                    className="px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-bold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                  >
+                    Identificarme
+                  </button>
+                </div>
+              );
+            }
+
+            return null;
+          })()}
         </div>
 
         {/* Tabs Navigation */}

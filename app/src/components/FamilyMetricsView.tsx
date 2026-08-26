@@ -6,15 +6,11 @@ import {
   Users, 
   Sparkles, 
   MapPin, 
-  Calendar, 
   Heart, 
-  Mic, 
   Eye, 
   MessageSquare, 
   Award, 
   Layers, 
-  Flame, 
-  CheckCircle2, 
   TrendingUp, 
   Activity,
   UserCheck
@@ -37,7 +33,6 @@ export const FamilyMetricsView: React.FC<FamilyMetricsViewProps> = ({
   unions,
   memories,
   visitors,
-  onSelectPerson,
   onFilterBranch,
   onFilterGeneration,
   onOpenGamification,
@@ -55,7 +50,6 @@ export const FamilyMetricsView: React.FC<FamilyMetricsViewProps> = ({
   const personsWithPhoto = useMemo(() => persons.filter(p => !!p.photoUrl).length, [persons]);
   const personsWithBio = useMemo(() => persons.filter(p => !!p.bioSummary && p.bioSummary.trim().length > 10).length, [persons]);
   const personsWithFacts = useMemo(() => persons.filter(p => (p.facts && p.facts.length > 0) || (p.valuesAndTeachings && p.valuesAndTeachings.length > 0)).length, [persons]);
-  const personsWithAudio = useMemo(() => persons.filter(p => p.audioRecordings && p.audioRecordings.length > 0).length, [persons]);
 
   const photoPercent = totalPersons > 0 ? Math.round((personsWithPhoto / totalPersons) * 100) : 0;
   const bioPercent = totalPersons > 0 ? Math.round((personsWithBio / totalPersons) * 100) : 0;
