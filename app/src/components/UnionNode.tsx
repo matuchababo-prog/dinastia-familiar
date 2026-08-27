@@ -6,11 +6,11 @@ import type { FamilyUnion } from '../types/family';
 
 export type UnionNodeType = Node<FamilyUnion, 'union'>;
 
-export const UnionNode: React.FC<NodeProps<UnionNodeType>> = ({ data, isConnectable }) => {
+const UnionNodeComponent: React.FC<NodeProps<UnionNodeType>> = ({ data, isConnectable }) => {
   const isDimmed = (data as any).isDimmed;
   return (
     <div
-      className={`w-7 h-7 rounded-full flex items-center justify-center bg-white/95 backdrop-blur-md border border-rose-200/90 shadow-md text-rose-500 hover:scale-110 active:scale-95 hover:border-rose-400 hover:shadow-rose-200/40 transition-all duration-200 relative group cursor-pointer ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'}`}
+      className={`w-7 h-7 rounded-full flex items-center justify-center bg-white dark:bg-slate-900 border border-rose-200 shadow-sm text-rose-500 hover:scale-110 active:scale-95 hover:border-rose-400 transition-transform duration-150 relative group cursor-pointer ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'}`}
       title={`Unión familiar (${data.marriageYear || 'Unión matrimonial'})`}
     >
       {/* Left: receives edge from Partner1 */}
@@ -22,8 +22,9 @@ export const UnionNode: React.FC<NodeProps<UnionNodeType>> = ({ data, isConnecta
       {/* Bottom: sends edges to children */}
       <Handle type="source" position={Position.Bottom} id="bottom" isConnectable={isConnectable} style={{ background: 'transparent', border: 'none', width: '6px', height: '6px' }} />
       
-      <Heart size={13} strokeWidth={2.5} fill="currentColor" className="text-rose-500 transition-transform group-hover:scale-110" />
+      <Heart size={13} strokeWidth={2.5} fill="currentColor" className="text-rose-500" />
     </div>
   );
 };
 
+export const UnionNode = React.memo(UnionNodeComponent);

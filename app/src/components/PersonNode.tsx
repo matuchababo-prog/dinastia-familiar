@@ -1,5 +1,5 @@
 import React from 'react';
-import { Handle, Position, useStore } from '@xyflow/react';
+import { Handle, Position } from '@xyflow/react';
 import type { NodeProps, Node } from '@xyflow/react';
 import { User, Mic, MessageSquare, Sparkles } from 'lucide-react';
 import type { Person } from '../types/family';
@@ -7,24 +7,20 @@ import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
 
 export type PersonNodeType = Node<Person, 'person'>;
 
-const zoomSelector = (s: any) => s.transform[2];
-
-export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnectable }) => {
+const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnectable }) => {
   const branchTheme = (data.branch && BRANCH_COLORS[data.branch]) || DEFAULT_BRANCH_COLOR;
   const isDimmed = (data as any).isDimmed;
   const viewDensity = (data as any).viewDensity || 'detailed';
   const visitorInfo = (data as any).visitorInfo;
   const hasVisited = !!visitorInfo || data.hasVisited;
-  const zoom = useStore(zoomSelector);
   
-  // Show detailed cards only when zoom is reasonable and view mode is 'detailed'
-  const isCompact = viewDensity === 'compact' || zoom < 0.42;
+  const isCompact = viewDensity === 'compact';
 
   return (
     <div 
-      className={`group relative bg-white/95 backdrop-blur-md rounded-2xl border transition-all duration-200 cursor-pointer select-none
+      className={`group relative bg-white dark:bg-slate-900 rounded-2xl border transition-transform duration-150 cursor-pointer select-none
         ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'} 
-        ${(data as any).isFocal ? 'ring-4 ring-orange-400 ring-offset-2 shadow-2xl scale-105' : 'hover:shadow-xl hover:-translate-y-1 active:scale-98'}
+        ${(data as any).isFocal ? 'ring-4 ring-orange-400 ring-offset-2 shadow-2xl scale-105' : 'hover:shadow-lg active:scale-98'}
         ${isCompact ? 'min-w-[210px] max-w-[230px] p-3' : 'min-w-[245px] max-w-[260px] p-4'}
       `}
       style={{
@@ -32,10 +28,10 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
         boxShadow: isDimmed 
           ? 'none' 
           : (data as any).isFocal
-            ? '0 12px 30px -4px rgba(249, 115, 22, 0.25)' 
+            ? '0 10px 25px -3px rgba(249, 115, 22, 0.25)' 
             : hasVisited
-              ? '0 6px 22px -2px rgba(16, 185, 129, 0.15), 0 2px 6px -1px rgba(15, 23, 42, 0.03)'
-              : '0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03)',
+              ? '0 4px 16px -2px rgba(16, 185, 129, 0.15)'
+              : '0 4px 16px -2px rgba(15, 23, 42, 0.06)',
       }}
     >
       {/* Top Subtle Branch Color Accent Bar */}
@@ -47,17 +43,16 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
       <div className="flex items-center gap-3">
         {/* Avatar with branch-colored halo (or green halo if visited) */}
         <div
-          className="relative rounded-full flex items-center justify-center shrink-0 border overflow-hidden shadow-sm transition-transform group-hover:scale-105"
+          className="relative rounded-full flex items-center justify-center shrink-0 border overflow-hidden shadow-xs"
           style={{
             width: isCompact ? '40px' : '48px',
             height: isCompact ? '40px' : '48px',
             backgroundColor: branchTheme.bg,
             borderColor: hasVisited ? '#10b981' : branchTheme.stroke,
-            boxShadow: hasVisited ? '0 0 14px rgba(16, 185, 129, 0.4)' : `0 0 12px ${branchTheme.glow}`,
           }}
         >
           {data.photoUrl ? (
-            <img src={data.photoUrl} alt={data.name} className="w-full h-full object-cover" />
+            <img src={data.photoUrl} alt={data.name} className="w-full h-full object-cover" loading="lazy" />
           ) : (
             <User size={isCompact ? 18 : 22} color={hasVisited ? '#10b981' : branchTheme.stroke} />
           )}
@@ -159,7 +154,6 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
           height: '9px', 
           border: '2px solid white', 
           top: '-5px',
-          boxShadow: `0 0 6px ${branchTheme.glow}`
         }} 
       />
       
@@ -174,7 +168,6 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
           height: '9px', 
           border: '2px solid white', 
           right: '-5px',
-          boxShadow: `0 0 6px ${branchTheme.glow}`
         }} 
       />
       
@@ -189,7 +182,6 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
           height: '9px', 
           border: '2px solid white', 
           left: '-5px',
-          boxShadow: `0 0 6px ${branchTheme.glow}`
         }} 
       />
       
@@ -204,10 +196,10 @@ export const PersonNode: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnec
           height: '9px', 
           border: '2px solid white', 
           bottom: '-5px',
-          boxShadow: `0 0 6px ${branchTheme.glow}`
         }} 
       />
     </div>
   );
 };
 
+export const PersonNode = React.memo(PersonNodeComponent);

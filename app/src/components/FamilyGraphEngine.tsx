@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import {
   ReactFlow,
   Controls,
@@ -50,12 +50,14 @@ const nodeTypes: NodeTypes = {
 // Subcomponent to automatically fit/center the view when filters or nodes change
 const AutoFitView: React.FC<{ filterKey: string; nodeCount: number }> = ({ filterKey, nodeCount }) => {
   const { fitView } = useReactFlow();
+  const prevFilterRef = useRef<string>('');
 
   useEffect(() => {
-    if (nodeCount > 0) {
+    if (nodeCount > 0 && prevFilterRef.current !== filterKey) {
+      prevFilterRef.current = filterKey;
       const timer = setTimeout(() => {
-        fitView({ padding: 0.2, duration: 400 });
-      }, 60);
+        fitView({ padding: 0.2, duration: 350 });
+      }, 50);
       return () => clearTimeout(timer);
     }
   }, [filterKey, nodeCount, fitView]);
@@ -394,6 +396,9 @@ const FamilyGraphContent: React.FC = () => {
                 style: { stroke: 'var(--color-border)', strokeWidth: 2.5 } 
               }}
               fitView
+              onlyRenderVisibleElements={true}
+              nodesDraggable={isSelectionMode}
+              elevateNodesOnSelect={false}
               minZoom={0.08}
               maxZoom={2.5}
               panOnDrag={!isSelectionMode}
