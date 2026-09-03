@@ -240,7 +240,6 @@ export function buildGraphFromData(
             usedSubtreeIds.add(cu.id);
             childElements.push({ type: 'subtree', node: sub });
             addedAsSubtree = true;
-            break; // one subtree per child
           }
         }
       }
@@ -338,17 +337,32 @@ export function buildGraphFromData(
     const unionY = getUnionY(node.unionId, y);
 
     if (p1 && p2) {
-      const startX = centerX - ownW / 2;
-      if (!positions.has(p1)) {
+      if (!positions.has(p1) && !positions.has(p2)) {
+        const startX = centerX - ownW / 2;
         positions.set(p1, { x: startX, y: p1Y });
         positionInLawAncestorsAbove(p1, startX);
-      }
-      const unionX = startX + PERSON_NODE_WIDTH + COUPLE_GAP;
-      unionPositions.set(node.unionId, { x: unionX, y: unionY });
-      if (!positions.has(p2)) {
+        const unionX = startX + PERSON_NODE_WIDTH + COUPLE_GAP;
+        unionPositions.set(node.unionId, { x: unionX, y: unionY });
         const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
         positions.set(p2, { x: p2X, y: p2Y });
         positionInLawAncestorsAbove(p2, p2X);
+      } else if (positions.has(p1) && !positions.has(p2)) {
+        const unionX = centerX - (UNION_NODE_SIZE + COUPLE_GAP + PERSON_NODE_WIDTH) / 2;
+        unionPositions.set(node.unionId, { x: unionX, y: unionY });
+        const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
+        positions.set(p2, { x: p2X, y: p2Y });
+        positionInLawAncestorsAbove(p2, p2X);
+      } else if (!positions.has(p1) && positions.has(p2)) {
+        const unionX = centerX + (UNION_NODE_SIZE + COUPLE_GAP + PERSON_NODE_WIDTH) / 2 - UNION_NODE_SIZE;
+        unionPositions.set(node.unionId, { x: unionX, y: unionY });
+        const p1X = unionX - COUPLE_GAP - PERSON_NODE_WIDTH;
+        positions.set(p1, { x: p1X, y: p1Y });
+        positionInLawAncestorsAbove(p1, p1X);
+      } else {
+        const p1Pos = positions.get(p1)!;
+        const p2Pos = positions.get(p2)!;
+        const unionX = (p1Pos.x + p2Pos.x) / 2;
+        unionPositions.set(node.unionId, { x: unionX, y: unionY });
       }
     } else if (p1) {
       const startX = centerX - ownW / 2;
