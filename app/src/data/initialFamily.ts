@@ -1691,14 +1691,14 @@ export const INITIAL_PERSONS: Person[] = [
   },
 
   // Descendencia de los Hermanos Bolbol y Guardiet (Gen 2)
-  // Hijos de Rubén Bolbol y María "Maruca" Cantale
+  // Hijos de Rubén Bolbol y María "Maruca" Cantador (1º Matrimonio)
   {
     id: 'nora-bolbol',
     name: 'Nora Bolbol',
     generation: 2,
     branch: 'Bolbol',
     tags: ['Gen 2', 'Rama Bolbol'],
-    bioSummary: 'Hija de Rubén Bolbol y María "Maruca" Cantale.'
+    bioSummary: 'Hija de Rubén Bolbol y María "Maruca" Cantador.'
   },
   {
     id: 'jorge-bolbol-ruben',
@@ -1706,7 +1706,33 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 2,
     branch: 'Bolbol',
     tags: ['Gen 2', 'Rama Bolbol'],
-    bioSummary: 'Hijo de Rubén Bolbol y María "Maruca" Cantale.'
+    bioSummary: 'Hijo de Rubén Bolbol y María "Maruca" Cantador.'
+  },
+
+  // Hijos de Rubén Bolbol y Gladys (2º Matrimonio)
+  {
+    id: 'isabel-bolbol-ruben',
+    name: 'Isabel Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Rubén Bolbol y Gladys.'
+  },
+  {
+    id: 'leonor-bolbol-ruben',
+    name: 'Leonor Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Rubén Bolbol y Gladys.'
+  },
+  {
+    id: 'miguel-bolbol-ruben',
+    name: 'Miguel Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Rubén Bolbol y Gladys.'
   },
 
   // Hijos de Víctor Bolbol y Angelita Telesca
@@ -1717,14 +1743,6 @@ export const INITIAL_PERSONS: Person[] = [
     branch: 'Bolbol',
     tags: ['Gen 2', 'Rama Bolbol', 'Médico'],
     bioSummary: 'Hijo de Víctor Bolbol y Angelita Telesca. Médico.'
-  },
-  {
-    id: 'gladis-bolbol',
-    name: 'Gladis Bolbol',
-    generation: 2,
-    branch: 'Bolbol',
-    tags: ['Gen 2', 'Rama Bolbol'],
-    bioSummary: 'Hija de Víctor Bolbol y Angelita Telesca. Madre de Leona, Miguel e Isabel.'
   },
   {
     id: 'victoria-bolbol',
@@ -1777,34 +1795,34 @@ export const INITIAL_PERSONS: Person[] = [
     bioSummary: 'Hijo de Emiliz y Sr. Moll. Titular de Juan José Moll Inmobiliaria.'
   },
 
-  // Hijos de Jorge Betbe
+  // Hijos de Jorge Betabe
   {
-    id: 'elias-betbe',
-    name: 'Elías Betbe',
+    id: 'elias-betabe',
+    name: 'Elías Betabe',
     generation: 2,
-    branch: 'Betbe',
-    tags: ['Gen 2', 'Rama Betbe'],
-    bioSummary: 'Hijo de Jorge Betbe.'
+    branch: 'Betabe',
+    tags: ['Gen 2', 'Rama Betabe'],
+    bioSummary: 'Hijo de Jorge Betabe.'
   },
 
-  // Hijos de Elvira (Rama Frosina)
+  // Hijos de Ebrain (Rama Frosina)
   {
-    id: 'antonio-hijo-elvira',
+    id: 'antonio-hijo-ebrain',
     name: 'Antonio',
     generation: 2,
     branch: 'Bolbol',
     tags: ['Gen 2', 'Rama Bolbol'],
-    bioSummary: 'Hijo de Elvira (rama Frosina Bolbol).'
+    bioSummary: 'Hijo de Ebrain (rama Frosina Bolbol).'
   },
 
-  // Hijos de Jorge "Sodero" Bolbol y Elena
+  // Hijos de Jorge Bolbol y Elena
   {
     id: 'jorge-bolbol-hijo-sodero',
     name: 'Jorge Bolbol',
     generation: 2,
     branch: 'Bolbol',
     tags: ['Gen 2', 'Rama Bolbol'],
-    bioSummary: 'Hijo de Jorge "Sodero" Bolbol y Elena.'
+    bioSummary: 'Hijo de Jorge Bolbol y Elena.'
   },
 
   // Hijos de Bebe Bolbol
@@ -1817,22 +1835,22 @@ export const INITIAL_PERSONS: Person[] = [
     bioSummary: 'Hija de Bebe Bolbol.'
   },
 
-  // Hijos de Irma "Chona" Bolbol y Eduardo Jamónaca
+  // Hijos de Irma "Charo" Bolbol y Eduardo Iamónico
   {
-    id: 'nadir-jamonaca',
-    name: 'Nadir Jamónaca',
+    id: 'nadir-iamonico',
+    name: 'Nadir Iamónico',
     generation: 2,
-    branch: 'Jamónaca',
-    tags: ['Gen 2', 'Rama Jamónaca'],
-    bioSummary: 'Hijo de Irma "Chona" Bolbol y Eduardo Jamónaca.'
+    branch: 'Iamónico',
+    tags: ['Gen 2', 'Rama Iamónico'],
+    bioSummary: 'Hijo de Irma "Charo" Bolbol y Eduardo Iamónico.'
   },
   {
-    id: 'ramiro-jamonaca',
-    name: 'Ramiro Jamónaca',
+    id: 'romina-iamonico',
+    name: 'Romina Iamónico',
     generation: 2,
-    branch: 'Jamónaca',
-    tags: ['Gen 2', 'Rama Jamónaca'],
-    bioSummary: 'Hijo de Irma "Chona" Bolbol y Eduardo Jamónaca.'
+    branch: 'Iamónico',
+    tags: ['Gen 2', 'Rama Iamónico'],
+    bioSummary: 'Hija de Irma "Charo" Bolbol y Eduardo Iamónico.'
   },
 
   // Hijos de Lina Guardiet y Sr. Mc Roullion
@@ -2201,31 +2219,6 @@ export const INITIAL_PERSONS: Person[] = [
     tags: ['Gen 3', 'Rama Sánchez'],
     bioSummary: 'Hija de Karina Ballistreri y Andrés Sánchez.'
   },
-  // Hijos de Gladis Bolbol
-  {
-    id: 'leona-hija-gladis',
-    name: 'Leona',
-    generation: 3,
-    branch: 'Bolbol',
-    tags: ['Gen 3', 'Rama Bolbol'],
-    bioSummary: 'Hija de Gladis Bolbol.'
-  },
-  {
-    id: 'miguel-hijo-gladis',
-    name: 'Miguel',
-    generation: 3,
-    branch: 'Bolbol',
-    tags: ['Gen 3', 'Rama Bolbol'],
-    bioSummary: 'Hijo de Gladis Bolbol.'
-  },
-  {
-    id: 'isabel-hija-gladis',
-    name: 'Isabel',
-    generation: 3,
-    branch: 'Bolbol',
-    tags: ['Gen 3', 'Rama Bolbol'],
-    bioSummary: 'Hija de Gladis Bolbol.'
-  },
   // Hijos de Victoria Bolbol y Tito Zucchini
   {
     id: 'adriana-zucchini',
@@ -2466,10 +2459,10 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     partner1Id: 'ignacio-bolbol',
     partner2Id: 'irma-bernal',
     unionType: 'MARRIAGE',
-    childrenIds: ['alcira-bolbol-ignacio', 'irma-chona-bolbol']
+    childrenIds: ['alcira-bolbol-ignacio', 'irma-charo-bolbol']
   },
   {
-    id: 'union-camilo-antoniz',
+    id: 'union-camilo-antonia',
     partner1Id: 'camilo-bolbol',
     partner2Id: 'tia-antonia',
     unionType: 'MARRIAGE',
@@ -2479,7 +2472,7 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     id: 'union-frosina-hijos',
     partner1Id: 'frosina-bolbol',
     unionType: 'MARRIAGE',
-    childrenIds: ['jorge-betbe', 'elvira-frosina', 'alcira-bitar']
+    childrenIds: ['jorge-betabe', 'ebrain-frosina', 'alcira-bitar']
   },
   {
     id: 'union-afife-hijos',
@@ -2586,21 +2579,28 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   {
     id: 'union-ruben-maruca-bolbol',
     partner1Id: 'ruben-bolbol-miguel',
-    partner2Id: 'maria-maruca-cantale',
+    partner2Id: 'maria-maruca-cantador',
     unionType: 'MARRIAGE',
     childrenIds: ['nora-bolbol', 'jorge-bolbol-ruben']
+  },
+  {
+    id: 'union-ruben-gladys-bolbol',
+    partner1Id: 'ruben-bolbol-miguel',
+    partner2Id: 'gladys-esposa-ruben',
+    unionType: 'MARRIAGE',
+    childrenIds: ['isabel-bolbol-ruben', 'leonor-bolbol-ruben', 'miguel-bolbol-ruben']
   },
   {
     id: 'union-victor-angelita-bolbol',
     partner1Id: 'victor-bolbol',
     partner2Id: 'angelita-telesca',
     unionType: 'MARRIAGE',
-    childrenIds: ['miguel-bolbol-doctor', 'gladis-bolbol', 'victoria-bolbol', 'alcira-bolbol-victor', 'jorge-bolbol-victor']
+    childrenIds: ['miguel-bolbol-doctor', 'victoria-bolbol', 'alcira-bolbol-victor', 'jorge-bolbol-victor']
   },
   {
-    id: 'union-matilde-tito-zocco',
+    id: 'union-matilde-tito-zacco',
     partner1Id: 'matilde-alcira-belune',
-    partner2Id: 'ernesto-tito-zocco',
+    partner2Id: 'ernesto-tito-zacco',
     unionType: 'MARRIAGE',
     childrenIds: []
   },
@@ -2612,16 +2612,16 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     childrenIds: ['juan-jose-moll']
   },
   {
-    id: 'union-jorge-betbe-hijos',
-    partner1Id: 'jorge-betbe',
+    id: 'union-jorge-betabe-hijos',
+    partner1Id: 'jorge-betabe',
     unionType: 'MARRIAGE',
-    childrenIds: ['elias-betbe']
+    childrenIds: ['elias-betabe']
   },
   {
-    id: 'union-elvira-hijos',
-    partner1Id: 'elvira-frosina',
+    id: 'union-ebrain-hijos',
+    partner1Id: 'ebrain-frosina',
     unionType: 'MARRIAGE',
-    childrenIds: ['antonio-hijo-elvira']
+    childrenIds: ['antonio-hijo-ebrain']
   },
   {
     id: 'union-jorge-sodero-elena',
@@ -2637,11 +2637,11 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     childrenIds: ['monica-bolbol']
   },
   {
-    id: 'union-irma-chona-eduardo',
-    partner1Id: 'irma-chona-bolbol',
-    partner2Id: 'eduardo-jamonaca',
+    id: 'union-irma-charo-eduardo',
+    partner1Id: 'irma-charo-bolbol',
+    partner2Id: 'eduardo-iamonico',
     unionType: 'MARRIAGE',
-    childrenIds: ['nadir-jamonaca', 'ramiro-jamonaca']
+    childrenIds: ['nadir-iamonico', 'romina-iamonico']
   },
   {
     id: 'union-samuel-hijos',
@@ -2783,12 +2783,6 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
   // Generación 2 -> Generación 3
   // ==========================================
-  {
-    id: 'union-gladis-bolbol-hijos',
-    partner1Id: 'gladis-bolbol',
-    unionType: 'MARRIAGE',
-    childrenIds: ['leona-hija-gladis', 'miguel-hijo-gladis', 'isabel-hija-gladis']
-  },
   {
     id: 'union-victoria-tito-zucchini',
     partner1Id: 'victoria-bolbol',
