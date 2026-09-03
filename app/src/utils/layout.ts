@@ -271,13 +271,23 @@ export function buildGraphFromData(
       const p2HasParent = u.partner2Id ? childOf.has(u.partner2Id) : false;
       return !p1HasParent && !p2HasParent;
     })
+    .sort((a, b) => {
+      // Prioritize unions with more children or primary founding branches
+      const aIsPrimary = a.partner1Id?.includes('jacobo') || a.partner1Id?.includes('antoniz') || a.partner1Id?.includes('antoine') || a.partner1Id?.includes('roberto');
+      const bIsPrimary = b.partner1Id?.includes('jacobo') || b.partner1Id?.includes('antoniz') || b.partner1Id?.includes('antoine') || b.partner1Id?.includes('roberto');
+      if (aIsPrimary && !bIsPrimary) return -1;
+      if (!aIsPrimary && bIsPrimary) return 1;
+      return b.childrenIds.length - a.childrenIds.length;
+    })
     .map(u => u.id);
 
   // Build subtrees from root unions
   const subtrees: SubtreeNode[] = [];
   rootUnionIds.forEach(uid => {
-    const tree = buildSubtree(uid);
-    if (tree) subtrees.push(tree);
+    if (!claimed.has(uid)) {
+      const tree = buildSubtree(uid);
+      if (tree) subtrees.push(tree);
+    }
   });
 
   // Catch any unclaimed unions (disconnected families)
@@ -292,6 +302,31 @@ export function buildGraphFromData(
   const positions = new Map<string, { x: number; y: number }>();
   const unionPositions = new Map<string, { x: number; y: number }>();
 
+  // Recursively position in-law ancestors directly above a spouse
+  function positionInLawAncestorsAbove(personId: string, currentX: number) {
+    const parentUnion = childOf.get(personId);
+    if (!parentUnion) return;
+
+    const par1 = parentUnion.partner1Id;
+    const par2 = parentUnion.partner2Id;
+
+    const parentUnionY = getUnionY(parentUnion.id, MARGIN_Y);
+    const uX = currentX + PERSON_NODE_WIDTH / 2 - UNION_NODE_SIZE / 2;
+    unionPositions.set(parentUnion.id, { x: uX, y: parentUnionY });
+    claimed.add(parentUnion.id);
+
+    if (par1 && !positions.has(par1)) {
+      const par1Y = getPersonY(par1, MARGIN_Y);
+      positions.set(par1, { x: currentX, y: par1Y });
+      positionInLawAncestorsAbove(par1, currentX);
+    }
+    if (par2 && !positions.has(par2)) {
+      const par2Y = getPersonY(par2, MARGIN_Y);
+      positions.set(par2, { x: currentX + (par1 ? PERSON_NODE_WIDTH + COUPLE_GAP : 0), y: par2Y });
+      positionInLawAncestorsAbove(par2, currentX);
+    }
+  }
+
   function positionSubtree(node: SubtreeNode, centerX: number, y: number) {
     const p1 = node.partner1Id;
     const p2 = node.partner2Id;
@@ -304,15 +339,23 @@ export function buildGraphFromData(
 
     if (p1 && p2) {
       const startX = centerX - ownW / 2;
-      if (!positions.has(p1)) positions.set(p1, { x: startX, y: p1Y });
+      if (!positions.has(p1)) {
+        positions.set(p1, { x: startX, y: p1Y });
+        positionInLawAncestorsAbove(p1, startX);
+      }
       const unionX = startX + PERSON_NODE_WIDTH + COUPLE_GAP;
       unionPositions.set(node.unionId, { x: unionX, y: unionY });
       if (!positions.has(p2)) {
-        positions.set(p2, { x: unionX + UNION_NODE_SIZE + COUPLE_GAP, y: p2Y });
+        const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
+        positions.set(p2, { x: p2X, y: p2Y });
+        positionInLawAncestorsAbove(p2, p2X);
       }
     } else if (p1) {
       const startX = centerX - ownW / 2;
-      if (!positions.has(p1)) positions.set(p1, { x: startX, y: p1Y });
+      if (!positions.has(p1)) {
+        positions.set(p1, { x: startX, y: p1Y });
+        positionInLawAncestorsAbove(p1, startX);
+      }
       unionPositions.set(node.unionId, {
         x: startX + PERSON_NODE_WIDTH + COUPLE_GAP,
         y: unionY,
@@ -321,7 +364,9 @@ export function buildGraphFromData(
       const unionX = centerX - ownW / 2;
       unionPositions.set(node.unionId, { x: unionX, y: unionY });
       if (!positions.has(p2)) {
-        positions.set(p2, { x: unionX + UNION_NODE_SIZE + COUPLE_GAP, y: p2Y });
+        const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
+        positions.set(p2, { x: p2X, y: p2Y });
+        positionInLawAncestorsAbove(p2, p2X);
       }
     }
 
