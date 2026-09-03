@@ -10,15 +10,18 @@ export type PersonNodeType = Node<Person, 'person'>;
 const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConnectable }) => {
   const branchTheme = (data.branch && BRANCH_COLORS[data.branch]) || DEFAULT_BRANCH_COLOR;
   const isDimmed = (data as any).isDimmed;
+  const isLiving = (data as any).isLiving;
   const viewDensity = (data as any).viewDensity || 'detailed';
   const visitorInfo = (data as any).visitorInfo;
   const hasVisited = !!visitorInfo || data.hasVisited;
   
   const isCompact = viewDensity === 'compact';
+  const livingRgb = branchTheme.rgb || '234, 88, 12';
 
   return (
     <div 
-      className={`group relative rounded-2xl border transition-transform duration-150 cursor-pointer select-none
+      className={`group relative rounded-2xl border transition-all duration-300 cursor-pointer select-none
+        ${isLiving ? 'living-family-node' : ''}
         ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'} 
         ${(data as any).isFocal ? 'ring-4 ring-orange-400 ring-offset-2 shadow-2xl scale-105' : 'hover:shadow-lg active:scale-98'}
         ${isCompact ? 'min-w-[210px] max-w-[230px] p-3' : 'min-w-[245px] max-w-[260px] p-4'}
@@ -26,31 +29,46 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
       style={{
         backgroundColor: '#ffffff',
         color: '#0f172a',
-        borderColor: isDimmed ? 'rgba(203, 213, 225, 0.4)' : (data as any).isFocal ? '#f97316' : hasVisited ? '#10b981' : branchTheme.border,
+        borderColor: isDimmed 
+          ? 'rgba(203, 213, 225, 0.4)' 
+          : (data as any).isFocal 
+            ? '#f97316' 
+            : isLiving
+              ? `rgba(${livingRgb}, 0.85)`
+              : hasVisited 
+                ? '#10b981' 
+                : branchTheme.border,
         boxShadow: isDimmed 
           ? 'none' 
           : (data as any).isFocal
             ? '0 10px 25px -3px rgba(249, 115, 22, 0.25)' 
-            : hasVisited
-              ? '0 4px 16px -2px rgba(16, 185, 129, 0.15)'
-              : '0 4px 16px -2px rgba(15, 23, 42, 0.08)',
+            : isLiving
+              ? `0 0 20px 3px rgba(${livingRgb}, 0.3), 0 8px 20px -2px rgba(15, 23, 42, 0.12)`
+              : hasVisited
+                ? '0 4px 16px -2px rgba(16, 185, 129, 0.15)'
+                : '0 4px 16px -2px rgba(15, 23, 42, 0.08)',
+        ['--living-rgb' as any]: livingRgb,
       }}
     >
       {/* Top Subtle Branch Color Accent Bar */}
       <div 
-        className="absolute top-0 left-4 right-4 h-1 rounded-full opacity-80"
-        style={{ backgroundColor: hasVisited ? '#10b981' : branchTheme.stroke }}
+        className="absolute top-0 left-4 right-4 h-1 rounded-full opacity-90 transition-all duration-300"
+        style={{ 
+          backgroundColor: hasVisited ? '#10b981' : branchTheme.stroke,
+          boxShadow: isLiving ? `0 0 8px ${branchTheme.stroke}` : undefined,
+        }}
       />
 
       <div className="flex items-center gap-3">
         {/* Avatar with branch-colored halo (or green halo if visited) */}
         <div
-          className="relative rounded-full flex items-center justify-center shrink-0 border overflow-hidden shadow-xs"
+          className="relative rounded-full flex items-center justify-center shrink-0 border overflow-hidden shadow-xs transition-transform duration-300"
           style={{
             width: isCompact ? '40px' : '48px',
             height: isCompact ? '40px' : '48px',
             backgroundColor: branchTheme.bg,
-            borderColor: hasVisited ? '#10b981' : branchTheme.stroke,
+            borderColor: isLiving ? branchTheme.stroke : hasVisited ? '#10b981' : branchTheme.stroke,
+            boxShadow: isLiving ? `0 0 10px 2px rgba(${livingRgb}, 0.35)` : undefined,
           }}
         >
           {data.photoUrl ? (
@@ -90,6 +108,17 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 <span>¡Ya lo vio!</span>
+              </span>
+            )}
+
+            {/* Living Active Filter Badge */}
+            {isLiving && !hasVisited && (
+              <span 
+                className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-orange-50 text-orange-800 border border-orange-200/80 flex items-center gap-1 shrink-0 shadow-2xs"
+                title="Familia viva y activa en pantalla"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+                <span>Enfocada</span>
               </span>
             )}
           </div>

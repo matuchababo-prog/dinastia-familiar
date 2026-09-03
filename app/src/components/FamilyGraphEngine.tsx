@@ -210,39 +210,53 @@ const FamilyGraphContent: React.FC = () => {
     return { matchedPersonIds: matchedIds, matchedUnionIds: mUnions };
   }, [persons, unions, searchQuery, selectedBranch, selectedGeneration, focalPersonId]);
 
-  // Compute Layout for the FULL tree, but apply isDimmed, viewDensity and visitorInfo to nodes
+  // Dynamic Reactive Filter Mode: Auto-arrange matching family nodes into a tight, centered cluster
   useEffect(() => {
     if (persons.length === 0) {
       setNodes([]);
       setEdges([]);
       return;
     }
-    const { nodes: layoutedNodes, edges: layoutedEdges } = buildGraphFromData(persons, unions);
-    
+
     const hasActiveFilter = selectedBranch !== 'all' || selectedGeneration !== 'all' || searchQuery.trim() !== '' || focalPersonId !== null;
 
-    // Apply ghosting (dimming), viewDensity & visitorInfo
-    const processedNodes = layoutedNodes.map(node => {
-      let isDimmed = false;
-      if (hasActiveFilter) {
-        if (node.type === 'person') {
-          isDimmed = !matchedPersonIds.has(node.id);
-        } else if (node.type === 'union') {
-          isDimmed = !matchedUnionIds.has(node.id);
-        }
-      }
+    // In dynamic reactive mode: if a filter is active, layout ONLY the matched family and their connecting unions
+    let activePersons: Person[];
+    let activeUnions: FamilyUnion[];
 
+    if (hasActiveFilter) {
+      activePersons = persons.filter(p => matchedPersonIds.has(p.id));
+      activeUnions = unions.filter(u => matchedUnionIds.has(u.id));
+    } else {
+      activePersons = persons;
+      activeUnions = unions;
+    }
+
+    // If filter produced no persons, clear nodes/edges so the empty state overlay triggers
+    if (hasActiveFilter && activePersons.length === 0) {
+      setNodes([]);
+      setEdges([]);
+      return;
+    }
+
+    const { nodes: layoutedNodes, edges: layoutedEdges } = buildGraphFromData(activePersons, activeUnions, hasActiveFilter);
+
+    // Apply viewDensity, visitorInfo and isFocal to nodes
+    const processedNodes = layoutedNodes.map(node => {
       let visitorInfo: VisitorRecord | undefined;
       if (node.type === 'person') {
         const nodePersonName = (node.data as any)?.name?.toLowerCase();
         visitorInfo = visitors.find(v => v.personId === node.id || (nodePersonName && v.name.toLowerCase() === nodePersonName));
       }
 
+      const isFocal = node.type === 'person' && node.id === focalPersonId;
+
       return {
         ...node,
         data: {
           ...node.data,
-          isDimmed,
+          isLiving: hasActiveFilter,
+          isFocal,
           viewDensity,
           visitorInfo,
           hasVisited: !!visitorInfo,
@@ -250,26 +264,18 @@ const FamilyGraphContent: React.FC = () => {
       };
     });
 
-    // Apply ghosting & branch colors to edges
+    // Apply branch colors & living vitality to edges
     const processedEdges = layoutedEdges.map(edge => {
-      let isDimmed = false;
-      if (hasActiveFilter) {
-        const sourceNode = processedNodes.find(n => n.id === edge.source);
-        const targetNode = processedNodes.find(n => n.id === edge.target);
-        if (sourceNode?.data.isDimmed || targetNode?.data.isDimmed) {
-          isDimmed = true;
-        }
-      }
-      
       const originalStroke = (edge.data as any)?.stroke || '#94a3b8';
 
       return {
         ...edge,
+        className: hasActiveFilter ? 'living-edge-path' : undefined,
         style: {
           ...edge.style,
-          stroke: isDimmed ? '#e2e8f0' : originalStroke,
-          strokeWidth: isDimmed ? 1.5 : 2.5,
-          opacity: isDimmed ? 0.12 : 1,
+          stroke: originalStroke,
+          strokeWidth: hasActiveFilter ? 3 : 2.5,
+          opacity: 1,
           transition: 'stroke 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease',
         }
       };
@@ -476,6 +482,35 @@ const FamilyGraphContent: React.FC = () => {
               </Panel>
               <AutoFitView filterKey={filterKey} nodeCount={nodes.length} />
             </ReactFlow>
+
+            {/* Active Living Family HUD Banner */}
+            {hasActiveFilter && matchedPersonIds.size > 0 && (
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl border border-orange-200 flex items-center gap-3 animate-fade-in pointer-events-auto">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping shrink-0" />
+                  <span className="text-xs font-bold text-slate-800">
+                    {focalPersonId 
+                      ? `Enfoque: ${persons.find(p => p.id === focalPersonId)?.name || 'Persona'}` 
+                      : selectedBranch !== 'all' 
+                        ? `Familia ${selectedBranch}` 
+                        : selectedGeneration !== 'all' 
+                          ? `Generación ${selectedGeneration}` 
+                          : `Búsqueda: "${searchQuery}"`}
+                  </span>
+                  <span className="text-[11px] font-black text-orange-700 bg-orange-100 px-2 py-0.5 rounded-full">
+                    {matchedPersonIds.size} {matchedPersonIds.size === 1 ? 'integrante' : 'integrantes'}
+                  </span>
+                </div>
+                <button
+                  onClick={handleResetFilters}
+                  className="text-xs font-bold text-slate-600 hover:text-orange-600 bg-slate-100 hover:bg-orange-50 px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Volver a la vista completa del árbol"
+                >
+                  <RotateCcw size={12} />
+                  <span>Ver todo</span>
+                </button>
+              </div>
+            )}
 
             {/* Interactive Memory Mission Floating Widget */}
             {!isMatiasGuideOpen && (

@@ -93,3 +93,66 @@ body {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.2);
 }
+
+/* ══════════════════════════════════════════════════
+   Living / Pulsating Visual Aura Animations
+   ══════════════════════════════════════════════════ */
+
+@keyframes living-heartbeat {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(var(--living-rgb, 234, 88, 12), 0.4), 0 4px 16px -2px rgba(15, 23, 42, 0.08);
+    border-color: rgba(var(--living-rgb, 234, 88, 12), 0.5);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 22px 5px rgba(var(--living-rgb, 234, 88, 12), 0.35), 0 10px 28px -3px rgba(var(--living-rgb, 234, 88, 12), 0.22);
+    border-color: rgba(var(--living-rgb, 234, 88, 12), 0.95);
+  }
+}
+
+@keyframes living-union-beat {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 14px 4px rgba(244, 63, 94, 0.45);
+  }
+}
+
+@keyframes living-group-shimmer {
+  0%, 100% {
+    border-color: rgba(var(--living-rgb, 234, 88, 12), 0.45);
+    box-shadow: inset 0 0 30px rgba(var(--living-rgb, 234, 88, 12), 0.04), 0 0 25px rgba(var(--living-rgb, 234, 88, 12), 0.12);
+  }
+  50% {
+    border-color: rgba(var(--living-rgb, 234, 88, 12), 0.85);
+    box-shadow: inset 0 0 50px rgba(var(--living-rgb, 234, 88, 12), 0.09), 0 0 40px rgba(var(--living-rgb, 234, 88, 12), 0.25);
+  }
+}
+
+@keyframes living-flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.living-family-node {
+  animation: living-heartbeat 3s ease-in-out infinite;
+}
+
+.living-union-node {
+  animation: living-union-beat 2s ease-in-out infinite;
+}
+
+.living-branch-group {
+  animation: living-group-shimmer 3.5s ease-in-out infinite;
+}
+
+.living-edge-path {
+  stroke-dasharray: 8 4;
+  animation: living-flow-dash 1.2s linear infinite;
+}
+

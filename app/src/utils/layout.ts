@@ -19,71 +19,72 @@ export interface BranchColorDef {
   tagBg: string;
   stroke: string;
   glow: string;
+  rgb: string;
 }
 
 // ─── Branch Colors ──────────────────────────────
 export const BRANCH_COLORS: Record<string, BranchColorDef> = {
-  Chababo: { bg: 'rgba(245, 158, 11, 0.04)', border: 'rgba(245, 158, 11, 0.25)', tagBg: '#d97706', stroke: '#f59e0b', glow: 'rgba(245, 158, 11, 0.35)' },
-  Ballistreri: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  Bolbol: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Levin: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)' },
-  Evlagon: { bg: 'rgba(139, 92, 246, 0.04)', border: 'rgba(139, 92, 246, 0.25)', tagBg: '#7c3aed', stroke: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.35)' },
-  Isassa: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)' },
-  Romeo: { bg: 'rgba(249, 115, 22, 0.04)', border: 'rgba(249, 115, 22, 0.25)', tagBg: '#ea580c', stroke: '#f97316', glow: 'rgba(249, 115, 22, 0.35)' },
-  Gindin: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0d9488', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)' },
-  Alek: { bg: 'rgba(99, 102, 241, 0.04)', border: 'rgba(99, 102, 241, 0.25)', tagBg: '#4f46e5', stroke: '#6366f1', glow: 'rgba(99, 102, 241, 0.35)' },
-  Gesrik: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#9333ea', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)' },
-  Halek: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)' },
-  Guardiet: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)' },
-  Goytia: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  Bonsignore: { bg: 'rgba(245, 158, 11, 0.04)', border: 'rgba(245, 158, 11, 0.25)', tagBg: '#d97706', stroke: '#f59e0b', glow: 'rgba(245, 158, 11, 0.35)' },
-  Yebne: { bg: 'rgba(132, 204, 22, 0.04)', border: 'rgba(132, 204, 22, 0.25)', tagBg: '#65a30d', stroke: '#84cc16', glow: 'rgba(132, 204, 22, 0.35)' },
-  Vesi: { bg: 'rgba(6, 182, 212, 0.04)', border: 'rgba(6, 182, 212, 0.25)', tagBg: '#0891b2', stroke: '#06b6d4', glow: 'rgba(6, 182, 212, 0.35)' },
-  Fernandez: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#9333ea', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)' },
-  'Santa Cruz': { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Dinucchi: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)' },
-  Coccolo: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)' },
-  Cosolito: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Gagliardi: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  Vondarenko: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#7e22ce', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)' },
-  Bortoliero: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)' },
-  Remondino: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)' },
-  Sánchez: { bg: 'rgba(139, 92, 246, 0.04)', border: 'rgba(139, 92, 246, 0.25)', tagBg: '#7c3aed', stroke: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.35)' },
-  Martino: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Sciutto: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)' },
-  Baez: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)' },
-  Romero: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)' },
-  Trantemberg: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  Levi: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)' },
-  Susman: { bg: 'rgba(99, 102, 241, 0.04)', border: 'rgba(99, 102, 241, 0.25)', tagBg: '#4338ca', stroke: '#6366f1', glow: 'rgba(99, 102, 241, 0.35)' },
-  Sader: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)' },
-  Ades: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)' },
-  Dahan: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Jordan: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)' },
-  Gaywood: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)' },
-  Wilson: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)' },
-  Flores: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  Molina: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#7e22ce', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)' },
-  Bermudas: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)' },
-  Nejad: { bg: 'rgba(217, 119, 6, 0.04)', border: 'rgba(217, 119, 6, 0.25)', tagBg: '#b45309', stroke: '#d97706', glow: 'rgba(217, 119, 6, 0.35)' },
-  Sayed: { bg: 'rgba(132, 204, 22, 0.04)', border: 'rgba(132, 204, 22, 0.25)', tagBg: '#65a30d', stroke: '#84cc16', glow: 'rgba(132, 204, 22, 0.35)' },
-  Telesca: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Zucchini: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)' },
-  Sijel: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)' },
-  Robledo: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  Cantale: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#7e22ce', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)' },
-  Belune: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)' },
-  Zocco: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)' },
-  Moll: { bg: 'rgba(99, 102, 241, 0.04)', border: 'rgba(99, 102, 241, 0.25)', tagBg: '#4338ca', stroke: '#6366f1', glow: 'rgba(99, 102, 241, 0.35)' },
-  Betbe: { bg: 'rgba(217, 119, 6, 0.04)', border: 'rgba(217, 119, 6, 0.25)', tagBg: '#b45309', stroke: '#d97706', glow: 'rgba(217, 119, 6, 0.35)' },
-  Bitar: { bg: 'rgba(6, 182, 212, 0.04)', border: 'rgba(6, 182, 212, 0.25)', tagBg: '#0891b2', stroke: '#06b6d4', glow: 'rgba(6, 182, 212, 0.35)' },
-  Bernal: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)' },
-  Jamónaca: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)' },
-  Sauan: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)' },
-  'Mc Roullion': { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)' },
-  Preve: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)' },
-  'Familia Ernesto': { bg: 'rgba(107, 114, 128, 0.04)', border: 'rgba(107, 114, 128, 0.25)', tagBg: '#4b5563', stroke: '#64748b', glow: 'rgba(100, 116, 139, 0.35)' },
-  'Familia Leandro': { bg: 'rgba(107, 114, 128, 0.04)', border: 'rgba(107, 114, 128, 0.25)', tagBg: '#4b5563', stroke: '#64748b', glow: 'rgba(100, 116, 139, 0.35)' },
+  Chababo: { bg: 'rgba(245, 158, 11, 0.04)', border: 'rgba(245, 158, 11, 0.25)', tagBg: '#d97706', stroke: '#f59e0b', glow: 'rgba(245, 158, 11, 0.35)', rgb: '245, 158, 11' },
+  Ballistreri: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Bolbol: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Levin: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)', rgb: '59, 130, 246' },
+  Evlagon: { bg: 'rgba(139, 92, 246, 0.04)', border: 'rgba(139, 92, 246, 0.25)', tagBg: '#7c3aed', stroke: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.35)', rgb: '139, 92, 246' },
+  Isassa: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Romeo: { bg: 'rgba(249, 115, 22, 0.04)', border: 'rgba(249, 115, 22, 0.25)', tagBg: '#ea580c', stroke: '#f97316', glow: 'rgba(249, 115, 22, 0.35)', rgb: '249, 115, 22' },
+  Gindin: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0d9488', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)', rgb: '20, 184, 166' },
+  Alek: { bg: 'rgba(99, 102, 241, 0.04)', border: 'rgba(99, 102, 241, 0.25)', tagBg: '#4f46e5', stroke: '#6366f1', glow: 'rgba(99, 102, 241, 0.35)', rgb: '99, 102, 241' },
+  Gesrik: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#9333ea', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)', rgb: '168, 85, 247' },
+  Halek: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Guardiet: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Goytia: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Bonsignore: { bg: 'rgba(245, 158, 11, 0.04)', border: 'rgba(245, 158, 11, 0.25)', tagBg: '#d97706', stroke: '#f59e0b', glow: 'rgba(245, 158, 11, 0.35)', rgb: '245, 158, 11' },
+  Yebne: { bg: 'rgba(132, 204, 22, 0.04)', border: 'rgba(132, 204, 22, 0.25)', tagBg: '#65a30d', stroke: '#84cc16', glow: 'rgba(132, 204, 22, 0.35)', rgb: '132, 204, 22' },
+  Vesi: { bg: 'rgba(6, 182, 212, 0.04)', border: 'rgba(6, 182, 212, 0.25)', tagBg: '#0891b2', stroke: '#06b6d4', glow: 'rgba(6, 182, 212, 0.35)', rgb: '6, 182, 212' },
+  Fernandez: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#9333ea', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)', rgb: '168, 85, 247' },
+  'Santa Cruz': { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Dinucchi: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Coccolo: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)', rgb: '59, 130, 246' },
+  Cosolito: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Gagliardi: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Vondarenko: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#7e22ce', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)', rgb: '168, 85, 247' },
+  Bortoliero: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Remondino: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Sánchez: { bg: 'rgba(139, 92, 246, 0.04)', border: 'rgba(139, 92, 246, 0.25)', tagBg: '#7c3aed', stroke: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.35)', rgb: '139, 92, 246' },
+  Martino: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Sciutto: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)', rgb: '20, 184, 166' },
+  Baez: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Romero: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Trantemberg: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Levi: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Susman: { bg: 'rgba(99, 102, 241, 0.04)', border: 'rgba(99, 102, 241, 0.25)', tagBg: '#4338ca', stroke: '#6366f1', glow: 'rgba(99, 102, 241, 0.35)', rgb: '99, 102, 241' },
+  Sader: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Ades: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)', rgb: '20, 184, 166' },
+  Dahan: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Jordan: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)', rgb: '59, 130, 246' },
+  Gaywood: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Wilson: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Flores: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Molina: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#7e22ce', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)', rgb: '168, 85, 247' },
+  Bermudas: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Nejad: { bg: 'rgba(217, 119, 6, 0.04)', border: 'rgba(217, 119, 6, 0.25)', tagBg: '#b45309', stroke: '#d97706', glow: 'rgba(217, 119, 6, 0.35)', rgb: '217, 119, 6' },
+  Sayed: { bg: 'rgba(132, 204, 22, 0.04)', border: 'rgba(132, 204, 22, 0.25)', tagBg: '#65a30d', stroke: '#84cc16', glow: 'rgba(132, 204, 22, 0.35)', rgb: '132, 204, 22' },
+  Telesca: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Zucchini: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Sijel: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Robledo: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Cantale: { bg: 'rgba(168, 85, 247, 0.04)', border: 'rgba(168, 85, 247, 0.25)', tagBg: '#7e22ce', stroke: '#a855f7', glow: 'rgba(168, 85, 247, 0.35)', rgb: '168, 85, 247' },
+  Belune: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Zocco: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)', rgb: '20, 184, 166' },
+  Moll: { bg: 'rgba(99, 102, 241, 0.04)', border: 'rgba(99, 102, 241, 0.25)', tagBg: '#4338ca', stroke: '#6366f1', glow: 'rgba(99, 102, 241, 0.35)', rgb: '99, 102, 241' },
+  Betbe: { bg: 'rgba(217, 119, 6, 0.04)', border: 'rgba(217, 119, 6, 0.25)', tagBg: '#b45309', stroke: '#d97706', glow: 'rgba(217, 119, 6, 0.35)', rgb: '217, 119, 6' },
+  Bitar: { bg: 'rgba(6, 182, 212, 0.04)', border: 'rgba(6, 182, 212, 0.25)', tagBg: '#0891b2', stroke: '#06b6d4', glow: 'rgba(6, 182, 212, 0.35)', rgb: '6, 182, 212' },
+  Bernal: { bg: 'rgba(236, 72, 153, 0.04)', border: 'rgba(236, 72, 153, 0.25)', tagBg: '#db2777', stroke: '#ec4899', glow: 'rgba(236, 72, 153, 0.35)', rgb: '236, 72, 153' },
+  Jamónaca: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Sauan: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  'Mc Roullion': { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Preve: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)', rgb: '59, 130, 246' },
+  'Familia Ernesto': { bg: 'rgba(107, 114, 128, 0.04)', border: 'rgba(107, 114, 128, 0.25)', tagBg: '#4b5563', stroke: '#64748b', glow: 'rgba(100, 116, 139, 0.35)', rgb: '100, 116, 139' },
+  'Familia Leandro': { bg: 'rgba(107, 114, 128, 0.04)', border: 'rgba(107, 114, 128, 0.25)', tagBg: '#4b5563', stroke: '#64748b', glow: 'rgba(100, 116, 139, 0.35)', rgb: '100, 116, 139' },
 };
 
 export const DEFAULT_BRANCH_COLOR: BranchColorDef = {
@@ -92,23 +93,10 @@ export const DEFAULT_BRANCH_COLOR: BranchColorDef = {
   tagBg: '#64748b',
   stroke: '#94a3b8',
   glow: 'rgba(148, 163, 184, 0.25)',
+  rgb: '148, 163, 184',
 };
 
-// ─── Subtree types ──────────────────────────────
-// The layout works as a recursive tree:
-//
-//   [Partner1] ─── ❤ ─── [Partner2]
-//                  │
-//     ┌────────────┼────────────┐
-//     │            │            │
-//   [Child1]    [Child2+P]   [Child3]
-//                  │
-//               [Grandchild]
-//
-// 1. Build a tree of SubtreeNodes starting from root unions
-// 2. Compute subtree widths bottom-up (leaves first)
-// 3. Position top-down, centering children under their parent union
-
+// ─── Subtree Types ──────────────────────────────
 interface SubtreeNode {
   unionId: string;
   partner1Id: string | null;
@@ -121,8 +109,7 @@ type ChildElement =
   | { type: 'subtree'; node: SubtreeNode }
   | { type: 'solo'; personId: string };
 
-// ─── Width helpers ──────────────────────────────
-
+// ─── Width Helpers ──────────────────────────────
 function coupleOwnWidth(hasP1: boolean, hasP2: boolean): number {
   if (hasP1 && hasP2) return PERSON_NODE_WIDTH * 2 + COUPLE_GAP * 2 + UNION_NODE_SIZE;
   if (hasP1 || hasP2) return PERSON_NODE_WIDTH + COUPLE_GAP + UNION_NODE_SIZE;
@@ -139,26 +126,43 @@ function totalChildrenWidth(elements: ChildElement[]): number {
     + (elements.length - 1) * HORIZONTAL_GAP;
 }
 
+// ─── Affinity Ordering for Root Trees ────────────
+export const AFFINITY_ORDER = [
+  'union-valentina-elena',
+  'union-jaime-basilia',
+  'union-graciela-martino-hijas',
+  'union-jose-rosa-trantemberg',
+  'union-juda-malea',
+  'union-catalina-hijos-ballistreri',
+  'union-tatuna-trichi',
+  'union-padres-pipi',
+  'union-georges-magidi',
+  'union-pedro-hellen',
+  'union-pablo-celia-guardiet',
+  'union-antoine-mary-jordan',
+];
+
 // ══════════════════════════════════════════════════
 // Main Layout Function
 // ══════════════════════════════════════════════════
 export function buildGraphFromData(
   persons: Person[],
-  unions: FamilyUnion[]
+  unions: FamilyUnion[],
+  isLiving = false
 ): { nodes: Node[]; edges: Edge[] } {
 
   const personIds = new Set(persons.map(p => p.id));
   const unionMap = new Map(unions.map(u => [u.id, u]));
 
-  // Only consider unions whose at least one partner exists
+  // Only consider unions where at least one partner exists in current graph
   const validUnions = unions.filter(u =>
     (u.partner1Id && personIds.has(u.partner1Id)) ||
     (u.partner2Id && personIds.has(u.partner2Id))
   );
 
   // ─── Lookup Maps ────────────────────────────
-  const childOf = new Map<string, FamilyUnion>();     // personId → union that produced them
-  const partnerIn = new Map<string, FamilyUnion[]>(); // personId → unions where they're a partner
+  const childOf = new Map<string, FamilyUnion>();
+  const partnerIn = new Map<string, FamilyUnion[]>();
 
   validUnions.forEach(u => {
     u.childrenIds.forEach(cid => {
@@ -172,12 +176,10 @@ export function buildGraphFromData(
     });
   });
 
-  // Track claimed unions to avoid processing the same union in multiple subtrees
   const claimed = new Set<string>();
-
   const personMap = new Map(persons.map(p => [p.id, p]));
 
-  // Find minimum generation present
+  // Minimum generation present
   const presentGens = persons
     .map(p => p.generation)
     .filter((g): g is number => typeof g === 'number');
@@ -211,7 +213,7 @@ export function buildGraphFromData(
     return MARGIN_Y + (gen - minGen) * (PERSON_NODE_HEIGHT + GENERATION_GAP) + PERSON_NODE_HEIGHT / 2 - UNION_NODE_SIZE / 2;
   }
 
-  // ─── Build Subtree (recursive, bottom-up width) ────
+  // ─── Build Subtree ──────────────────────────
   function buildSubtree(unionId: string): SubtreeNode | null {
     if (claimed.has(unionId)) return null;
     claimed.add(unionId);
@@ -225,11 +227,9 @@ export function buildGraphFromData(
     const childElements: ChildElement[] = [];
     const usedSubtreeIds = new Set<string>();
 
-    // Process children in their declared order to maintain sibling order
     union.childrenIds.forEach(cid => {
       if (!personIds.has(cid)) return;
 
-      // Find unclaimed unions where this child is a partner
       const childUnions = (partnerIn.get(cid) || []).filter(cu => !claimed.has(cu.id));
       let addedAsSubtree = false;
 
@@ -249,7 +249,6 @@ export function buildGraphFromData(
       }
     });
 
-    // Width = max(couple's own width, total children width)
     const ownW = coupleOwnWidth(!!p1, !!p2);
     const kidW = totalChildrenWidth(childElements);
 
@@ -262,8 +261,7 @@ export function buildGraphFromData(
     };
   }
 
-  // ─── Find Root Unions ──────────────────────────
-  // A union is a true root only if NEITHER partner has a parent union in the active graph
+  // ─── Root Unions Sorted by Affinity ─────────
   const rootUnionIds = validUnions
     .filter(u => {
       const p1HasParent = u.partner1Id ? childOf.has(u.partner1Id) : false;
@@ -271,16 +269,15 @@ export function buildGraphFromData(
       return !p1HasParent && !p2HasParent;
     })
     .sort((a, b) => {
-      // Prioritize unions with more children or primary founding branches
-      const aIsPrimary = a.partner1Id?.includes('jacobo') || a.partner1Id?.includes('antoniz') || a.partner1Id?.includes('antoine') || a.partner1Id?.includes('roberto');
-      const bIsPrimary = b.partner1Id?.includes('jacobo') || b.partner1Id?.includes('antoniz') || b.partner1Id?.includes('antoine') || b.partner1Id?.includes('roberto');
-      if (aIsPrimary && !bIsPrimary) return -1;
-      if (!aIsPrimary && bIsPrimary) return 1;
+      const idxA = AFFINITY_ORDER.indexOf(a.id);
+      const idxB = AFFINITY_ORDER.indexOf(b.id);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
       return b.childrenIds.length - a.childrenIds.length;
     })
     .map(u => u.id);
 
-  // Build subtrees from root unions
   const subtrees: SubtreeNode[] = [];
   rootUnionIds.forEach(uid => {
     if (!claimed.has(uid)) {
@@ -289,7 +286,7 @@ export function buildGraphFromData(
     }
   });
 
-  // Catch any unclaimed unions (disconnected families)
+  // Catch any disconnected unions
   validUnions.forEach(u => {
     if (!claimed.has(u.id)) {
       const tree = buildSubtree(u.id);
@@ -297,41 +294,15 @@ export function buildGraphFromData(
     }
   });
 
-  // ─── Position Subtrees (recursive, top-down) ────
+  // ─── Position Subtrees ──────────────────────
   const positions = new Map<string, { x: number; y: number }>();
   const unionPositions = new Map<string, { x: number; y: number }>();
-
-  // Recursively position in-law ancestors directly above a spouse
-  function positionInLawAncestorsAbove(personId: string, currentX: number) {
-    const parentUnion = childOf.get(personId);
-    if (!parentUnion) return;
-
-    const par1 = parentUnion.partner1Id;
-    const par2 = parentUnion.partner2Id;
-
-    const parentUnionY = getUnionY(parentUnion.id, MARGIN_Y);
-    const uX = currentX + PERSON_NODE_WIDTH / 2 - UNION_NODE_SIZE / 2;
-    unionPositions.set(parentUnion.id, { x: uX, y: parentUnionY });
-    claimed.add(parentUnion.id);
-
-    if (par1 && !positions.has(par1)) {
-      const par1Y = getPersonY(par1, MARGIN_Y);
-      positions.set(par1, { x: currentX, y: par1Y });
-      positionInLawAncestorsAbove(par1, currentX);
-    }
-    if (par2 && !positions.has(par2)) {
-      const par2Y = getPersonY(par2, MARGIN_Y);
-      positions.set(par2, { x: currentX + (par1 ? PERSON_NODE_WIDTH + COUPLE_GAP : 0), y: par2Y });
-      positionInLawAncestorsAbove(par2, currentX);
-    }
-  }
 
   function positionSubtree(node: SubtreeNode, centerX: number, y: number) {
     const p1 = node.partner1Id;
     const p2 = node.partner2Id;
     const ownW = coupleOwnWidth(!!p1, !!p2);
 
-    // ── Position the couple + union node with Generational Snapping ──
     const p1Y = p1 ? getPersonY(p1, y) : y;
     const p2Y = p2 ? getPersonY(p2, y) : y;
     const unionY = getUnionY(node.unionId, y);
@@ -340,24 +311,22 @@ export function buildGraphFromData(
       if (!positions.has(p1) && !positions.has(p2)) {
         const startX = centerX - ownW / 2;
         positions.set(p1, { x: startX, y: p1Y });
-        positionInLawAncestorsAbove(p1, startX);
         const unionX = startX + PERSON_NODE_WIDTH + COUPLE_GAP;
         unionPositions.set(node.unionId, { x: unionX, y: unionY });
         const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
         positions.set(p2, { x: p2X, y: p2Y });
-        positionInLawAncestorsAbove(p2, p2X);
       } else if (positions.has(p1) && !positions.has(p2)) {
-        const unionX = centerX - (UNION_NODE_SIZE + COUPLE_GAP + PERSON_NODE_WIDTH) / 2;
+        const p1Pos = positions.get(p1)!;
+        const unionX = p1Pos.x + PERSON_NODE_WIDTH + COUPLE_GAP;
         unionPositions.set(node.unionId, { x: unionX, y: unionY });
         const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
         positions.set(p2, { x: p2X, y: p2Y });
-        positionInLawAncestorsAbove(p2, p2X);
       } else if (!positions.has(p1) && positions.has(p2)) {
-        const unionX = centerX + (UNION_NODE_SIZE + COUPLE_GAP + PERSON_NODE_WIDTH) / 2 - UNION_NODE_SIZE;
+        const p2Pos = positions.get(p2)!;
+        const unionX = p2Pos.x - COUPLE_GAP - UNION_NODE_SIZE;
         unionPositions.set(node.unionId, { x: unionX, y: unionY });
         const p1X = unionX - COUPLE_GAP - PERSON_NODE_WIDTH;
         positions.set(p1, { x: p1X, y: p1Y });
-        positionInLawAncestorsAbove(p1, p1X);
       } else {
         const p1Pos = positions.get(p1)!;
         const p2Pos = positions.get(p2)!;
@@ -368,26 +337,25 @@ export function buildGraphFromData(
       const startX = centerX - ownW / 2;
       if (!positions.has(p1)) {
         positions.set(p1, { x: startX, y: p1Y });
-        positionInLawAncestorsAbove(p1, startX);
       }
+      const p1Pos = positions.get(p1)!;
       unionPositions.set(node.unionId, {
-        x: startX + PERSON_NODE_WIDTH + COUPLE_GAP,
+        x: p1Pos.x + PERSON_NODE_WIDTH + COUPLE_GAP,
         y: unionY,
       });
     } else if (p2) {
-      const unionX = centerX - ownW / 2;
-      unionPositions.set(node.unionId, { x: unionX, y: unionY });
       if (!positions.has(p2)) {
-        const p2X = unionX + UNION_NODE_SIZE + COUPLE_GAP;
-        positions.set(p2, { x: p2X, y: p2Y });
-        positionInLawAncestorsAbove(p2, p2X);
+        positions.set(p2, { x: centerX - ownW / 2 + UNION_NODE_SIZE + COUPLE_GAP, y: p2Y });
       }
+      const p2Pos = positions.get(p2)!;
+      unionPositions.set(node.unionId, {
+        x: p2Pos.x - COUPLE_GAP - UNION_NODE_SIZE,
+        y: unionY,
+      });
     }
 
-    // ── Position children centered below ──
     if (node.childElements.length === 0) return;
 
-    // Compute effective width skipping already-positioned persons
     let effectiveWidth = 0;
     let effectiveCount = 0;
     node.childElements.forEach(ce => {
@@ -421,7 +389,6 @@ export function buildGraphFromData(
     });
   }
 
-  // ── Layout all root subtrees side by side ──
   const totalW = subtrees.reduce((s, t) => s + t.subtreeWidth, 0)
     + Math.max(0, subtrees.length - 1) * TREE_GAP;
   let treeX = -totalW / 2;
@@ -431,7 +398,7 @@ export function buildGraphFromData(
     treeX += tree.subtreeWidth + TREE_GAP;
   });
 
-  // ── Place orphan persons (not reached by any subtree) ──
+  // Place orphans
   let orphanX = treeX + TREE_GAP;
   persons.forEach(p => {
     if (!positions.has(p.id)) {
@@ -452,7 +419,10 @@ export function buildGraphFromData(
       id: p.id,
       type: 'person',
       position: { x: pos.x, y: pos.y },
-      data: p,
+      data: {
+        ...p,
+        isLiving,
+      },
       zIndex: 10,
     });
   });
@@ -465,7 +435,10 @@ export function buildGraphFromData(
       id: u.id,
       type: 'union',
       position: { x: pos.x, y: pos.y },
-      data: u,
+      data: {
+        ...u,
+        isLiving,
+      },
       zIndex: 5,
     });
   });
@@ -492,8 +465,9 @@ export function buildGraphFromData(
         target: u.id,
         targetHandle: 'left',
         type: 'straight',
+        className: isLiving ? 'living-edge-path' : undefined,
         data: { relationship: 'Pareja', branch: p1?.branch || 'Otros', stroke: p1BranchColor.stroke },
-        style: { stroke: p1BranchColor.stroke, strokeWidth: 2.5 },
+        style: { stroke: p1BranchColor.stroke, strokeWidth: isLiving ? 3 : 2.5 },
       });
     }
 
@@ -506,8 +480,9 @@ export function buildGraphFromData(
         target: u.partner2Id,
         targetHandle: 'left',
         type: 'straight',
+        className: isLiving ? 'living-edge-path' : undefined,
         data: { relationship: 'Pareja', branch: p2?.branch || 'Otros', stroke: p2BranchColor.stroke },
-        style: { stroke: p2BranchColor.stroke, strokeWidth: 2.5 },
+        style: { stroke: p2BranchColor.stroke, strokeWidth: isLiving ? 3 : 2.5 },
       });
     }
 
@@ -523,8 +498,9 @@ export function buildGraphFromData(
           target: cid,
           targetHandle: 'top',
           type: 'smoothstep',
+          className: isLiving ? 'living-edge-path' : undefined,
           data: { relationship: 'Hijo/a', branch: child?.branch || 'Otros', stroke: childBranchColor.stroke, borderRadius: 16 },
-          style: { stroke: childBranchColor.stroke, strokeWidth: 2.5 },
+          style: { stroke: childBranchColor.stroke, strokeWidth: isLiving ? 3 : 2.5 },
         });
       }
     });
@@ -572,6 +548,8 @@ export function buildGraphFromData(
         bg: colors.bg,
         border: colors.border,
         tagBg: colors.tagBg,
+        rgb: colors.rgb,
+        isLiving,
       },
       zIndex: -10,
       selectable: false,

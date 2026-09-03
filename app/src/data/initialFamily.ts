@@ -2,41 +2,62 @@ import type { Person, FamilyUnion, MemoryPost } from '../types/family';
 
 export const INITIAL_PERSONS: Person[] = [
   // ==========================================
-  // --- GENERACIÓN 0 (Ancestros y Bisabuelos) ---
+  // --- GENERACIÓN -1 (Tatarabuelos y Patriarcas Ancestros) ---
   // ==========================================
+  // Patriarcas de la Dinastía Bolbol
+  {
+    id: 'georges-bolbol',
+    name: 'Georges Bolbol',
+    generation: -1,
+    branch: 'Bolbol',
+    tags: ['Gen -1', 'Rama Bolbol', 'Patriarca'],
+    bioSummary: 'Patriarca de la familia Bolbol. Padre de Teófilo Bolbol y sus 8 hermanos (Miguel, Labibi, Sobji, Ignacio, Camilo, Nazem, Frosina, Afife). Casado con Magidi (Alcira).'
+  },
+  {
+    id: 'magidi-alcira-bolbol',
+    name: 'Magidi "Alcira" Bolbol',
+    generation: -1,
+    branch: 'Bolbol',
+    tags: ['Gen -1', 'Rama Bolbol', 'Matriarca'],
+    bioSummary: 'Matriarca de la familia Bolbol. Madre de Teófilo Bolbol y sus 8 hermanos. Casada con Georges Bolbol.'
+  },
   // Rama Jacobo Chababo & Ema Trantemberg (Ancestros)
   {
     id: 'juda-chababo',
     name: 'Judá Chababo',
-    generation: 0,
+    generation: -1,
     branch: 'Chababo',
-    tags: ['Gen 0', 'Rama Chababo', 'Ancestro'],
+    tags: ['Gen -1', 'Rama Chababo', 'Ancestro'],
     bioSummary: 'Padre de Salomón Chababo y Jacobo Chababo. Originario de Jerusalén.'
   },
   {
     id: 'malea-levi',
     name: 'Malea Levi',
-    generation: 0,
+    generation: -1,
     branch: 'Levi',
-    tags: ['Gen 0', 'Rama Levi', 'Ancestros'],
+    tags: ['Gen -1', 'Rama Levi', 'Ancestros'],
     bioSummary: 'Madre de Salomón Chababo y Jacobo Chababo.'
   },
   {
     id: 'jose-trantemberg',
     name: 'José Trantemberg',
-    generation: 0,
+    generation: -1,
     branch: 'Trantemberg',
-    tags: ['Gen 0', 'Rama Trantemberg', 'Ancestros'],
+    tags: ['Gen -1', 'Rama Trantemberg', 'Ancestros'],
     bioSummary: 'Padre de Ema Trantemberg. Originario de Hamburgo, Alemania.'
   },
   {
     id: 'rosa-esrique',
     name: 'Rosa Esrique',
-    generation: 0,
+    generation: -1,
     branch: 'Trantemberg',
-    tags: ['Gen 0', 'Rama Trantemberg', 'Ancestros'],
+    tags: ['Gen -1', 'Rama Trantemberg', 'Ancestros'],
     bioSummary: 'Madre de Ema Trantemberg.'
   },
+
+  // ==========================================
+  // --- GENERACIÓN 0 (Bisabuelos y Hermanos Pioneros) ---
+  // ==========================================
   {
     id: 'jacobo-chababo',
     name: 'Jacobo Chababo',
@@ -158,21 +179,111 @@ export const INITIAL_PERSONS: Person[] = [
     tags: ['Gen 0', 'Rama Sader'],
     bioSummary: 'Esposo de Hellen Gesrik. Padre de Jorge (Coquito) y Susana Sader.'
   },
+  // Hermanos de Teófilo Bolbol (Hijos de Georges Bolbol y Magidi)
   {
-    id: 'solfi-bolbol',
-    name: 'Solfi Bolbol',
+    id: 'miguel-bolbol',
+    name: 'Miguel Bolbol',
     generation: 0,
     branch: 'Bolbol',
     tags: ['Gen 0', 'Rama Bolbol', 'Hermano de Teófilo'],
-    bioSummary: 'Hermano de Teófilo Bolbol.'
+    bioSummary: 'Hijo de Georges Bolbol y Magidi. Hermano de Teófilo Bolbol. Padre de Rubén y Víctor Bolbol.'
   },
   {
-    id: 'tia-antoniz',
-    name: 'Tía Antoniz',
+    id: 'labibi-bolbol',
+    name: 'Labibi Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermano de Teófilo'],
+    bioSummary: 'Hijo/a de Georges Bolbol y Magidi. Hermano/a de Teófilo Bolbol. Padre/madre de Matilde Alcira Belune y Emiliz.'
+  },
+  {
+    id: 'sobji-bolbol',
+    name: 'Sobji Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermano de Teófilo'],
+    bioSummary: 'Hijo de Georges Bolbol y Magidi. Hermano de Teófilo Bolbol. Casado con Juana Sauan. Padre de Rosita, Alcira, Eva Argentina y María Argentina.'
+  },
+  {
+    id: 'juana-sauan',
+    name: 'Juana Sauan',
+    generation: 0,
+    branch: 'Sauan',
+    tags: ['Gen 0', 'Rama Sauan'],
+    bioSummary: 'Esposa de Sobji Bolbol. Madre de Rosita, Alcira, Eva Argentina y María Argentina.'
+  },
+  {
+    id: 'ignacio-bolbol',
+    name: 'Ignacio Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermano de Teófilo'],
+    bioSummary: 'Hijo de Georges Bolbol y Magidi. Hermano de Teófilo Bolbol. Casado con Irma Bernal. Padre de Alcira e Irma (Chona).'
+  },
+  {
+    id: 'irma-bernal',
+    name: 'Irma Bernal',
+    generation: 0,
+    branch: 'Bernal',
+    tags: ['Gen 0', 'Rama Bernal'],
+    bioSummary: 'Esposa de Ignacio Bolbol. Madre de Alcira e Irma (Chona) Bolbol.'
+  },
+  {
+    id: 'camilo-bolbol',
+    name: 'Camilo Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermano de Teófilo'],
+    bioSummary: 'Hijo de Georges Bolbol y Magidi. Hermano de Teófilo Bolbol. Casado con Tía Antonia. Padre de Jorge y Bebe.'
+  },
+  {
+    id: 'tia-antonia',
+    name: 'Tía Antonia',
     generation: 0,
     branch: 'Bolbol',
     tags: ['Gen 0', 'Rama Bolbol', 'Tía'],
-    bioSummary: 'Familiar de la rama Bolbol. Madre de Jorge (Sodero) y Rosita.'
+    bioSummary: 'Esposa de Camilo Bolbol. Madre de Jorge y Bebe.'
+  },
+  {
+    id: 'nazem-bolbol',
+    name: 'Nazem Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermano de Teófilo'],
+    bioSummary: 'Hijo de Georges Bolbol y Magidi. Hermano de Teófilo Bolbol. No tuvo descendencia.'
+  },
+  {
+    id: 'frosina-bolbol',
+    name: 'Frosina Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermana de Teófilo'],
+    bioSummary: 'Hija de Georges Bolbol y Magidi. Hermana de Teófilo Bolbol. Madre de Jorge Betabe, Ebrain y Alcira Bitar.'
+  },
+  {
+    id: 'afife-bolbol',
+    name: 'Afife Bolbol',
+    generation: 0,
+    branch: 'Bolbol',
+    tags: ['Gen 0', 'Rama Bolbol', 'Hermana de Teófilo', 'Buenos Aires'],
+    bioSummary: 'Hija de Georges Bolbol y Magidi. Hermana de Teófilo Bolbol. Radicada en Buenos Aires. Madre de Felipe, José, Jorge, Alcira, Rosa y Elías.'
+  },
+  // Padres de Oscar Guardiet (Ancestros de la Rama Guardiet)
+  {
+    id: 'pablo-guardiet-padre',
+    name: 'Pablo Guardiet',
+    generation: 0,
+    branch: 'Guardiet',
+    tags: ['Gen 0', 'Rama Guardiet', 'Patriarca'],
+    bioSummary: 'Padre de Oscar Guardiet y sus 6 hermanos/as (Pablo, María Celia, Lina, Dora Elvira, Dolores, Elsa). Casado con Celia Sanchez.'
+  },
+  {
+    id: 'celia-sanchez',
+    name: 'Celia Sanchez',
+    generation: 0,
+    branch: 'Guardiet',
+    tags: ['Gen 0', 'Rama Guardiet', 'Matriarca'],
+    bioSummary: 'Madre de Oscar Guardiet y sus 6 hermanos/as. Casada con Pablo Guardiet.'
   },
   {
     id: 'jean-jordan',
@@ -305,7 +416,72 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 1,
     branch: 'Guardiet',
     tags: ['Gen 1', 'Rama Guardiet'],
-    bioSummary: 'Esposo de Elisa Bolbol. Padre de los gemelos Pablo y Cecilia.'
+    bioSummary: 'Hijo de Pablo Guardiet y Celia Sanchez. Esposo de Elisa Bolbol. Padre de los gemelos Pablo y Cecilia.'
+  },
+  // Hermanos de Oscar Guardiet (Hijos de Pablo Guardiet y Celia Sanchez)
+  {
+    id: 'pablo-guardiet-hijo',
+    name: 'Pablo Guardiet',
+    generation: 1,
+    branch: 'Guardiet',
+    tags: ['Gen 1', 'Rama Guardiet'],
+    bioSummary: 'Hijo de Pablo Guardiet y Celia Sanchez. Hermano de Oscar Guardiet.'
+  },
+  {
+    id: 'maria-celia-guardiet',
+    name: 'María Celia Guardiet',
+    generation: 1,
+    branch: 'Guardiet',
+    tags: ['Gen 1', 'Rama Guardiet'],
+    bioSummary: 'Hija de Pablo Guardiet y Celia Sanchez. Hermana de Oscar Guardiet.'
+  },
+  {
+    id: 'lina-guardiet',
+    name: 'Lina Guardiet',
+    generation: 1,
+    branch: 'Guardiet',
+    tags: ['Gen 1', 'Rama Guardiet'],
+    bioSummary: 'Hija de Pablo Guardiet y Celia Sanchez. Casada con Sr. Mc Roullion. Madre de Memo.'
+  },
+  {
+    id: 'sr-mc-roullion',
+    name: 'Sr. Mc Roullion',
+    generation: 1,
+    branch: 'Mc Roullion',
+    tags: ['Gen 1', 'Rama Mc Roullion'],
+    bioSummary: 'Esposo de Lina Guardiet. Padre de Memo Mc Roullion.'
+  },
+  {
+    id: 'dora-elvira-guardiet',
+    name: 'Dora Elvira Guardiet',
+    generation: 1,
+    branch: 'Guardiet',
+    tags: ['Gen 1', 'Rama Guardiet'],
+    bioSummary: 'Hija de Pablo Guardiet y Celia Sanchez. Casada con Dr. Preve. Madre de Gabriela Elsa.'
+  },
+  {
+    id: 'dr-preve',
+    name: 'Dr. Preve',
+    generation: 1,
+    branch: 'Preve',
+    tags: ['Gen 1', 'Rama Preve'],
+    bioSummary: 'Esposo de Dora Elvira Guardiet. Padre de Gabriela Elsa Preve.'
+  },
+  {
+    id: 'dolores-guardiet',
+    name: 'Dolores "Rubia" Guardiet',
+    generation: 1,
+    branch: 'Guardiet',
+    tags: ['Gen 1', 'Rama Guardiet', 'Rubia'],
+    bioSummary: 'Hija de Pablo Guardiet y Celia Sanchez. Hermana de Oscar Guardiet.'
+  },
+  {
+    id: 'elsa-guardiet',
+    name: 'Elsa "Última" Guardiet',
+    generation: 1,
+    branch: 'Guardiet',
+    tags: ['Gen 1', 'Rama Guardiet', 'Última'],
+    bioSummary: 'Hija de Pablo Guardiet y Celia Sanchez. Hermana de Oscar Guardiet.'
   },
   {
     id: 'jorge-bolbol',
@@ -568,22 +744,245 @@ export const INITIAL_PERSONS: Person[] = [
     tags: ['Gen 1', 'Rama Chababo', '13ª Hija', 'Zulema'],
     bioSummary: 'Decimotercera hija de Jacobo Chababo y Ema Trantemberg. Nació en Resistencia, Chaco (Acta Nº 349).'
   },
-  // Hijos de Tía Antoniz
+  // ==========================================
+  // --- Descendencia de los Hermanos Bolbol (Gen 1) ---
+  // ==========================================
+  // Hijos de Miguel Bolbol
   {
-    id: 'jorge-sodero-bolbol',
-    name: 'Jorge "Sodero" Bolbol',
-    generation: 1,
-    branch: 'Bolbol',
-    tags: ['Gen 1', 'Rama Bolbol', 'Sodero'],
-    bioSummary: 'Hijo de Tía Antoniz. Conocido como Jorge Sodero.'
-  },
-  {
-    id: 'rosita-bolbol',
-    name: 'Rosita',
+    id: 'ruben-bolbol-miguel',
+    name: 'Rubén Bolbol',
     generation: 1,
     branch: 'Bolbol',
     tags: ['Gen 1', 'Rama Bolbol'],
-    bioSummary: 'Hija de Tía Antoniz, hermana de Jorge Sodero.'
+    bioSummary: 'Hijo de Miguel Bolbol. Tuvo un primer matrimonio con María "Maruca" Cantador (padres de Nora y Jorge) y un segundo matrimonio con Gladys (padres de Isabel, Leonor y Miguel).'
+  },
+  {
+    id: 'maria-maruca-cantador',
+    name: 'María "Maruca" Cantador',
+    generation: 1,
+    branch: 'Cantador',
+    tags: ['Gen 1', 'Rama Cantador', '1ª Esposa'],
+    bioSummary: 'Primera esposa de Rubén Bolbol. Madre de Nora y Jorge.'
+  },
+  {
+    id: 'gladys-esposa-ruben',
+    name: 'Gladys',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', '2ª Esposa'],
+    bioSummary: 'Segunda esposa de Rubén Bolbol. Madre de Isabel, Leonor y Miguel.'
+  },
+  {
+    id: 'victor-bolbol',
+    name: 'Víctor Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Miguel Bolbol. Casado con Angelita Telesca. Padre del Dr. Miguel, Victoria, Alcira y Jorge.'
+  },
+  {
+    id: 'angelita-telesca',
+    name: 'Angelita Telesca',
+    generation: 1,
+    branch: 'Telesca',
+    tags: ['Gen 1', 'Rama Telesca'],
+    bioSummary: 'Esposa de Víctor Bolbol. Madre del Dr. Miguel, Victoria, Alcira y Jorge.'
+  },
+
+  // Hijos de Labibi Bolbol
+  {
+    id: 'matilde-alcira-belune',
+    name: 'Matilde Alcira Belune',
+    generation: 1,
+    branch: 'Belune',
+    tags: ['Gen 1', 'Rama Belune'],
+    bioSummary: 'Hija de Labibi Bolbol. Casada con Ernesto "Tito" Zacco.'
+  },
+  {
+    id: 'ernesto-tito-zacco',
+    name: 'Ernesto "Tito" Zacco',
+    generation: 1,
+    branch: 'Zacco',
+    tags: ['Gen 1', 'Rama Zacco'],
+    bioSummary: 'Esposo de Matilde Alcira Belune.'
+  },
+  {
+    id: 'emiliz-bolbol',
+    name: 'Emiliz',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hija de Labibi Bolbol. Casada con Sr. Moll (Pellegrini y Sarmiento). Madre de Juan José Moll.'
+  },
+  {
+    id: 'sr-moll',
+    name: 'Sr. Moll',
+    generation: 1,
+    branch: 'Moll',
+    tags: ['Gen 1', 'Rama Moll'],
+    bioSummary: 'Esposo de Emiliz. Padre de Juan José Moll (Inmobiliaria).'
+  },
+
+  // Hijos de Afife Bolbol (Buenos Aires)
+  {
+    id: 'felipe-afife',
+    name: 'Felipe',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Buenos Aires'],
+    bioSummary: 'Hijo de Afife Bolbol.'
+  },
+  {
+    id: 'jose-afife',
+    name: 'José',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Buenos Aires'],
+    bioSummary: 'Hijo de Afife Bolbol.'
+  },
+  {
+    id: 'jorge-afife',
+    name: 'Jorge',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Buenos Aires'],
+    bioSummary: 'Hijo de Afife Bolbol.'
+  },
+  {
+    id: 'alcira-afife',
+    name: 'Alcira',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Buenos Aires'],
+    bioSummary: 'Hija de Afife Bolbol.'
+  },
+  {
+    id: 'rosa-afife',
+    name: 'Rosa',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Buenos Aires'],
+    bioSummary: 'Hija de Afife Bolbol.'
+  },
+  {
+    id: 'elias-afife',
+    name: 'Elías',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Buenos Aires'],
+    bioSummary: 'Hijo de Afife Bolbol.'
+  },
+
+  // Hijos de Frosina Bolbol
+  {
+    id: 'jorge-betabe',
+    name: 'Jorge Betabe',
+    generation: 1,
+    branch: 'Betabe',
+    tags: ['Gen 1', 'Rama Betabe'],
+    bioSummary: 'Hijo de Frosina Bolbol. Padre de Elías Betabe.'
+  },
+  {
+    id: 'ebrain-frosina',
+    name: 'Ebrain',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Frosina Bolbol. Padre de Antonio.'
+  },
+  {
+    id: 'alcira-bitar',
+    name: 'Alcira Bitar',
+    generation: 1,
+    branch: 'Bitar',
+    tags: ['Gen 1', 'Rama Bitar'],
+    bioSummary: 'Hija de Frosina Bolbol. De la firma Bitar Hnos (27 de Febrero y Paraguay).'
+  },
+
+  // Hijos de Camilo Bolbol y Tía Antonia
+  {
+    id: 'jorge-sodero-bolbol',
+    name: 'Jorge Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Sodero (Profesión)'],
+    bioSummary: 'Hijo de Camilo Bolbol y Tía Antonia. De profesión sodero. Casado con Elena, padre de Jorge.'
+  },
+  {
+    id: 'elena-esposa-sodero',
+    name: 'Elena',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Esposa de Jorge Bolbol. Madre de Jorge.'
+  },
+  {
+    id: 'bebe-bolbol',
+    name: 'Bebe Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hijo/a de Camilo Bolbol y Tía Antonia. Padre/Madre de Mónica.'
+  },
+
+  // Hijos de Ignacio Bolbol y Irma Bernal
+  {
+    id: 'alcira-bolbol-ignacio',
+    name: 'Alcira Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hija de Ignacio Bolbol y Irma Bernal.'
+  },
+  {
+    id: 'irma-charo-bolbol',
+    name: 'Irma "Charo" Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol', 'Charo'],
+    bioSummary: 'Hija de Ignacio Bolbol y Irma Bernal. Casada con Eduardo Iamónico. Madre de Nadir y Romina.'
+  },
+  {
+    id: 'eduardo-iamonico',
+    name: 'Eduardo Iamónico',
+    generation: 1,
+    branch: 'Iamónico',
+    tags: ['Gen 1', 'Rama Iamónico'],
+    bioSummary: 'Esposo de Irma "Charo" Bolbol. Padre de Nadir y Romina.'
+  },
+
+  // Hijos de Sobji Bolbol y Juana Sauan
+  {
+    id: 'rosita-bolbol',
+    name: 'Rosita Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hija de Sobji Bolbol y Juana Sauan.'
+  },
+  {
+    id: 'alcira-bolbol-sobji',
+    name: 'Alcira Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hija de Sobji Bolbol y Juana Sauan.'
+  },
+  {
+    id: 'eva-argentina-bolbol',
+    name: 'Eva Argentina Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hija de Sobji Bolbol y Juana Sauan.'
+  },
+  {
+    id: 'maria-argentina-bolbol',
+    name: 'María Argentina Bolbol',
+    generation: 1,
+    branch: 'Bolbol',
+    tags: ['Gen 1', 'Rama Bolbol'],
+    bioSummary: 'Hija de Sobji Bolbol y Juana Sauan.'
   },
   // Hijos de Antoine Jordan y Mary Louise Gaywood
   {
@@ -1291,6 +1690,172 @@ export const INITIAL_PERSONS: Person[] = [
     bioSummary: 'Hija de Graciela María Martino, hermana de Mariangeles Sciutto.'
   },
 
+  // Descendencia de los Hermanos Bolbol y Guardiet (Gen 2)
+  // Hijos de Rubén Bolbol y María "Maruca" Cantale
+  {
+    id: 'nora-bolbol',
+    name: 'Nora Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Rubén Bolbol y María "Maruca" Cantale.'
+  },
+  {
+    id: 'jorge-bolbol-ruben',
+    name: 'Jorge Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Rubén Bolbol y María "Maruca" Cantale.'
+  },
+
+  // Hijos de Víctor Bolbol y Angelita Telesca
+  {
+    id: 'miguel-bolbol-doctor',
+    name: 'Dr. Miguel Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol', 'Médico'],
+    bioSummary: 'Hijo de Víctor Bolbol y Angelita Telesca. Médico.'
+  },
+  {
+    id: 'gladis-bolbol',
+    name: 'Gladis Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Víctor Bolbol y Angelita Telesca. Madre de Leona, Miguel e Isabel.'
+  },
+  {
+    id: 'victoria-bolbol',
+    name: 'Victoria Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Víctor Bolbol y Angelita Telesca. Casada con Tito Zucchini. Madre de Adriana e Isabel.'
+  },
+  {
+    id: 'tito-zucchini',
+    name: 'Tito Zucchini',
+    generation: 2,
+    branch: 'Zucchini',
+    tags: ['Gen 2', 'Rama Zucchini'],
+    bioSummary: 'Esposo de Victoria Bolbol. Padre de Adriana e Isabel.'
+  },
+  {
+    id: 'alcira-bolbol-victor',
+    name: 'Alcira Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Víctor Bolbol y Angelita Telesca. Casada con Sr. Robledo. Madre de Cacho.'
+  },
+  {
+    id: 'sr-robledo',
+    name: 'Sr. Robledo',
+    generation: 2,
+    branch: 'Robledo',
+    tags: ['Gen 2', 'Rama Robledo'],
+    bioSummary: 'Esposo de Alcira Bolbol. Padre de Cacho Robledo.'
+  },
+  {
+    id: 'jorge-bolbol-victor',
+    name: 'Jorge Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Víctor Bolbol y Angelita Telesca.'
+  },
+
+  // Hijos de Emiliz y Sr. Moll
+  {
+    id: 'juan-jose-moll',
+    name: 'Juan José Moll',
+    generation: 2,
+    branch: 'Moll',
+    tags: ['Gen 2', 'Rama Moll', 'Inmobiliaria'],
+    bioSummary: 'Hijo de Emiliz y Sr. Moll. Titular de Juan José Moll Inmobiliaria.'
+  },
+
+  // Hijos de Jorge Betbe
+  {
+    id: 'elias-betbe',
+    name: 'Elías Betbe',
+    generation: 2,
+    branch: 'Betbe',
+    tags: ['Gen 2', 'Rama Betbe'],
+    bioSummary: 'Hijo de Jorge Betbe.'
+  },
+
+  // Hijos de Elvira (Rama Frosina)
+  {
+    id: 'antonio-hijo-elvira',
+    name: 'Antonio',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Elvira (rama Frosina Bolbol).'
+  },
+
+  // Hijos de Jorge "Sodero" Bolbol y Elena
+  {
+    id: 'jorge-bolbol-hijo-sodero',
+    name: 'Jorge Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Jorge "Sodero" Bolbol y Elena.'
+  },
+
+  // Hijos de Bebe Bolbol
+  {
+    id: 'monica-bolbol',
+    name: 'Mónica Bolbol',
+    generation: 2,
+    branch: 'Bolbol',
+    tags: ['Gen 2', 'Rama Bolbol'],
+    bioSummary: 'Hija de Bebe Bolbol.'
+  },
+
+  // Hijos de Irma "Chona" Bolbol y Eduardo Jamónaca
+  {
+    id: 'nadir-jamonaca',
+    name: 'Nadir Jamónaca',
+    generation: 2,
+    branch: 'Jamónaca',
+    tags: ['Gen 2', 'Rama Jamónaca'],
+    bioSummary: 'Hijo de Irma "Chona" Bolbol y Eduardo Jamónaca.'
+  },
+  {
+    id: 'ramiro-jamonaca',
+    name: 'Ramiro Jamónaca',
+    generation: 2,
+    branch: 'Jamónaca',
+    tags: ['Gen 2', 'Rama Jamónaca'],
+    bioSummary: 'Hijo de Irma "Chona" Bolbol y Eduardo Jamónaca.'
+  },
+
+  // Hijos de Lina Guardiet y Sr. Mc Roullion
+  {
+    id: 'memo-mc-roullion',
+    name: 'Memo Mc Roullion',
+    generation: 2,
+    branch: 'Mc Roullion',
+    tags: ['Gen 2', 'Rama Mc Roullion'],
+    bioSummary: 'Hijo de Lina Guardiet y Sr. Mc Roullion.'
+  },
+
+  // Hijos de Dora Elvira Guardiet y Dr. Preve
+  {
+    id: 'gabriela-elsa-preve',
+    name: 'Gabriela Elsa Preve',
+    birthDate: '13 de diciembre',
+    generation: 2,
+    branch: 'Preve',
+    tags: ['Gen 2', 'Rama Preve'],
+    bioSummary: 'Hija de Dora Elvira Guardiet y Dr. Preve. Nacida el 13 de diciembre. Madre de Florencia y Lucas.'
+  },
+
   // ==========================================
   // --- GENERACIÓN 3 ---
   // ==========================================
@@ -1619,14 +2184,6 @@ export const INITIAL_PERSONS: Person[] = [
     tags: ['Gen 3', 'Rama Chababo'],
     bioSummary: 'Hijo de Patricio Chababo y Carolina Remondino.'
   },
-  {
-    id: 'francesca-bortoliero',
-    name: 'Francesca Bortoliero',
-    generation: 4,
-    branch: 'Bortoliero',
-    tags: ['Gen 4', 'Rama Bortoliero'],
-    bioSummary: 'Hija de Matteo Bortoliero.'
-  },
   // Hijos de Karina Ballistreri y Andrés Sánchez
   {
     id: 'mauro-sanchez',
@@ -1644,10 +2201,119 @@ export const INITIAL_PERSONS: Person[] = [
     tags: ['Gen 3', 'Rama Sánchez'],
     bioSummary: 'Hija de Karina Ballistreri y Andrés Sánchez.'
   },
+  // Hijos de Gladis Bolbol
+  {
+    id: 'leona-hija-gladis',
+    name: 'Leona',
+    generation: 3,
+    branch: 'Bolbol',
+    tags: ['Gen 3', 'Rama Bolbol'],
+    bioSummary: 'Hija de Gladis Bolbol.'
+  },
+  {
+    id: 'miguel-hijo-gladis',
+    name: 'Miguel',
+    generation: 3,
+    branch: 'Bolbol',
+    tags: ['Gen 3', 'Rama Bolbol'],
+    bioSummary: 'Hijo de Gladis Bolbol.'
+  },
+  {
+    id: 'isabel-hija-gladis',
+    name: 'Isabel',
+    generation: 3,
+    branch: 'Bolbol',
+    tags: ['Gen 3', 'Rama Bolbol'],
+    bioSummary: 'Hija de Gladis Bolbol.'
+  },
+  // Hijos de Victoria Bolbol y Tito Zucchini
+  {
+    id: 'adriana-zucchini',
+    name: 'Adriana Zucchini',
+    generation: 3,
+    branch: 'Zucchini',
+    tags: ['Gen 3', 'Rama Zucchini'],
+    bioSummary: 'Hija de Victoria Bolbol y Tito Zucchini.'
+  },
+  {
+    id: 'isabel-zucchini',
+    name: 'Isabel Zucchini',
+    generation: 3,
+    branch: 'Zucchini',
+    tags: ['Gen 3', 'Rama Zucchini'],
+    bioSummary: 'Hija de Victoria Bolbol y Tito Zucchini. Casada con Carlos Sijel. Madre de Carina, Daniel y Leonardo.'
+  },
+  {
+    id: 'carlos-sijel',
+    name: 'Carlos Sijel',
+    generation: 3,
+    branch: 'Sijel',
+    tags: ['Gen 3', 'Rama Sijel'],
+    bioSummary: 'Esposo de Isabel Zucchini. Padre de Carina, Daniel y Leonardo Sijel.'
+  },
+  // Hijo de Alcira Bolbol y Sr. Robledo
+  {
+    id: 'cacho-robledo',
+    name: 'Cacho Robledo',
+    generation: 3,
+    branch: 'Robledo',
+    tags: ['Gen 3', 'Rama Robledo'],
+    bioSummary: 'Hijo de Alcira Bolbol y Sr. Robledo.'
+  },
+  // Hijos de Gabriela Elsa Preve
+  {
+    id: 'florencia-preve',
+    name: 'Florencia',
+    generation: 3,
+    branch: 'Preve',
+    tags: ['Gen 3', 'Rama Preve'],
+    bioSummary: 'Hija de Gabriela Elsa Preve.'
+  },
+  {
+    id: 'lucas-preve',
+    name: 'Lucas',
+    generation: 3,
+    branch: 'Preve',
+    tags: ['Gen 3', 'Rama Preve'],
+    bioSummary: 'Hijo de Gabriela Elsa Preve.'
+  },
 
   // ==========================================
   // --- GENERACIÓN 4 ---
   // ==========================================
+  {
+    id: 'francesca-bortoliero',
+    name: 'Francesca Bortoliero',
+    generation: 4,
+    branch: 'Bortoliero',
+    tags: ['Gen 4', 'Rama Bortoliero'],
+    bioSummary: 'Hija de Matteo Bortoliero.'
+  },
+  // Hijos de Isabel Zucchini y Carlos Sijel
+  {
+    id: 'carina-sijel',
+    name: 'Carina Sijel',
+    generation: 4,
+    branch: 'Sijel',
+    tags: ['Gen 4', 'Rama Sijel'],
+    bioSummary: 'Hija de Isabel Zucchini y Carlos Sijel.'
+  },
+  {
+    id: 'daniel-sijel',
+    name: 'Daniel Sijel',
+    generation: 4,
+    branch: 'Sijel',
+    tags: ['Gen 4', 'Rama Sijel'],
+    bioSummary: 'Hijo de Isabel Zucchini y Carlos Sijel.'
+  },
+  {
+    id: 'leonardo-sijel',
+    name: 'Leonardo Sijel',
+    generation: 4,
+    branch: 'Sijel',
+    tags: ['Gen 4', 'Rama Sijel'],
+    bioSummary: 'Hijo de Isabel Zucchini y Carlos Sijel.'
+  },
   {
     id: 'abril',
     name: 'Abril Chababo',
@@ -1724,8 +2390,25 @@ export const INITIAL_PERSONS: Person[] = [
 
 export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
-  // Generación 0 -> Generación 1
+  // Generación -1 -> Generación 0
   // ==========================================
+  {
+    id: 'union-georges-magidi',
+    partner1Id: 'georges-bolbol',
+    partner2Id: 'magidi-alcira-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: [
+      'teofilo-bolbol',
+      'miguel-bolbol',
+      'labibi-bolbol',
+      'sobji-bolbol',
+      'ignacio-bolbol',
+      'camilo-bolbol',
+      'nazem-bolbol',
+      'frosina-bolbol',
+      'afife-bolbol'
+    ]
+  },
   {
     id: 'union-juda-malea',
     partner1Id: 'juda-chababo',
@@ -1739,6 +2422,70 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     partner2Id: 'rosa-esrique',
     unionType: 'MARRIAGE',
     childrenIds: ['ema-trantemberg']
+  },
+
+  // ==========================================
+  // Generación 0 -> Generación 1
+  // ==========================================
+  {
+    id: 'union-pablo-celia-guardiet',
+    partner1Id: 'pablo-guardiet-padre',
+    partner2Id: 'celia-sanchez',
+    unionType: 'MARRIAGE',
+    childrenIds: [
+      'pablo-guardiet-hijo',
+      'maria-celia-guardiet',
+      'oscar-guardiet',
+      'lina-guardiet',
+      'dora-elvira-guardiet',
+      'dolores-guardiet',
+      'elsa-guardiet'
+    ]
+  },
+  {
+    id: 'union-miguel-bolbol-hijos',
+    partner1Id: 'miguel-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: ['ruben-bolbol-miguel', 'victor-bolbol']
+  },
+  {
+    id: 'union-labibi-bolbol-hijos',
+    partner1Id: 'labibi-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: ['matilde-alcira-belune', 'emiliz-bolbol']
+  },
+  {
+    id: 'union-sobji-juana',
+    partner1Id: 'sobji-bolbol',
+    partner2Id: 'juana-sauan',
+    unionType: 'MARRIAGE',
+    childrenIds: ['rosita-bolbol', 'alcira-bolbol-sobji', 'eva-argentina-bolbol', 'maria-argentina-bolbol']
+  },
+  {
+    id: 'union-ignacio-irma',
+    partner1Id: 'ignacio-bolbol',
+    partner2Id: 'irma-bernal',
+    unionType: 'MARRIAGE',
+    childrenIds: ['alcira-bolbol-ignacio', 'irma-chona-bolbol']
+  },
+  {
+    id: 'union-camilo-antoniz',
+    partner1Id: 'camilo-bolbol',
+    partner2Id: 'tia-antonia',
+    unionType: 'MARRIAGE',
+    childrenIds: ['jorge-sodero-bolbol', 'bebe-bolbol']
+  },
+  {
+    id: 'union-frosina-hijos',
+    partner1Id: 'frosina-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: ['jorge-betbe', 'elvira-frosina', 'alcira-bitar']
+  },
+  {
+    id: 'union-afife-hijos',
+    partner1Id: 'afife-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: ['felipe-afife', 'jose-afife', 'jorge-afife', 'alcira-afife', 'rosa-afife', 'elias-afife']
   },
   {
     id: 'union-jacobo-ema',
@@ -1809,12 +2556,6 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     childrenIds: ['roberto-ballistreri', 'pepe-ballistreri', 'catalina-ballistreri-hermana']
   },
   {
-    id: 'union-tia-antoniz',
-    partner1Id: 'tia-antoniz',
-    unionType: 'MARRIAGE',
-    childrenIds: ['jorge-sodero-bolbol', 'rosita-bolbol']
-  },
-  {
     id: 'union-antoine-mary-jordan',
     partner1Id: 'antoine-jordan',
     partner2Id: 'mary-jordan',
@@ -1825,6 +2566,83 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
   // Generación 1 -> Generación 2
   // ==========================================
+  // Uniones Rama Guardiet
+  {
+    id: 'union-lina-mcroullion',
+    partner1Id: 'lina-guardiet',
+    partner2Id: 'sr-mc-roullion',
+    unionType: 'MARRIAGE',
+    childrenIds: ['memo-mc-roullion']
+  },
+  {
+    id: 'union-dora-drpreve',
+    partner1Id: 'dora-elvira-guardiet',
+    partner2Id: 'dr-preve',
+    unionType: 'MARRIAGE',
+    childrenIds: ['gabriela-elsa-preve']
+  },
+
+  // Uniones Descendientes Bolbol
+  {
+    id: 'union-ruben-maruca-bolbol',
+    partner1Id: 'ruben-bolbol-miguel',
+    partner2Id: 'maria-maruca-cantale',
+    unionType: 'MARRIAGE',
+    childrenIds: ['nora-bolbol', 'jorge-bolbol-ruben']
+  },
+  {
+    id: 'union-victor-angelita-bolbol',
+    partner1Id: 'victor-bolbol',
+    partner2Id: 'angelita-telesca',
+    unionType: 'MARRIAGE',
+    childrenIds: ['miguel-bolbol-doctor', 'gladis-bolbol', 'victoria-bolbol', 'alcira-bolbol-victor', 'jorge-bolbol-victor']
+  },
+  {
+    id: 'union-matilde-tito-zocco',
+    partner1Id: 'matilde-alcira-belune',
+    partner2Id: 'ernesto-tito-zocco',
+    unionType: 'MARRIAGE',
+    childrenIds: []
+  },
+  {
+    id: 'union-emiliz-moll',
+    partner1Id: 'emiliz-bolbol',
+    partner2Id: 'sr-moll',
+    unionType: 'MARRIAGE',
+    childrenIds: ['juan-jose-moll']
+  },
+  {
+    id: 'union-jorge-betbe-hijos',
+    partner1Id: 'jorge-betbe',
+    unionType: 'MARRIAGE',
+    childrenIds: ['elias-betbe']
+  },
+  {
+    id: 'union-elvira-hijos',
+    partner1Id: 'elvira-frosina',
+    unionType: 'MARRIAGE',
+    childrenIds: ['antonio-hijo-elvira']
+  },
+  {
+    id: 'union-jorge-sodero-elena',
+    partner1Id: 'jorge-sodero-bolbol',
+    partner2Id: 'elena-esposa-sodero',
+    unionType: 'MARRIAGE',
+    childrenIds: ['jorge-bolbol-hijo-sodero']
+  },
+  {
+    id: 'union-bebe-bolbol-hijos',
+    partner1Id: 'bebe-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: ['monica-bolbol']
+  },
+  {
+    id: 'union-irma-chona-eduardo',
+    partner1Id: 'irma-chona-bolbol',
+    partner2Id: 'eduardo-jamonaca',
+    unionType: 'MARRIAGE',
+    childrenIds: ['nadir-jamonaca', 'ramiro-jamonaca']
+  },
   {
     id: 'union-samuel-hijos',
     partner1Id: 'samuel-nisim-chababo',
@@ -1965,6 +2783,32 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
   // Generación 2 -> Generación 3
   // ==========================================
+  {
+    id: 'union-gladis-bolbol-hijos',
+    partner1Id: 'gladis-bolbol',
+    unionType: 'MARRIAGE',
+    childrenIds: ['leona-hija-gladis', 'miguel-hijo-gladis', 'isabel-hija-gladis']
+  },
+  {
+    id: 'union-victoria-tito-zucchini',
+    partner1Id: 'victoria-bolbol',
+    partner2Id: 'tito-zucchini',
+    unionType: 'MARRIAGE',
+    childrenIds: ['adriana-zucchini', 'isabel-zucchini']
+  },
+  {
+    id: 'union-alcira-robledo',
+    partner1Id: 'alcira-bolbol-victor',
+    partner2Id: 'sr-robledo',
+    unionType: 'MARRIAGE',
+    childrenIds: ['cacho-robledo']
+  },
+  {
+    id: 'union-gabriela-preve-hijos',
+    partner1Id: 'gabriela-elsa-preve',
+    unionType: 'MARRIAGE',
+    childrenIds: ['florencia-preve', 'lucas-preve']
+  },
   {
     id: 'union-jose-esther-ades',
     partner1Id: 'jose-ades',
@@ -2140,6 +2984,13 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
   // Generación 3 -> Generación 4
   // ==========================================
+  {
+    id: 'union-isabel-carlos-sijel',
+    partner1Id: 'isabel-zucchini',
+    partner2Id: 'carlos-sijel',
+    unionType: 'MARRIAGE',
+    childrenIds: ['carina-sijel', 'daniel-sijel', 'leonardo-sijel']
+  },
   {
     id: 'union-alejo-tatiana',
     partner1Id: 'alejo',
