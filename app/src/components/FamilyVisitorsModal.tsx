@@ -4,6 +4,7 @@ import type { VisitorRecord } from '../types/gamification';
 import type { Person } from '../types/family';
 import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
 import { formatRelativeTime } from '../services/gamificationService';
+import { matchesSearch } from '../utils/text';
 
 interface FamilyVisitorsModalProps {
   isOpen: boolean;
@@ -25,8 +26,10 @@ export const FamilyVisitorsModal: React.FC<FamilyVisitorsModalProps> = ({
   if (!isOpen) return null;
 
   const filteredVisitors = visitors.filter(v => {
-    const q = search.trim().toLowerCase();
-    return q === '' || v.name.toLowerCase().includes(q) || (v.branch && v.branch.toLowerCase().includes(q)) || (v.role && v.role.toLowerCase().includes(q));
+    return search.trim() === '' || 
+      matchesSearch(v.name, search) || 
+      (v.branch && matchesSearch(v.branch, search)) || 
+      (v.role && matchesSearch(v.role, search));
   });
 
   return (

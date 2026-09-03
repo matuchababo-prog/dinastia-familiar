@@ -30,6 +30,7 @@ import type { Person, FamilyUnion, MemoryPost } from '../types/family';
 import type { VisitorRecord, UserGamificationState } from '../types/gamification';
 import { buildGraphFromData, BRANCH_COLORS } from '../utils/layout';
 import { getFocalPersonSubgraph, getBranchSubgraph } from '../utils/focalGraph';
+import { matchesSearch } from '../utils/text';
 import { 
   subscribeToPersons, 
   subscribeToUnions, 
@@ -174,11 +175,10 @@ const FamilyGraphContent: React.FC = () => {
 
         const matchGen = selectedGeneration === 'all' || p.generation === Number(selectedGeneration);
 
-        const q = searchQuery.trim().toLowerCase();
-        const matchSearch = q === '' || 
-          p.name.toLowerCase().includes(q) ||
-          (p.branch && p.branch.toLowerCase().includes(q)) ||
-          (p.tags && p.tags.some((t) => t.toLowerCase().includes(q)));
+        const matchSearch = searchQuery.trim() === '' || 
+          matchesSearch(p.name, searchQuery) ||
+          (p.branch && matchesSearch(p.branch, searchQuery)) ||
+          (p.tags && p.tags.some((t) => matchesSearch(t, searchQuery)));
 
         return matchGen && matchSearch;
       });

@@ -15,6 +15,7 @@ import { calculateKinshipWithMatias, getPersonalizedQuestionsForUser } from '../
 import type { KinshipInfo } from '../utils/kinship';
 import { useFamilyUser } from '../context/FamilyUserContext';
 import { BRANCH_COLORS, DEFAULT_BRANCH_COLOR } from '../utils/layout';
+import { matchesSearch } from '../utils/text';
 
 interface MatiasInteractiveGuideProps {
   isOpen: boolean;
@@ -88,8 +89,9 @@ export const MatiasInteractiveGuide: React.FC<MatiasInteractiveGuideProps> = ({
   };
 
   const filteredPersons = persons.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (p.branch && p.branch.toLowerCase().includes(searchQuery.toLowerCase()))
+    matchesSearch(p.name, searchQuery) ||
+    (p.branch && matchesSearch(p.branch, searchQuery)) ||
+    (p.tags && p.tags.some(t => matchesSearch(t, searchQuery)))
   );
 
   // Example sample questions for relatives
@@ -197,46 +199,53 @@ export const MatiasInteractiveGuide: React.FC<MatiasInteractiveGuideProps> = ({
 
               {/* Persons Scroll List */}
               <div className="max-h-56 overflow-y-auto flex flex-col gap-2 pr-1">
-                {filteredPersons.slice(0, 20).map((p) => {
-                  const theme = p.branch ? (BRANCH_COLORS[p.branch] || DEFAULT_BRANCH_COLOR) : DEFAULT_BRANCH_COLOR;
-                  return (
-                    <button
-                      key={p.id}
-                      onClick={() => handleSelectPerson(p)}
-                      className="p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-800 hover:border-orange-500 hover:bg-orange-50/80 dark:hover:bg-slate-800 flex items-center justify-between transition-all cursor-pointer group text-left shadow-2xs"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div 
-                          className="w-9 h-9 rounded-full flex items-center justify-center font-extrabold text-sm text-white shrink-0 shadow-xs"
-                          style={{ backgroundColor: theme.stroke }}
-                        >
-                          {p.name.charAt(0)}
-                        </div>
-                        <div>
-                          <span className="text-sm font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-orange-600 block">
-                            {p.name}
-                          </span>
-                          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-                            <span className="text-xs text-slate-500">
-                              Generación {p.generation}
+                {filteredPersons.length > 0 ? (
+                  filteredPersons.slice(0, 20).map((p) => {
+                    const theme = p.branch ? (BRANCH_COLORS[p.branch] || DEFAULT_BRANCH_COLOR) : DEFAULT_BRANCH_COLOR;
+                    return (
+                      <button
+                        key={p.id}
+                        onClick={() => handleSelectPerson(p)}
+                        className="p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-800 hover:border-orange-500 hover:bg-orange-50/80 dark:hover:bg-slate-800 flex items-center justify-between transition-all cursor-pointer group text-left shadow-2xs"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div 
+                            className="w-9 h-9 rounded-full flex items-center justify-center font-extrabold text-sm text-white shrink-0 shadow-xs"
+                            style={{ backgroundColor: theme.stroke }}
+                          >
+                            {p.name.charAt(0)}
+                          </div>
+                          <div>
+                            <span className="text-sm font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-orange-600 block">
+                              {p.name}
                             </span>
-                            <span 
-                              className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider text-white"
-                              style={{ backgroundColor: theme.stroke }}
-                            >
-                              {p.branch || 'Familia'}
-                            </span>
+                            <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                              <span className="text-xs text-slate-500">
+                                Generación {p.generation}
+                              </span>
+                              <span 
+                                className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider text-white"
+                                style={{ backgroundColor: theme.stroke }}
+                              >
+                                {p.branch || 'Familia'}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="flex items-center gap-1 text-xs font-bold text-orange-600">
-                        <span className="hidden sm:inline">Elegir</span>
-                        <ChevronRight size={18} className="text-slate-400 group-hover:text-orange-600 transition-colors" />
-                      </div>
-                    </button>
-                  );
-                })}
+                        <div className="flex items-center gap-1 text-xs font-bold text-orange-600">
+                          <span className="hidden sm:inline">Elegir</span>
+                          <ChevronRight size={18} className="text-slate-400 group-hover:text-orange-600 transition-colors" />
+                        </div>
+                      </button>
+                    );
+                  })
+                ) : (
+                  <div className="p-4 text-center rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs text-slate-500 flex flex-col items-center gap-1">
+                    <span>No encontramos a nadie con "{searchQuery}".</span>
+                    <span className="text-orange-600 font-bold">Podés tocar abajo para ingresar tu nombre.</span>
+                  </div>
+                )}
               </div>
 
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800 text-center">

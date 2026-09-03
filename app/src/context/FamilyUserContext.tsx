@@ -3,6 +3,7 @@ import { User, X, Check, Sparkles, Lock, KeyRound, ShieldAlert, LogOut, Eye, Eye
 import { recordFamilyVisitor } from '../services/familyService';
 import { awardXp } from '../services/gamificationService';
 import { INITIAL_PERSONS } from '../data/initialFamily';
+import { normalizeText, matchesSearch } from '../utils/text';
 
 interface FamilyUserContextType {
   authorName: string;
@@ -73,8 +74,8 @@ export const FamilyUserProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
   }, []);
 
-  const cleanName = authorName.trim().toLowerCase();
-  const isNameMatias = cleanName === 'matías chababo' || cleanName === 'matias chababo' || cleanName.includes('chababo admin');
+  const normAuthor = normalizeText(authorName);
+  const isNameMatias = normAuthor === 'matias chababo' || normAuthor.includes('chababo admin');
   const isAdmin = isNameMatias && isAdminAuthenticated;
 
   const setAuthorInfo = (name: string, role: string = '', linkedId?: string, branch?: string) => {
@@ -142,8 +143,9 @@ export const FamilyUserProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
   const handleAdminVerify = (e: React.FormEvent) => {
     e.preventDefault();
-    const validUsers = ['matias', 'matiaschababo', 'matías', 'matías chababo', 'matias chababo', 'admin'];
-    const isUserValid = validUsers.includes(adminUser.trim().toLowerCase());
+    const normAdmin = normalizeText(adminUser);
+    const validUsers = ['matias', 'matiaschababo', 'matias chababo', 'admin'];
+    const isUserValid = validUsers.includes(normAdmin);
     const storedPwd = localStorage.getItem(STORAGE_CUSTOM_PWD_KEY) || DEFAULT_ADMIN_PWD;
     const isPwdValid = adminPassword.trim() === storedPwd || adminPassword.trim() === 'chababo2025' || adminPassword.trim() === 'matiasadmin';
 
@@ -168,8 +170,7 @@ export const FamilyUserProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   // Smart suggestions from tree dataset
   const suggestedPersons = useMemo(() => {
     if (!tempName || tempName.trim().length < 2) return [];
-    const q = tempName.trim().toLowerCase();
-    return INITIAL_PERSONS.filter(p => p.name.toLowerCase().includes(q)).slice(0, 3);
+    return INITIAL_PERSONS.filter(p => matchesSearch(p.name, tempName)).slice(0, 3);
   }, [tempName]);
 
   const handleSelectSuggestedPerson = (person: typeof INITIAL_PERSONS[0]) => {
@@ -182,8 +183,8 @@ export const FamilyUserProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     e.preventDefault();
     if (!tempName.trim()) return;
 
-    const lowerTemp = tempName.trim().toLowerCase();
-    const tryingToBeMatias = lowerTemp === 'matías chababo' || lowerTemp === 'matias chababo';
+    const normTemp = normalizeText(tempName);
+    const tryingToBeMatias = normTemp === 'matias chababo' || normTemp === 'matias';
 
     // If someone types Matías Chababo without being authenticated as Admin, prompt for credentials
     if (tryingToBeMatias && !isAdminAuthenticated) {

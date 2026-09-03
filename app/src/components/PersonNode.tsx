@@ -18,12 +18,14 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
 
   return (
     <div 
-      className={`group relative bg-white dark:bg-slate-900 rounded-2xl border transition-transform duration-150 cursor-pointer select-none
+      className={`group relative rounded-2xl border transition-transform duration-150 cursor-pointer select-none
         ${isDimmed ? 'opacity-20 grayscale' : 'opacity-100'} 
         ${(data as any).isFocal ? 'ring-4 ring-orange-400 ring-offset-2 shadow-2xl scale-105' : 'hover:shadow-lg active:scale-98'}
         ${isCompact ? 'min-w-[210px] max-w-[230px] p-3' : 'min-w-[245px] max-w-[260px] p-4'}
       `}
       style={{
+        backgroundColor: '#ffffff',
+        color: '#0f172a',
         borderColor: isDimmed ? 'rgba(203, 213, 225, 0.4)' : (data as any).isFocal ? '#f97316' : hasVisited ? '#10b981' : branchTheme.border,
         boxShadow: isDimmed 
           ? 'none' 
@@ -31,7 +33,7 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
             ? '0 10px 25px -3px rgba(249, 115, 22, 0.25)' 
             : hasVisited
               ? '0 4px 16px -2px rgba(16, 185, 129, 0.15)'
-              : '0 4px 16px -2px rgba(15, 23, 42, 0.06)',
+              : '0 4px 16px -2px rgba(15, 23, 42, 0.08)',
       }}
     >
       {/* Top Subtle Branch Color Accent Bar */}
@@ -72,7 +74,10 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
                 className="w-2 h-2 rounded-full shrink-0"
                 style={{ backgroundColor: branchTheme.stroke }}
               />
-              <span className="text-[11px] font-extrabold text-slate-600 dark:text-slate-400 uppercase tracking-wider truncate">
+              <span 
+                className="text-[11px] font-extrabold uppercase tracking-wider truncate"
+                style={{ color: '#475569' }}
+              >
                 {data.branch || 'Familia'}
               </span>
             </div>
@@ -80,7 +85,7 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
             {/* Visitor Badge */}
             {hasVisited && (
               <span 
-                className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 flex items-center gap-1 shrink-0 shadow-2xs"
+                className="px-1.5 py-0.2 rounded-full text-[9px] font-black bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center gap-1 shrink-0 shadow-2xs"
                 title={`¡${data.name} ya exploró el árbol! ${visitorInfo?.lastSeen ? `(Última vez: ${visitorInfo.lastSeen})` : ''}`}
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -89,11 +94,17 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
             )}
           </div>
 
-          <h3 className="m-0 text-sm sm:text-base font-extrabold text-slate-900 dark:text-slate-50 whitespace-nowrap overflow-hidden text-ellipsis leading-snug">
+          <h3 
+            className="m-0 text-sm sm:text-base font-black whitespace-nowrap overflow-hidden text-ellipsis leading-snug"
+            style={{ color: '#0f172a' }}
+          >
             {data.name}
           </h3>
 
-          <p className="m-0 text-xs font-bold text-slate-600 dark:text-slate-300 mt-0.5">
+          <p 
+            className="m-0 text-xs font-bold mt-0.5"
+            style={{ color: '#64748b' }}
+          >
             {data.birthYear || '?'} {data.deathYear ? `— ${data.deathYear}` : '· Presente'}
           </p>
         </div>
@@ -107,7 +118,8 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
               {data.tags.slice(0, 2).map((tag, idx) => (
                 <span
                   key={idx}
-                  className="text-[11px] px-2.5 py-0.5 rounded-full font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shadow-2xs truncate max-w-[120px]"
+                  className="text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-slate-100 border border-slate-300 shadow-2xs truncate max-w-[120px]"
+                  style={{ color: '#334155' }}
                 >
                   {tag}
                 </span>
@@ -116,26 +128,26 @@ const PersonNodeComponent: React.FC<NodeProps<PersonNodeType>> = ({ data, isConn
           )}
 
           {/* Multimedia & Micro-Stats */}
-          <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-800 pt-2.5 mt-2.5 text-xs font-bold">
+          <div className="flex items-center justify-between border-t border-slate-200 pt-2.5 mt-2.5 text-xs font-bold">
             <div className="flex gap-2 items-center">
               {data.audioRecordings && data.audioRecordings.length > 0 && (
-                <span className="flex items-center gap-1 font-bold text-amber-900 bg-amber-100 dark:bg-amber-950/70 px-2 py-0.5 rounded-md border border-amber-300">
+                <span className="flex items-center gap-1 font-bold text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
                   <Mic size={12} /> {data.audioRecordings.length}
                 </span>
               )}
               {data.facts && data.facts.length > 0 && (
-                <span className="flex items-center gap-1 font-bold text-emerald-900 bg-emerald-100 dark:bg-emerald-950/70 px-2 py-0.5 rounded-md border border-emerald-300">
+                <span className="flex items-center gap-1 font-bold text-emerald-900 bg-emerald-100 px-2 py-0.5 rounded-md border border-emerald-300">
                   <MessageSquare size={12} /> {data.facts.length}
                 </span>
               )}
               {(!data.audioRecordings?.length && !data.facts?.length) && (
-                <span className="text-[11px] font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1">
+                <span className="text-[11px] font-bold text-orange-600 flex items-center gap-1">
                   <Sparkles size={11} /> + Sumar recuerdo
                 </span>
               )}
             </div>
 
-            <span className="text-xs font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1">
+            <span className="text-xs font-bold text-orange-600 flex items-center gap-1">
               Ver historia ➔
             </span>
           </div>
