@@ -88,6 +88,13 @@ export const BRANCH_COLORS: Record<string, BranchColorDef> = {
   Sauan: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
   'Mc Roullion': { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
   Preve: { bg: 'rgba(59, 130, 246, 0.04)', border: 'rgba(59, 130, 246, 0.25)', tagBg: '#2563eb', stroke: '#3b82f6', glow: 'rgba(59, 130, 246, 0.35)', rgb: '59, 130, 246' },
+  Finkel: { bg: 'rgba(244, 63, 94, 0.04)', border: 'rgba(244, 63, 94, 0.25)', tagBg: '#e11d48', stroke: '#f43f5e', glow: 'rgba(244, 63, 94, 0.35)', rgb: '244, 63, 94' },
+  Czarni: { bg: 'rgba(139, 92, 246, 0.04)', border: 'rgba(139, 92, 246, 0.25)', tagBg: '#7c3aed', stroke: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.35)', rgb: '139, 92, 246' },
+  Alcoulumbre: { bg: 'rgba(234, 88, 12, 0.04)', border: 'rgba(234, 88, 12, 0.25)', tagBg: '#c2410c', stroke: '#ea580c', glow: 'rgba(234, 88, 12, 0.35)', rgb: '234, 88, 12' },
+  Konigsberg: { bg: 'rgba(14, 165, 233, 0.04)', border: 'rgba(14, 165, 233, 0.25)', tagBg: '#0284c7', stroke: '#0ea5e9', glow: 'rgba(14, 165, 233, 0.35)', rgb: '14, 165, 233' },
+  Navratil: { bg: 'rgba(16, 185, 129, 0.04)', border: 'rgba(16, 185, 129, 0.25)', tagBg: '#059669', stroke: '#10b981', glow: 'rgba(16, 185, 129, 0.35)', rgb: '16, 185, 129' },
+  Burger: { bg: 'rgba(217, 119, 6, 0.04)', border: 'rgba(217, 119, 6, 0.25)', tagBg: '#b45309', stroke: '#d97706', glow: 'rgba(217, 119, 6, 0.35)', rgb: '217, 119, 6' },
+  Eblagon: { bg: 'rgba(20, 184, 166, 0.04)', border: 'rgba(20, 184, 166, 0.25)', tagBg: '#0f766e', stroke: '#14b8a6', glow: 'rgba(20, 184, 166, 0.35)', rgb: '20, 184, 166' },
   'Familia Ernesto': { bg: 'rgba(107, 114, 128, 0.04)', border: 'rgba(107, 114, 128, 0.25)', tagBg: '#4b5563', stroke: '#64748b', glow: 'rgba(100, 116, 139, 0.35)', rgb: '100, 116, 139' },
   'Familia Leandro': { bg: 'rgba(107, 114, 128, 0.04)', border: 'rgba(107, 114, 128, 0.25)', tagBg: '#4b5563', stroke: '#64748b', glow: 'rgba(100, 116, 139, 0.35)', rgb: '100, 116, 139' },
 };

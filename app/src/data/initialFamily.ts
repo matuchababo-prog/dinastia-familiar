@@ -310,6 +310,41 @@ export const INITIAL_PERSONS: Person[] = [
     bioSummary: 'Esposa de Antoine Jordan. Madre de Ralph (Raúl), Philippe Juan Guillermo y Ariane Jordan.'
   },
 
+  // Rama Evlagon / Alcoulumbre (Ancestros Gen 0)
+  {
+    id: 'david-evlagon-abuelo',
+    name: 'David Evlagon (abuelo)',
+    generation: 0,
+    branch: 'Evlagon',
+    tags: ['Gen 0', 'Rama Evlagon', 'Patriarca'],
+    bioSummary: 'Patriarca de la familia Evlagon/Eblagon. Casado con Zimbul Alcoulumbre. Padre de Moisés Marcelo Evlagon y sus hermanos Eblagon (Marco, Fanny, Victoria, Yako, Simón, Mary). Descendiente de judíos españoles.'
+  },
+  {
+    id: 'zimbul-alcoulumbre',
+    name: 'Zimbul Alcoulumbre',
+    generation: 0,
+    branch: 'Alcoulumbre',
+    tags: ['Gen 0', 'Rama Alcoulumbre', 'Matriarca'],
+    bioSummary: 'Esposa de David Evlagon (abuelo). Sus padres eran de origen turco. Madre de Moisés Marcelo Evlagon y sus hermanos Eblagon.'
+  },
+  // Rama Finkel / Konigsberg (Ancestros Gen 0)
+  {
+    id: 'alter-finkel',
+    name: 'Alter Finkel',
+    generation: 0,
+    branch: 'Finkel',
+    tags: ['Gen 0', 'Rama Finkel', 'Ucraniano'],
+    bioSummary: 'De origen ucraniano. Casado con Fanny Konigsberg. Padre de Sara Finkel.'
+  },
+  {
+    id: 'fanny-konigsberg',
+    name: 'Fanny Konigsberg',
+    generation: 0,
+    branch: 'Konigsberg',
+    tags: ['Gen 0', 'Rama Konigsberg', 'Inglaterra'],
+    bioSummary: 'Nacida en Manchester, Inglaterra. Casada con Alter Finkel. Madre de Sara Finkel.'
+  },
+
   // ==========================================
   // --- GENERACIÓN 1 (Abuelos y Ancestros) ---
   // ==========================================
@@ -1131,6 +1166,74 @@ export const INITIAL_PERSONS: Person[] = [
     bioSummary: 'Pariente de la familia Ballistreri. Madre de Mariangeles y Cecilia Sciutto.'
   },
 
+  // Rama Evlagon / Eblagon y Finkel (Gen 1)
+  {
+    id: 'moises-marcelo-evlagon',
+    name: 'Moisés Marcelo Evlagon',
+    birthPlace: 'Estambul, Turquía',
+    generation: 1,
+    branch: 'Evlagon',
+    tags: ['Gen 1', 'Rama Evlagon', 'Estambul', 'Sefardí'],
+    bioSummary: 'Hijo de David Evlagon y Zimbul Alcoulumbre. Nació en Estambul, Turquía, y llegó a los 5 años a Rosario, Argentina. Descendiente de judíos españoles. En la aduana lo anotaron con V (Evlagon) mientras que a todos sus hermanos los registraron con B (Eblagon). Casado con Sara Finkel, padre de David y Roberto "Coi" Evlagon.'
+  },
+  {
+    id: 'sara-finkel',
+    name: 'Sara Finkel',
+    birthPlace: 'Argentina',
+    generation: 1,
+    branch: 'Finkel',
+    tags: ['Gen 1', 'Rama Finkel', 'Argentina'],
+    bioSummary: 'Hija de Alter Finkel (ucraniano) y Fanny Konigsberg (nacida en Manchester, Inglaterra). Nacida en Argentina. Casada con Moisés Marcelo Evlagon. Madre de David y Roberto "Coi" Evlagon.'
+  },
+  {
+    id: 'marco-eblagon',
+    name: 'Marco Eblagon',
+    generation: 1,
+    branch: 'Eblagon',
+    tags: ['Gen 1', 'Rama Eblagon'],
+    bioSummary: 'Hijo de David Evlagon y Zimbul Alcoulumbre. Hermano de Moisés Marcelo Evlagon. Registrado con B (Eblagon) en la aduana.'
+  },
+  {
+    id: 'fanny-eblagon',
+    name: 'Fanny Eblagon',
+    generation: 1,
+    branch: 'Eblagon',
+    tags: ['Gen 1', 'Rama Eblagon'],
+    bioSummary: 'Hija de David Evlagon y Zimbul Alcoulumbre. Hermana de Moisés Marcelo Evlagon.'
+  },
+  {
+    id: 'victoria-eblagon',
+    name: 'Victoria Eblagon',
+    generation: 1,
+    branch: 'Eblagon',
+    tags: ['Gen 1', 'Rama Eblagon'],
+    bioSummary: 'Hija de David Evlagon y Zimbul Alcoulumbre. Hermana de Moisés Marcelo Evlagon.'
+  },
+  {
+    id: 'yako-eblagon',
+    name: 'Yako Eblagon',
+    generation: 1,
+    branch: 'Eblagon',
+    tags: ['Gen 1', 'Rama Eblagon'],
+    bioSummary: 'Hijo de David Evlagon y Zimbul Alcoulumbre. Hermano de Moisés Marcelo Evlagon.'
+  },
+  {
+    id: 'simon-eblagon',
+    name: 'Simón Eblagon',
+    generation: 1,
+    branch: 'Eblagon',
+    tags: ['Gen 1', 'Rama Eblagon'],
+    bioSummary: 'Hijo de David Evlagon y Zimbul Alcoulumbre. Hermano de Moisés Marcelo Evlagon.'
+  },
+  {
+    id: 'mary-eblagon',
+    name: 'Mary Eblagon',
+    generation: 1,
+    branch: 'Eblagon',
+    tags: ['Gen 1', 'Rama Eblagon'],
+    bioSummary: 'Hija de David Evlagon y Zimbul Alcoulumbre. Hermana de Moisés Marcelo Evlagon.'
+  },
+
   // ==========================================
   // --- GENERACIÓN 2 (Padres, Tíos y Primos) ---
   // ==========================================
@@ -1190,7 +1293,47 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 2,
     branch: 'Evlagon',
     tags: ['Gen 2', 'Rama Evlagon'],
-    bioSummary: 'Esposo de Claudia Chababo.'
+    bioSummary: 'Hijo de Moisés Marcelo Evlagon y Sara Finkel. Casado con Claudia Chababo. Padre de Igal y Danit Evlagon.'
+  },
+  {
+    id: 'roberto-coi-evlagon',
+    name: 'Roberto Guillermo Isaac Evlagon',
+    generation: 2,
+    branch: 'Evlagon',
+    tags: ['Gen 2', 'Rama Evlagon', 'Coi'],
+    bioSummary: 'Hijo de Moisés Marcelo Evlagon y Sara Finkel, hermano de David Evlagon. Conocido afectuosamente como "Coi". Tuvo a Marcelo con su primera esposa María Cristina Navratil, y a Robertinho con su segunda esposa Joseani.'
+  },
+  {
+    id: 'maria-cristina-navratil',
+    name: 'María Cristina Navratil',
+    generation: 2,
+    branch: 'Navratil',
+    tags: ['Gen 2', 'Rama Navratil', '1ª Esposa'],
+    bioSummary: 'Primera esposa de Roberto "Coi" Evlagon. Madre de Marcelo Evlagon.'
+  },
+  {
+    id: 'joseani-esposa-coi',
+    name: 'Joseani',
+    generation: 2,
+    branch: 'Evlagon',
+    tags: ['Gen 2', 'Rama Evlagon', '2ª Esposa'],
+    bioSummary: 'Segunda esposa de Roberto "Coi" Evlagon. Madre de Robertinho Evlagon.'
+  },
+  {
+    id: 'samuel-czarni',
+    name: 'Samuel Czarni',
+    generation: 2,
+    branch: 'Czarni',
+    tags: ['Gen 2', 'Rama Czarni'],
+    bioSummary: 'Casado con Nurit Burger Czarni. Padre de Shai Czarni Evlagon.'
+  },
+  {
+    id: 'nurit-burger-czarni',
+    name: 'Nurit Burger Czarni',
+    generation: 2,
+    branch: 'Burger',
+    tags: ['Gen 2', 'Rama Burger', 'Rama Czarni'],
+    bioSummary: 'Esposa de Samuel Czarni. Madre de Shai Czarni Evlagon.'
   },
   {
     id: 'alberto-levin',
@@ -1940,15 +2083,15 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 3,
     branch: 'Evlagon',
     tags: ['Gen 3', 'Rama Evlagon'],
-    bioSummary: 'Hijo de Claudia Chababo y David Evlagon.'
+    bioSummary: 'Hijo de Claudia Chababo y David Evlagon. Casado con Shai Czarni Evlagon. Padre de Tom Evlagon.'
   },
   {
     id: 'shay',
-    name: 'Shay',
+    name: 'Shai Czarni Evlagon',
     generation: 3,
-    branch: 'Evlagon',
-    tags: ['Gen 3'],
-    bioSummary: 'Esposa de Igal Evlagon.'
+    branch: 'Czarni',
+    tags: ['Gen 3', 'Rama Czarni', 'Rama Evlagon'],
+    bioSummary: 'Hija de Samuel Czarni y Nurit Burger Czarni. Esposa de Igal Evlagon. Madre de Tom Evlagon.'
   },
   {
     id: 'danit',
@@ -1957,6 +2100,23 @@ export const INITIAL_PERSONS: Person[] = [
     branch: 'Evlagon',
     tags: ['Gen 3', 'Rama Evlagon'],
     bioSummary: 'Hija de Claudia Chababo y David Evlagon.'
+  },
+  // Hijos de Roberto "Coi" Evlagon
+  {
+    id: 'marcelo-evlagon',
+    name: 'Marcelo Evlagon',
+    generation: 3,
+    branch: 'Evlagon',
+    tags: ['Gen 3', 'Rama Evlagon'],
+    bioSummary: 'Hijo de Roberto "Coi" Evlagon y María Cristina Navratil. Primo de Igal y Danit.'
+  },
+  {
+    id: 'robertinho-evlagon',
+    name: 'Robertinho Evlagon',
+    generation: 3,
+    branch: 'Evlagon',
+    tags: ['Gen 3', 'Rama Evlagon'],
+    bioSummary: 'Hijo de Roberto "Coi" Evlagon y Joseani. Primo de Igal y Danit.'
   },
   {
     id: 'pablo-levin',
@@ -2369,7 +2529,7 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 4,
     branch: 'Evlagon',
     tags: ['Gen 4', 'Rama Evlagon'],
-    bioSummary: 'Hijo de Igal Evlagon y Shay.'
+    bioSummary: 'Hijo de Igal Evlagon y Shai Czarni Evlagon.'
   },
   {
     id: 'valentino-vy',
@@ -2420,6 +2580,28 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
   // Generación 0 -> Generación 1
   // ==========================================
+  {
+    id: 'union-david-zimbul-evlagon',
+    partner1Id: 'david-evlagon-abuelo',
+    partner2Id: 'zimbul-alcoulumbre',
+    unionType: 'MARRIAGE',
+    childrenIds: [
+      'moises-marcelo-evlagon',
+      'marco-eblagon',
+      'fanny-eblagon',
+      'victoria-eblagon',
+      'yako-eblagon',
+      'simon-eblagon',
+      'mary-eblagon'
+    ]
+  },
+  {
+    id: 'union-alter-fanny-finkel',
+    partner1Id: 'alter-finkel',
+    partner2Id: 'fanny-konigsberg',
+    unionType: 'MARRIAGE',
+    childrenIds: ['sara-finkel']
+  },
   {
     id: 'union-pablo-celia-guardiet',
     partner1Id: 'pablo-guardiet-padre',
@@ -2559,6 +2741,13 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
   // ==========================================
   // Generación 1 -> Generación 2
   // ==========================================
+  {
+    id: 'union-moises-sara-evlagon',
+    partner1Id: 'moises-marcelo-evlagon',
+    partner2Id: 'sara-finkel',
+    unionType: 'MARRIAGE',
+    childrenIds: ['david-evlagon', 'roberto-coi-evlagon']
+  },
   // Uniones Rama Guardiet
   {
     id: 'union-lina-mcroullion',
@@ -2843,6 +3032,27 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     partner2Id: 'david-evlagon',
     unionType: 'MARRIAGE',
     childrenIds: ['igal', 'danit']
+  },
+  {
+    id: 'union-roberto-cristina-evlagon',
+    partner1Id: 'roberto-coi-evlagon',
+    partner2Id: 'maria-cristina-navratil',
+    unionType: 'MARRIAGE',
+    childrenIds: ['marcelo-evlagon']
+  },
+  {
+    id: 'union-roberto-joseani-evlagon',
+    partner1Id: 'roberto-coi-evlagon',
+    partner2Id: 'joseani-esposa-coi',
+    unionType: 'MARRIAGE',
+    childrenIds: ['robertinho-evlagon']
+  },
+  {
+    id: 'union-samuel-nurit-czarni',
+    partner1Id: 'samuel-czarni',
+    partner2Id: 'nurit-burger-czarni',
+    unionType: 'MARRIAGE',
+    childrenIds: ['shay']
   },
   {
     id: 'union-alberto-kuki',
