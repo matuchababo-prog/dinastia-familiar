@@ -1325,7 +1325,7 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 2,
     branch: 'Czarni',
     tags: ['Gen 2', 'Rama Czarni'],
-    bioSummary: 'Casado con Nurit Burger Czarni. Padre de Shai Czarni Evlagon.'
+    bioSummary: 'Casado con Nurit Burger Czarni. Padre de Noam, Shai, Nimrod y Shahar Czarni.'
   },
   {
     id: 'nurit-burger-czarni',
@@ -1333,7 +1333,7 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 2,
     branch: 'Burger',
     tags: ['Gen 2', 'Rama Burger', 'Rama Czarni'],
-    bioSummary: 'Esposa de Samuel Czarni. Madre de Shai Czarni Evlagon.'
+    bioSummary: 'Esposa de Samuel Czarni. Madre de Noam, Shai, Nimrod y Shahar Czarni.'
   },
   {
     id: 'alberto-levin',
@@ -2091,7 +2091,35 @@ export const INITIAL_PERSONS: Person[] = [
     generation: 3,
     branch: 'Czarni',
     tags: ['Gen 3', 'Rama Czarni', 'Rama Evlagon'],
-    bioSummary: 'Hija de Samuel Czarni y Nurit Burger Czarni. Esposa de Igal Evlagon. Madre de Tom Evlagon.'
+    bioSummary: 'Hija de Samuel Czarni y Nurit Burger Czarni. Hermana de Noam, Nimrod y Shahar. Esposa de Igal Evlagon. Madre de Tom Evlagon.'
+  },
+  // Hermanos de Shai Czarni
+  {
+    id: 'noam-czarni',
+    name: 'Noam Czarni',
+    birthYear: '1994',
+    generation: 3,
+    branch: 'Czarni',
+    tags: ['Gen 3', 'Rama Czarni'],
+    bioSummary: 'Hijo de Samuel Czarni y Nurit Burger Czarni. Hermano de Shai, Nimrod y Shahar. Tiene 32 años (nacido c. 1994).'
+  },
+  {
+    id: 'nimrod-czarni',
+    name: 'Nimrod Czarni',
+    birthYear: '1998',
+    generation: 3,
+    branch: 'Czarni',
+    tags: ['Gen 3', 'Rama Czarni'],
+    bioSummary: 'Hijo de Samuel Czarni y Nurit Burger Czarni. Hermano de Shai, Noam y Shahar. Tiene 28 años (nacido c. 1998).'
+  },
+  {
+    id: 'shahar-czarni',
+    name: 'Shahar Czarni',
+    birthYear: '2001',
+    generation: 3,
+    branch: 'Czarni',
+    tags: ['Gen 3', 'Rama Czarni'],
+    bioSummary: 'Hijo/a de Samuel Czarni y Nurit Burger Czarni. Hermano/a de Shai, Noam y Nimrod. Tiene 25 años (nacido/a c. 2001).'
   },
   {
     id: 'danit',
@@ -3052,7 +3080,7 @@ export const INITIAL_UNIONS: FamilyUnion[] = [
     partner1Id: 'samuel-czarni',
     partner2Id: 'nurit-burger-czarni',
     unionType: 'MARRIAGE',
-    childrenIds: ['shay']
+    childrenIds: ['noam-czarni', 'shay', 'nimrod-czarni', 'shahar-czarni']
   },
   {
     id: 'union-alberto-kuki',
